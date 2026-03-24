@@ -54,7 +54,13 @@ describe('App', () => {
     expect(screen.getByTestId('home-page')).toBeInTheDocument();
   });
 
-  it('does not render navbar on public paths when not authenticated', () => {
+  it('renders navbar on public paths (with limited features)', () => {
+    render(<App />);
+    expect(screen.queryByTestId('navbar')).toBeInTheDocument();
+  });
+
+  it('does not render navbar on auth callback path', () => {
+    window.history.pushState({}, '', '/auth/callback');
     render(<App />);
     expect(screen.queryByTestId('navbar')).not.toBeInTheDocument();
   });

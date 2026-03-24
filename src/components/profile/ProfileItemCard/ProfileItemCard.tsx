@@ -5,6 +5,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ImageIcon from '@mui/icons-material/Image';
 import type { Item } from '@/types';
+import { formatDateShort, capitalizeFirst } from '@/utils';
 import {
   ItemCardContainer,
   ItemCardImage,
@@ -28,14 +29,6 @@ interface ProfileItemCardProps {
 }
 
 export function ProfileItemCard({ item, onEdit, onDelete }: ProfileItemCardProps) {
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-IN', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-    });
-  };
-
   return (
     <ItemCardContainer>
       <ItemCardImage>
@@ -57,7 +50,7 @@ export function ProfileItemCard({ item, onEdit, onDelete }: ProfileItemCardProps
         <ItemDetails>
           <ItemDetail>
             <CategoryIcon fontSize="small" />
-            {item.category.charAt(0).toUpperCase() + item.category.slice(1)}
+            {capitalizeFirst(item.category)}
           </ItemDetail>
           <ItemDetail>
             <LocationOnIcon fontSize="small" />
@@ -65,7 +58,7 @@ export function ProfileItemCard({ item, onEdit, onDelete }: ProfileItemCardProps
           </ItemDetail>
           <ItemDetail>
             <CalendarTodayIcon fontSize="small" />
-            {formatDate(item.lost_found_at)}
+            {formatDateShort(item.lost_found_at)}
           </ItemDetail>
           {parseFloat(item.reward_amount) > 0 && (
             <RewardBadge>Reward: ₹{item.reward_amount}</RewardBadge>

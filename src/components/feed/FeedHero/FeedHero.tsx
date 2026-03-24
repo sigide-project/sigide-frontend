@@ -55,7 +55,7 @@ export function FeedHero({ type, onTypeChange, totalItems, lostCount, foundCount
             onClick={() => onTypeChange('lost')}
           >
             <ReportProblemIcon />
-            Lost Items
+            Lost
           </QuickFilterButton>
           <QuickFilterButton
             active={type === 'found'}
@@ -63,7 +63,7 @@ export function FeedHero({ type, onTypeChange, totalItems, lostCount, foundCount
             onClick={() => onTypeChange('found')}
           >
             <CheckCircleIcon />
-            Found Items
+            Found
           </QuickFilterButton>
         </QuickFilters>
 

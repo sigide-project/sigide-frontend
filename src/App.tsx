@@ -23,7 +23,6 @@ import {
   CookiePolicyPage,
 } from '@/pages';
 import { ProtectedRoute, Navbar, Footer } from '@/components';
-import { useAuthStore } from '@/store';
 import { ScrollToTop } from './utils';
 
 const queryClient = new QueryClient({
@@ -36,19 +35,20 @@ const queryClient = new QueryClient({
   },
 });
 
-const PUBLIC_PATHS = ['/login', '/register', '/auth/callback', '/'];
+const AUTH_PATHS = ['/login', '/register', '/auth/callback'];
+const PATHS_WITHOUT_NAVBAR = ['/auth/callback'];
 const PATHS_WITHOUT_FOOTER = ['/login', '/register', '/auth/callback', '/'];
 
 function AppContent() {
   const location = useLocation();
-  const { isAuthenticated } = useAuthStore();
 
-  const showNavbar = isAuthenticated && !PUBLIC_PATHS.includes(location.pathname);
+  const showNavbar = !PATHS_WITHOUT_NAVBAR.includes(location.pathname);
+  const isAuthPage = AUTH_PATHS.includes(location.pathname);
   const showFooter = !PATHS_WITHOUT_FOOTER.includes(location.pathname);
 
   return (
     <>
-      {showNavbar && <Navbar />}
+      {showNavbar && <Navbar isAuthPage={isAuthPage} />}
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<HomePage />} />

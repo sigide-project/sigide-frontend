@@ -6,8 +6,8 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import ImageIcon from '@mui/icons-material/Image';
 import NearMeIcon from '@mui/icons-material/NearMe';
-import { formatDistanceToNow } from 'date-fns';
 import type { Item } from '@/types';
+import { formatRelativeTime, formatDistance } from '@/utils';
 import {
   StyledCard,
   ImageContainer,
@@ -25,13 +25,6 @@ import {
   DistanceBadge,
   HoverOverlay,
 } from './ItemCard.styled';
-
-function formatDistanceMeters(meters: number): string {
-  if (meters < 1000) {
-    return `${Math.round(meters)}m`;
-  }
-  return `${(meters / 1000).toFixed(1)}km`;
-}
 
 export interface ItemCardProps {
   item: Item;
@@ -64,9 +57,7 @@ export function ItemCard({ item, onClick }: ItemCardProps) {
     }
   }, [onClick, item, navigate, id]);
 
-  const relativeTime = createdAt
-    ? formatDistanceToNow(new Date(createdAt), { addSuffix: true })
-    : null;
+  const relativeTime = formatRelativeTime(createdAt) || null;
 
   return (
     <StyledCard>
@@ -86,7 +77,7 @@ export function ItemCard({ item, onClick }: ItemCardProps) {
           {distance !== undefined && distance !== null && (
             <DistanceBadge>
               <NearMeIcon />
-              {formatDistanceMeters(distance)}
+              {formatDistance(distance)}
             </DistanceBadge>
           )}
           <HoverOverlay />

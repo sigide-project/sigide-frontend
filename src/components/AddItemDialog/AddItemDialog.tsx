@@ -4,13 +4,16 @@ import MenuItem from '@mui/material/MenuItem';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import type { Item } from '@/types';
 import { ITEM_CATEGORIES } from '@/types';
-import { useAddItemForm } from './hooks';
+import { formatWithCommas } from '@/utils';
+import { useAddItemForm, MAX_DESCRIPTION_LENGTH, MAX_REWARD_AMOUNT } from './hooks';
 import { ImageUpload } from './components';
 import {
   StyledDialog,
@@ -139,18 +142,40 @@ export function AddItemDialog({ open, onClose, item }: AddItemDialogProps) {
             <Controller
               name="description"
               control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Description"
-                  fullWidth
-                  multiline
-                  rows={4}
-                  error={Boolean(errors.description)}
-                  helperText={errors.description?.message}
-                  placeholder="Describe the item in detail..."
-                />
-              )}
+              render={({ field }) => {
+                const charCount = field.value?.length || 0;
+                const isOverLimit = charCount > MAX_DESCRIPTION_LENGTH;
+                return (
+                  <Box>
+                    <TextField
+                      {...field}
+                      label="Description"
+                      fullWidth
+                      multiline
+                      rows={4}
+                      error={Boolean(errors.description) || isOverLimit}
+                      helperText={errors.description?.message}
+                      placeholder="Describe the item in detail..."
+                      inputProps={{ maxLength: MAX_DESCRIPTION_LENGTH + 50 }}
+                    />
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        display: 'block',
+                        textAlign: 'right',
+                        mt: 0.5,
+                        color: isOverLimit
+                          ? 'error.main'
+                          : charCount > MAX_DESCRIPTION_LENGTH * 0.9
+                            ? 'warning.main'
+                            : 'text.secondary',
+                      }}
+                    >
+                      {charCount}/{MAX_DESCRIPTION_LENGTH}
+                    </Typography>
+                  </Box>
+                );
+              }}
             />
 
             <Controller
@@ -173,21 +198,37 @@ export function AddItemDialog({ open, onClose, item }: AddItemDialogProps) {
               )}
             />
 
-            <Controller
-              name="reward_amount"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  type="number"
-                  label="Reward Amount (₹)"
-                  fullWidth
-                  error={Boolean(errors.reward_amount)}
-                  helperText={errors.reward_amount?.message || 'Optional - leave 0 if no reward'}
-                  inputProps={{ min: 0 }}
-                />
-              )}
-            />
+            {watchedType === 'found' && (
+              <Controller
+                name="reward_amount"
+                control={control}
+                render={({ field }) => {
+                  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+                    const rawValue = e.target.value.replace(/,/g, '');
+                    const numValue = parseFloat(rawValue) || 0;
+                    const clampedValue = Math.min(numValue, MAX_REWARD_AMOUNT);
+                    field.onChange(clampedValue);
+                  };
+
+                  return (
+                    <TextField
+                      value={formatWithCommas(field.value)}
+                      onChange={handleChange}
+                      onBlur={field.onBlur}
+                      name={field.name}
+                      label="Reward Amount (₹)"
+                      fullWidth
+                      error={Boolean(errors.reward_amount)}
+                      helperText={
+                        errors.reward_amount?.message ||
+                        `Optional - leave 0 if no reward (max ₹${MAX_REWARD_AMOUNT.toLocaleString('en-IN')})`
+                      }
+                      inputProps={{ inputMode: 'numeric' }}
+                    />
+                  );
+                }}
+              />
+            )}
 
             <LocationSection>
               <Controller

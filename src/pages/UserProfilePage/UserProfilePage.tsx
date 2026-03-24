@@ -7,6 +7,7 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import EmailIcon from '@mui/icons-material/Email';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { usePublicProfile } from '@/hooks';
+import { formatMonthYearLong } from '@/utils';
 import {
   PageContainer,
   ProfileCard,
@@ -28,13 +29,6 @@ export function UserProfilePage() {
   const { username } = useParams<{ username: string }>();
   const navigate = useNavigate();
   const { data: profile, isLoading, error } = usePublicProfile(username);
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-IN', {
-      month: 'long',
-      year: 'numeric',
-    });
-  };
 
   const getAvatarContent = () => {
     if (profile?.avatar_url) {
@@ -124,7 +118,7 @@ export function UserProfilePage() {
               <StatItem>
                 <StatValue>
                   <CalendarTodayIcon sx={{ fontSize: 18, mr: 0.5, verticalAlign: 'middle' }} />
-                  {formatDate(profile.createdAt)}
+                  {formatMonthYearLong(profile.createdAt)}
                 </StatValue>
                 <StatLabel>Member Since</StatLabel>
               </StatItem>

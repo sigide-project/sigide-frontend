@@ -1,8 +1,23 @@
 // Date utilities
-export { formatRelativeTime, formatDate, formatDateTime } from './date.utils';
+export {
+  formatRelativeTime,
+  formatDate,
+  formatDateTime,
+  formatDateShort,
+  formatDateLong,
+  formatMonthYear,
+  formatMonthYearLong,
+} from './date.utils';
 
 // Format utilities
-export { formatDistance, formatCurrency, truncateText } from './format.utils';
+export {
+  formatDistance,
+  formatCurrency,
+  truncateText,
+  formatWithCommas,
+  getInitials,
+  capitalizeFirst,
+} from './format.utils';
 
 // Validation utilities
 export {

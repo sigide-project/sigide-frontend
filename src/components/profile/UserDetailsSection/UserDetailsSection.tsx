@@ -2,6 +2,7 @@ import Avatar from '@mui/material/Avatar';
 import Skeleton from '@mui/material/Skeleton';
 import EditIcon from '@mui/icons-material/Edit';
 import type { User } from '@/types';
+import { formatDateShort } from '@/utils';
 import {
   UserDetailsCard,
   UserDetailsContent,
@@ -25,14 +26,6 @@ interface UserDetailsSectionProps {
 }
 
 export function UserDetailsSection({ user, isLoading, onEditClick }: UserDetailsSectionProps) {
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-IN', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-    });
-  };
-
   const getAvatarContent = () => {
     if (user?.avatar_url) {
       return { src: user.avatar_url };
@@ -77,7 +70,7 @@ export function UserDetailsSection({ user, isLoading, onEditClick }: UserDetails
           </DetailItem>
           <DetailItem>
             <DetailLabel>Member since</DetailLabel>
-            <DetailValue>{user?.createdAt ? formatDate(user.createdAt) : 'N/A'}</DetailValue>
+            <DetailValue>{user?.createdAt ? formatDateShort(user.createdAt) : 'N/A'}</DetailValue>
           </DetailItem>
         </UserDetailsGrid>
       </UserDetailsContent>

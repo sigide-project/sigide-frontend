@@ -167,10 +167,6 @@ export const RightSection = styled('div')`
   align-items: center;
   justify-content: flex-end;
   gap: ${spacing[4]};
-
-  @media (max-width: 768px) {
-    display: none;
-  }
 `;
 
 export const AddItemButton = styled('button')`
@@ -199,6 +195,10 @@ export const AddItemButton = styled('button')`
 
   svg {
     font-size: 1.25rem;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
@@ -233,6 +233,7 @@ export const MenuItemText = styled('span')`
 `;
 
 export const HamburgerButton = styled(IconButton)`
+  display: none;
   padding: ${spacing[2]};
   border-radius: ${borderRadius.lg};
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};

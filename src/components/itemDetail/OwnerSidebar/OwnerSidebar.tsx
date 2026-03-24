@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import ShareIcon from '@mui/icons-material/Share';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
-import { format } from 'date-fns';
 import type { Item } from '@/types';
 import { useToggleSaveItem, useSavedItemIds } from '@/hooks';
 import { useAuthStore } from '@/store';
+import { formatDateTime, getInitials } from '@/utils';
 import {
   SidebarCard,
   OwnerSection,
@@ -33,7 +33,6 @@ export function OwnerSidebar({ item, onShare }: OwnerSidebarProps) {
   const { owner, createdAt } = item;
   const { isAuthenticated } = useAuthStore();
 
-  // Only fetch saved items if authenticated
   const { data: savedIds = [] } = useSavedItemIds();
   const isSaved = isAuthenticated ? savedIds.includes(item.id) : false;
   const { toggleSave, isPending: isSaveLoading } = useToggleSaveItem();
@@ -46,23 +45,7 @@ export function OwnerSidebar({ item, onShare }: OwnerSidebarProps) {
     await toggleSave(item.id, isSaved);
   };
 
-  const formatDateTime = (dateString: string) => {
-    try {
-      return format(new Date(dateString), 'MMM dd, yyyy • h:mm a');
-    } catch {
-      return dateString;
-    }
-  };
-
-  const getOwnerInitials = () => {
-    if (!owner?.name) return '?';
-    return owner.name
-      .split(' ')
-      .map((n) => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
-  };
+  const ownerInitials = getInitials(owner?.name);
 
   const handleOwnerClick = () => {
     if (owner?.username) {
@@ -88,7 +71,7 @@ export function OwnerSidebar({ item, onShare }: OwnerSidebarProps) {
         }}
       >
         <OwnerAvatar src={owner?.avatar_url || undefined}>
-          {!owner?.avatar_url && getOwnerInitials()}
+          {!owner?.avatar_url && ownerInitials}
         </OwnerAvatar>
         <Box>
           <OwnerLabel>Posted by</OwnerLabel>

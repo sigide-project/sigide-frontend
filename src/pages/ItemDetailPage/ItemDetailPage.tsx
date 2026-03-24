@@ -27,18 +27,23 @@ export function ItemDetailPage() {
   };
 
   const handleShare = async () => {
+    const title = item?.title || 'Lost & Found Item';
+    const description = item?.description || 'Check out this item on Sigide';
+    const url = window.location.href;
+
     if (navigator.share) {
       try {
         await navigator.share({
-          title: item?.title || 'Lost & Found Item',
-          text: item?.description || 'Check out this item on Sigide',
-          url: window.location.href,
+          title,
+          text: `${title}\n\n${description}`,
+          url,
         });
       } catch {
         // User cancelled or share failed
       }
     } else {
-      navigator.clipboard.writeText(window.location.href);
+      const shareText = `${title}\n\n${description}\n\n${url}`;
+      navigator.clipboard.writeText(shareText);
     }
   };
 

@@ -26,6 +26,9 @@ export interface AddItemFormData {
   lost_found_at: Dayjs | null;
 }
 
+export const MAX_DESCRIPTION_LENGTH = 500;
+export const MAX_REWARD_AMOUNT = 50000;
+
 const schema = yup.object({
   type: yup
     .string()
@@ -35,13 +38,20 @@ const schema = yup.object({
     .string()
     .required('Title is required')
     .max(200, 'Title must be at most 200 characters'),
-  description: yup.string().required('Description is required'),
+  description: yup
+    .string()
+    .required('Description is required')
+    .max(
+      MAX_DESCRIPTION_LENGTH,
+      `Description must be at most ${MAX_DESCRIPTION_LENGTH} characters`
+    ),
   category: yup.string().required('Category is required'),
   location_name: yup.string().required('Location is required'),
   reward_amount: yup
     .number()
     .transform((value) => (isNaN(value) ? 0 : value))
     .min(0, 'Reward must be 0 or greater')
+    .max(MAX_REWARD_AMOUNT, `Reward cannot exceed ₹${MAX_REWARD_AMOUNT.toLocaleString('en-IN')}`)
     .default(0)
     .required(),
   lost_found_at: yup
@@ -88,7 +98,7 @@ export function useAddItemForm({ item, open, onClose }: UseAddItemFormOptions) {
       category: '',
       location_name: '',
       reward_amount: 0,
-      lost_found_at: null,
+      lost_found_at: dayjs(),
     },
   });
 
@@ -121,7 +131,7 @@ export function useAddItemForm({ item, open, onClose }: UseAddItemFormOptions) {
         category: '',
         location_name: '',
         reward_amount: 0,
-        lost_found_at: null,
+        lost_found_at: dayjs(),
       });
       setStagedImages([]);
       removedImageUrls.current = [];

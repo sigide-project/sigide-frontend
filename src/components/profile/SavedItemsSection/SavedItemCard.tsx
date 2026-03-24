@@ -8,6 +8,7 @@ import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Chip from '@mui/material/Chip';
 import type { Item } from '@/types';
+import { formatDateShort, capitalizeFirst } from '@/utils';
 
 const ItemCardContainer = styled('div')`
   display: flex;
@@ -143,14 +144,6 @@ interface SavedItemCardProps {
 export function SavedItemCard({ item, onRemove, isRemoving }: SavedItemCardProps) {
   const navigate = useNavigate();
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-IN', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-    });
-  };
-
   const handleCardClick = () => {
     navigate(`/item/${item.id}`);
   };
@@ -181,7 +174,7 @@ export function SavedItemCard({ item, onRemove, isRemoving }: SavedItemCardProps
         <ItemDetails>
           <ItemDetail>
             <CategoryIcon fontSize="small" />
-            {item.category.charAt(0).toUpperCase() + item.category.slice(1)}
+            {capitalizeFirst(item.category)}
           </ItemDetail>
           <ItemDetail>
             <LocationOnIcon fontSize="small" />
@@ -189,7 +182,7 @@ export function SavedItemCard({ item, onRemove, isRemoving }: SavedItemCardProps
           </ItemDetail>
           <ItemDetail>
             <CalendarTodayIcon fontSize="small" />
-            {formatDate(item.lost_found_at)}
+            {formatDateShort(item.lost_found_at)}
           </ItemDetail>
           {parseFloat(item.reward_amount) > 0 && (
             <RewardBadge>Reward: ₹{item.reward_amount}</RewardBadge>

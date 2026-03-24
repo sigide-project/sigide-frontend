@@ -8,6 +8,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import type { User } from '@/types';
 import { useUploadImage } from '@/hooks';
+import { formatMonthYear } from '@/utils';
 import {
   HeaderContainer,
   HeaderBackground,
@@ -41,13 +42,6 @@ export function ProfileHeader({
 }: ProfileHeaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { uploadImage, uploading: isUploading } = useUploadImage();
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-IN', {
-      month: 'short',
-      year: 'numeric',
-    });
-  };
 
   const handleAvatarClick = () => {
     fileInputRef.current?.click();
@@ -144,7 +138,7 @@ export function ProfileHeader({
             <StatItem>
               <StatValue>
                 <CalendarTodayIcon sx={{ fontSize: 14 }} />
-                {user?.createdAt ? formatDate(user.createdAt) : 'N/A'}
+                {user?.createdAt ? formatMonthYear(user.createdAt) : 'N/A'}
               </StatValue>
               <StatLabel>Member Since</StatLabel>
             </StatItem>

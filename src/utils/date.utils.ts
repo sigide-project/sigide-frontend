@@ -10,10 +10,52 @@ export function formatDate(
   pattern = 'MMM d, yyyy'
 ): string {
   if (!date) return '';
-  return format(new Date(date), pattern);
+  try {
+    return format(new Date(date), pattern);
+  } catch {
+    return typeof date === 'string' ? date : '';
+  }
 }
 
 export function formatDateTime(date: string | Date | null | undefined): string {
   if (!date) return '';
-  return format(new Date(date), 'MMM d, yyyy h:mm a');
+  try {
+    return format(new Date(date), 'MMM dd, yyyy • h:mm a');
+  } catch {
+    return typeof date === 'string' ? date : '';
+  }
+}
+
+export function formatDateShort(date: string | Date | null | undefined): string {
+  if (!date) return '';
+  return new Date(date).toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
+export function formatDateLong(date: string | Date | null | undefined): string {
+  if (!date) return '';
+  try {
+    return format(new Date(date), 'MMMM dd, yyyy');
+  } catch {
+    return typeof date === 'string' ? date : '';
+  }
+}
+
+export function formatMonthYear(date: string | Date | null | undefined): string {
+  if (!date) return '';
+  return new Date(date).toLocaleDateString('en-IN', {
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
+export function formatMonthYearLong(date: string | Date | null | undefined): string {
+  if (!date) return '';
+  return new Date(date).toLocaleDateString('en-IN', {
+    month: 'long',
+    year: 'numeric',
+  });
 }

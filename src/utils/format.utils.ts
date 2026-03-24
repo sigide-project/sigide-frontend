@@ -20,3 +20,24 @@ export function truncateText(text: string | null | undefined, maxLength = 100): 
   if (!text || text.length <= maxLength) return text || '';
   return `${text.slice(0, maxLength).trim()}...`;
 }
+
+export function formatWithCommas(value: number | string): string {
+  const num = typeof value === 'string' ? parseFloat(value.replace(/,/g, '')) : value;
+  if (isNaN(num) || num === 0) return '';
+  return num.toLocaleString('en-IN');
+}
+
+export function getInitials(name: string | null | undefined, maxLength = 2): string {
+  if (!name) return '?';
+  return name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, maxLength);
+}
+
+export function capitalizeFirst(text: string | null | undefined): string {
+  if (!text) return '';
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}

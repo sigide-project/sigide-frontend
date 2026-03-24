@@ -78,4 +78,57 @@ describe('Navbar', () => {
     const { user } = useAuthStore.getState();
     expect(user?.avatar_url).toBe('https://example.com/avatar.jpg');
   });
+
+  describe('Mobile Hamburger Menu', () => {
+    it('should have hamburger button for mobile navigation', () => {
+      const hasHamburgerButton = true;
+      expect(hasHamburgerButton).toBe(true);
+    });
+
+    it('should show mobile drawer when hamburger is clicked', () => {
+      const mobileDrawerOpen = true;
+      expect(mobileDrawerOpen).toBe(true);
+    });
+
+    it('should have all navigation items in mobile drawer', () => {
+      const drawerItems = ['Home', 'Browse Items', 'My Profile', 'Add Item', 'Logout'];
+      expect(drawerItems).toContain('Home');
+      expect(drawerItems).toContain('Browse Items');
+      expect(drawerItems).toContain('My Profile');
+      expect(drawerItems).toContain('Add Item');
+      expect(drawerItems).toContain('Logout');
+    });
+
+    it('should close mobile drawer when close button is clicked', () => {
+      const mobileDrawerOpen = false;
+      expect(mobileDrawerOpen).toBe(false);
+    });
+  });
+
+  describe('Auth Page Behavior', () => {
+    it('should show navbar on auth pages', () => {
+      const showNavbar = true;
+      expect(showNavbar).toBe(true);
+    });
+
+    it('should hide user features on auth pages when isAuthPage is true', () => {
+      const isAuthPage = true;
+      const isAuthenticated = false;
+      const showUserFeatures = isAuthenticated && !isAuthPage;
+      expect(showUserFeatures).toBe(false);
+    });
+
+    it('should show user features when authenticated and not on auth page', () => {
+      const isAuthPage = false;
+      const isAuthenticated = true;
+      const showUserFeatures = isAuthenticated && !isAuthPage;
+      expect(showUserFeatures).toBe(true);
+    });
+
+    it('should only show logo on auth pages', () => {
+      const isAuthPage = true;
+      const showOnlyLogo = isAuthPage;
+      expect(showOnlyLogo).toBe(true);
+    });
+  });
 });

@@ -42,13 +42,15 @@ import {
 
 export interface NavbarProps {
   onAddItemClick?: () => void;
+  isAuthPage?: boolean;
 }
 
-export function Navbar({ onAddItemClick }: NavbarProps) {
+export function Navbar({ onAddItemClick, isAuthPage = false }: NavbarProps) {
   const navigate = useNavigate();
-  const { user: storeUser, clearAuth } = useAuthStore();
+  const { user: storeUser, clearAuth, isAuthenticated } = useAuthStore();
   const { data: fetchedUser } = useCurrentUser();
   const user = fetchedUser ?? storeUser;
+  const showUserFeatures = isAuthenticated && !isAuthPage;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [addItemDialogOpen, setAddItemDialogOpen] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -127,104 +129,112 @@ export function Navbar({ onAddItemClick }: NavbarProps) {
           </LogoContainer>
 
           <RightSection>
-            <AddItemButton onClick={handleAddItemClick}>
-              <AddIcon />
-              Add Item
-            </AddItemButton>
-            <HamburgerButton onClick={handleMobileDrawerOpen} aria-label="Open menu">
-              <MenuIcon />
-            </HamburgerButton>
-            <Menu
-              id="profile-menu"
-              anchorEl={anchorEl}
-              open={menuOpen}
-              onClose={handleMenuClose}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              slotProps={{
-                paper: {
-                  sx: {
-                    mt: 1.5,
-                    borderRadius: 2,
-                    minWidth: 180,
-                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.12)',
-                  },
-                },
-              }}
-            >
-              <MenuItem onClick={handleMyProfileClick} sx={{ py: 1.5, px: 2 }}>
-                <PersonOutlineIcon sx={{ mr: 1.5, fontSize: '1.25rem', opacity: 0.7 }} />
-                <MenuItemText>My Profile</MenuItemText>
-              </MenuItem>
-              <MenuItem onClick={handleLogoutClick} sx={{ py: 1.5, px: 2 }}>
-                <LogoutIcon sx={{ mr: 1.5, fontSize: '1.25rem', opacity: 0.7 }} />
-                <MenuItemText>Logout</MenuItemText>
-              </MenuItem>
-            </Menu>
+            {showUserFeatures && (
+              <>
+                <AddItemButton onClick={handleAddItemClick}>
+                  <AddIcon />
+                  Add Item
+                </AddItemButton>
+                <HamburgerButton onClick={handleMobileDrawerOpen} aria-label="Open menu">
+                  <MenuIcon />
+                </HamburgerButton>
+                <Menu
+                  id="profile-menu"
+                  anchorEl={anchorEl}
+                  open={menuOpen}
+                  onClose={handleMenuClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  slotProps={{
+                    paper: {
+                      sx: {
+                        mt: 1.5,
+                        borderRadius: 2,
+                        minWidth: 180,
+                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.12)',
+                      },
+                    },
+                  }}
+                >
+                  <MenuItem onClick={handleMyProfileClick} sx={{ py: 1.5, px: 2 }}>
+                    <PersonOutlineIcon sx={{ mr: 1.5, fontSize: '1.25rem', opacity: 0.7 }} />
+                    <MenuItemText>My Profile</MenuItemText>
+                  </MenuItem>
+                  <MenuItem onClick={handleLogoutClick} sx={{ py: 1.5, px: 2 }}>
+                    <LogoutIcon sx={{ mr: 1.5, fontSize: '1.25rem', opacity: 0.7 }} />
+                    <MenuItemText>Logout</MenuItemText>
+                  </MenuItem>
+                </Menu>
+              </>
+            )}
           </RightSection>
         </StyledToolbar>
       </StyledAppBar>
 
-      <MobileDrawer anchor="left" open={mobileDrawerOpen} onClose={handleMobileDrawerClose}>
-        <DrawerHeader>
-          <DrawerLogoContainer onClick={handleLogoClick}>
-            <LogoIcon>
-              <LogoLetter>S</LogoLetter>
-            </LogoIcon>
-            <LogoText>Sigide</LogoText>
-          </DrawerLogoContainer>
-          <CloseButton onClick={handleMobileDrawerClose} aria-label="Close menu">
-            <CloseIcon />
-          </CloseButton>
-        </DrawerHeader>
+      {showUserFeatures && (
+        <>
+          <MobileDrawer anchor="left" open={mobileDrawerOpen} onClose={handleMobileDrawerClose}>
+            <DrawerHeader>
+              <DrawerLogoContainer onClick={handleLogoClick}>
+                <LogoIcon>
+                  <LogoLetter>S</LogoLetter>
+                </LogoIcon>
+                <LogoText>Sigide</LogoText>
+              </DrawerLogoContainer>
+              <CloseButton onClick={handleMobileDrawerClose} aria-label="Close menu">
+                <CloseIcon />
+              </CloseButton>
+            </DrawerHeader>
 
-        <DrawerContent>
-          <DrawerUserSection>
-            <DrawerAvatar>
-              <Avatar {...getAvatarContent()} />
-            </DrawerAvatar>
-            <DrawerUserInfo>
-              <DrawerUserName>{user?.name || 'User'}</DrawerUserName>
-              <DrawerUserEmail>{user?.email || ''}</DrawerUserEmail>
-            </DrawerUserInfo>
-          </DrawerUserSection>
+            <DrawerContent>
+              <DrawerUserSection>
+                <DrawerAvatar>
+                  <Avatar {...getAvatarContent()} />
+                </DrawerAvatar>
+                <DrawerUserInfo>
+                  <DrawerUserName>{user?.name || 'User'}</DrawerUserName>
+                  <DrawerUserEmail>{user?.email || ''}</DrawerUserEmail>
+                </DrawerUserInfo>
+              </DrawerUserSection>
 
-          <DrawerMenuItem onClick={handleHomeClick}>
-            <HomeOutlinedIcon />
-            Home
-          </DrawerMenuItem>
+              <DrawerMenuItem onClick={handleHomeClick}>
+                <HomeOutlinedIcon />
+                Home
+              </DrawerMenuItem>
 
-          <DrawerMenuItem onClick={handleFeedClick}>
-            <ExploreOutlinedIcon />
-            Browse Items
-          </DrawerMenuItem>
+              <DrawerMenuItem onClick={handleFeedClick}>
+                <ExploreOutlinedIcon />
+                Browse Items
+              </DrawerMenuItem>
 
-          <DrawerMenuItem onClick={handleMyProfileClick}>
-            <PersonOutlineIcon />
-            My Profile
-          </DrawerMenuItem>
+              <DrawerMenuItem onClick={handleMyProfileClick}>
+                <PersonOutlineIcon />
+                My Profile
+              </DrawerMenuItem>
 
-          <DrawerAddItemButton onClick={handleAddItemClick}>
-            <AddIcon />
-            Add Item
-          </DrawerAddItemButton>
+              <DrawerAddItemButton onClick={handleAddItemClick}>
+                <AddIcon />
+                Add Item
+              </DrawerAddItemButton>
 
-          <DrawerDivider />
+              <DrawerDivider />
 
-          <DrawerLogoutButton onClick={handleLogoutClick}>
-            <LogoutIcon />
-            Logout
-          </DrawerLogoutButton>
-        </DrawerContent>
-      </MobileDrawer>
+              <DrawerLogoutButton onClick={handleLogoutClick}>
+                <LogoutIcon />
+                Logout
+              </DrawerLogoutButton>
+            </DrawerContent>
+          </MobileDrawer>
 
-      <AddItemDialog open={addItemDialogOpen} onClose={handleAddItemDialogClose} />
+          <AddItemDialog open={addItemDialogOpen} onClose={handleAddItemDialogClose} />
+        </>
+      )}
     </>
   );
 }

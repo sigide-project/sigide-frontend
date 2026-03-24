@@ -3,8 +3,8 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import { format } from 'date-fns';
 import type { Item } from '@/types';
+import { formatDateLong } from '@/utils';
 import {
   DetailsCard,
   TypeBadge,
@@ -44,14 +44,6 @@ export function ItemDetails({ item }: ItemDetailsProps) {
   const rewardAmount = parseFloat(reward_amount || '0');
   const hasReward = rewardAmount > 0;
 
-  const formatDate = (dateString: string) => {
-    try {
-      return format(new Date(dateString), 'MMMM dd, yyyy');
-    } catch {
-      return dateString;
-    }
-  };
-
   return (
     <DetailsCard elevation={0}>
       <BadgeContainer mb={3}>
@@ -89,7 +81,7 @@ export function ItemDetails({ item }: ItemDetailsProps) {
             <CalendarTodayIcon />
             <Box>
               <InfoLabel>{type === 'lost' ? 'Lost On' : 'Found On'}</InfoLabel>
-              <InfoValue>{formatDate(lost_found_at)}</InfoValue>
+              <InfoValue>{formatDateLong(lost_found_at)}</InfoValue>
             </Box>
           </InfoRow>
         )}
@@ -99,7 +91,7 @@ export function ItemDetails({ item }: ItemDetailsProps) {
             <ScheduleIcon />
             <Box>
               <InfoLabel>Posted On</InfoLabel>
-              <InfoValue>{formatDate(createdAt)}</InfoValue>
+              <InfoValue>{formatDateLong(createdAt)}</InfoValue>
             </Box>
           </InfoRow>
         )}
