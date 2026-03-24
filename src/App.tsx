@@ -1,0 +1,105 @@
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { theme } from '@/theme';
+import {
+  Feed,
+  LoginPage,
+  RegisterPage,
+  AuthCallbackPage,
+  ItemDetailPage,
+  ProfilePage,
+  UserProfilePage,
+  HomePage,
+  HowItWorksPage,
+  SafetyTipsPage,
+  FAQPage,
+  ContactUsPage,
+  ReportIssuePage,
+  FeedbackPage,
+  PrivacyPolicyPage,
+  TermsOfServicePage,
+  CookiePolicyPage,
+} from '@/pages';
+import { ProtectedRoute, Navbar, Footer } from '@/components';
+import { useAuthStore } from '@/store';
+import { ScrollToTop } from './utils';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+      staleTime: 1000 * 60 * 2,
+    },
+  },
+});
+
+const PUBLIC_PATHS = ['/login', '/register', '/auth/callback', '/'];
+const PATHS_WITHOUT_FOOTER = ['/login', '/register', '/auth/callback', '/'];
+
+function AppContent() {
+  const location = useLocation();
+  const { isAuthenticated } = useAuthStore();
+
+  const showNavbar = isAuthenticated && !PUBLIC_PATHS.includes(location.pathname);
+  const showFooter = !PATHS_WITHOUT_FOOTER.includes(location.pathname);
+
+  return (
+    <>
+      {showNavbar && <Navbar />}
+      <Routes>
+        {/* Public routes */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/auth/callback" element={<AuthCallbackPage />} />
+        <Route path="/item/:id" element={<ItemDetailPage />} />
+
+        {/* Resource pages */}
+        <Route path="/how-it-works" element={<HowItWorksPage />} />
+        <Route path="/safety-tips" element={<SafetyTipsPage />} />
+        <Route path="/faq" element={<FAQPage />} />
+
+        {/* Support pages */}
+        <Route path="/contact" element={<ContactUsPage />} />
+        <Route path="/report-issue" element={<ReportIssuePage />} />
+        <Route path="/feedback" element={<FeedbackPage />} />
+
+        {/* Legal pages */}
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+        <Route path="/cookie-policy" element={<CookiePolicyPage />} />
+
+        {/* Protected routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/feed" element={<Feed />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/user/:username" element={<UserProfilePage />} />
+          {/* <Route path="/post" element={<PostItemPage />} /> */}
+          {/* <Route path="/dashboard" element={<DashboardPage />} /> */}
+          {/* <Route path="/messages/:claimId" element={<MessagesPage />} /> */}
+          {/* <Route path="/map" element={<MapPage />} /> */}
+        </Route>
+      </Routes>
+      {showFooter && <Footer />}
+    </>
+  );
+}
+
+export function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <BrowserRouter>
+          <ScrollToTop />
+          <AppContent />
+        </BrowserRouter>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+}
+
+export default App;

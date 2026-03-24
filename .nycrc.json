@@ -1,0 +1,16 @@
+{
+  "all": true,
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": [
+    "src/main.tsx",
+    "src/**/*.styled.ts",
+    "src/**/index.ts",
+    "src/**/*.d.ts",
+    "src/setupTests.ts",
+    "**/__tests__/**",
+    "**/node_modules/**"
+  ],
+  "reporter": ["text", "lcov", "html"],
+  "report-dir": "coverage",
+  "check-coverage": false
+}
