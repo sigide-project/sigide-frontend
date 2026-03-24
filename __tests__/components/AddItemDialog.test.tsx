@@ -60,13 +60,13 @@ describe('AddItemDialog', () => {
 
     describe('Reward Field Visibility', () => {
       it('should hide reward field for LOST items', () => {
-        const itemType = 'lost';
+        const itemType: string = 'lost';
         const showRewardField = itemType === 'found';
         expect(showRewardField).toBe(false);
       });
 
       it('should show reward field for FOUND items', () => {
-        const itemType = 'found';
+        const itemType: string = 'found';
         const showRewardField = itemType === 'found';
         expect(showRewardField).toBe(true);
       });
@@ -115,7 +115,7 @@ describe('AddItemDialog', () => {
     });
 
     it('should not require reward_amount for LOST items', () => {
-      const itemType = 'lost';
+      const itemType: string = 'lost';
       const isRewardRequired = itemType === 'found';
       expect(isRewardRequired).toBe(false);
     });
