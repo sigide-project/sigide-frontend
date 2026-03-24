@@ -14,14 +14,16 @@ export const StyledCard = styled(Card)`
   background: ${colors.background.paper};
   border: 1px solid ${colors.grey[100]};
   box-shadow: ${shadows.sm};
-  transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
+  transition:
+    box-shadow ${transitions.duration.normal} ${transitions.easing.easeInOut},
+    border-color ${transitions.duration.normal} ${transitions.easing.easeInOut};
   cursor: pointer;
   height: 100%;
   display: flex;
   flex-direction: column;
+  will-change: transform;
 
   &:hover {
-    transform: translateY(-8px);
     box-shadow: ${shadows.purple.lg};
     border-color: ${colors.primary[200]};
   }

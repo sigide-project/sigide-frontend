@@ -128,7 +128,7 @@ export function OwnerSidebar({ item, onShare }: OwnerSidebarProps) {
       {createdAt && (
         <DateInfo>
           <DateRow>
-            <DateLabel>Posted</DateLabel>
+            <DateLabel>Posted on</DateLabel>
             <DateValue>{formatDateTime(createdAt)}</DateValue>
           </DateRow>
         </DateInfo>

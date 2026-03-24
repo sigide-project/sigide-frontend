@@ -5,22 +5,6 @@ import { breakpoints } from '@/theme/theme';
 
 const shouldForwardProp = (prop: string) => !prop.startsWith('$');
 
-const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const fadeIn = keyframes`
-  from { opacity: 0; }
-  to { opacity: 1; }
-`;
-
 const float = keyframes`
   0%, 100% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-20px) rotate(5deg); }
@@ -185,7 +169,6 @@ export const HeroContent = styled('div')`
   z-index: 2;
   max-width: 900px;
   text-align: center;
-  animation: ${fadeInUp} 0.8s ${transitions.easing.easeOut} forwards;
 `;
 
 export const Badge = styled('div')`
@@ -201,9 +184,6 @@ export const Badge = styled('div')`
   color: ${colors.primary[700]};
   margin-bottom: ${spacing[8]};
   box-shadow: ${shadows.sm};
-  animation: ${fadeIn} 0.6s ${transitions.easing.easeOut} forwards;
-  animation-delay: 0.2s;
-  opacity: 0;
 
   svg {
     font-size: 1rem;
@@ -219,9 +199,6 @@ export const HeroTitle = styled(Typography)`
   letter-spacing: ${typography.letterSpacing.tight};
   color: ${colors.text.primary};
   margin-bottom: ${spacing[8]};
-  animation: ${fadeInUp} 0.8s ${transitions.easing.easeOut} forwards;
-  animation-delay: 0.1s;
-  opacity: 0;
 
   span {
     background: ${colors.decorative.purple};
@@ -246,9 +223,6 @@ export const HeroSubtitle = styled(Typography)`
   line-height: ${typography.lineHeight.relaxed};
   max-width: 640px;
   margin: 0 auto ${spacing[12]};
-  animation: ${fadeInUp} 0.8s ${transitions.easing.easeOut} forwards;
-  animation-delay: 0.2s;
-  opacity: 0;
 
   @media (max-width: ${breakpoints.sm}) {
     font-size: ${typography.fontSize.lg};
@@ -261,9 +235,6 @@ export const CTAContainer = styled('div')`
   gap: ${spacing[4]};
   justify-content: center;
   flex-wrap: wrap;
-  animation: ${fadeInUp} 0.8s ${transitions.easing.easeOut} forwards;
-  animation-delay: 0.3s;
-  opacity: 0;
 
   @media (max-width: ${breakpoints.sm}) {
     flex-direction: column;

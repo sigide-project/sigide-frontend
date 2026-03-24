@@ -1,9 +1,11 @@
+import { motion } from 'framer-motion';
 import SearchIcon from '@mui/icons-material/Search';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import SecurityIcon from '@mui/icons-material/Security';
 import GroupsIcon from '@mui/icons-material/Groups';
 import SpeedIcon from '@mui/icons-material/Speed';
+import { DURATION, EASE, SPRING, viewportOnce } from '@/utils/animations';
 import {
   FeaturesSection as FeaturesSectionContainer,
   SectionHeader,
@@ -15,6 +17,45 @@ import {
   FeatureTitle,
   FeatureDescription,
 } from './FeaturesSection.styled';
+
+const MotionSectionHeader = motion.create(SectionHeader);
+const MotionFeaturesGrid = motion.create(FeaturesGrid);
+const MotionFeatureCard = motion.create(FeatureCard);
+
+const headerVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: DURATION.slower,
+      ease: EASE.smooth,
+    },
+  },
+};
+
+const gridVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: DURATION.slow,
+      ease: EASE.smooth,
+    },
+  },
+};
 
 const features = [
   {
@@ -64,7 +105,12 @@ const features = [
 export function FeaturesSection() {
   return (
     <FeaturesSectionContainer>
-      <SectionHeader>
+      <MotionSectionHeader
+        variants={headerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOnce}
+      >
         <SectionTitle variant="h2">
           Why Choose <span>Sigide</span>?
         </SectionTitle>
@@ -72,19 +118,29 @@ export function FeaturesSection() {
           Everything you need to find lost items or help others recover theirs, all in one powerful
           platform.
         </SectionSubtitle>
-      </SectionHeader>
+      </MotionSectionHeader>
 
-      <FeaturesGrid>
+      <MotionFeaturesGrid
+        variants={gridVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOnce}
+      >
         {features.map((feature, index) => (
-          <FeatureCard key={index}>
+          <MotionFeatureCard
+            key={index}
+            variants={cardVariants}
+            whileHover={{ y: -8, transition: SPRING.gentle }}
+            style={{ willChange: 'transform, opacity' }}
+          >
             <FeatureIcon className="feature-icon" color={feature.color}>
               {feature.icon}
             </FeatureIcon>
             <FeatureTitle>{feature.title}</FeatureTitle>
             <FeatureDescription>{feature.description}</FeatureDescription>
-          </FeatureCard>
+          </MotionFeatureCard>
         ))}
-      </FeaturesGrid>
+      </MotionFeaturesGrid>
     </FeaturesSectionContainer>
   );
 }

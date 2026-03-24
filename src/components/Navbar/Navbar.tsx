@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -13,6 +14,7 @@ import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import { useAuthStore } from '@/store';
 import { useCurrentUser } from '@/hooks';
 import { AddItemDialog } from '@/components';
+import { SPRING, DURATION, EASE } from '@/utils/animations';
 import {
   StyledAppBar,
   StyledToolbar,
@@ -39,6 +41,11 @@ import {
   DrawerDivider,
   DrawerLogoutButton,
 } from './Navbar.styled';
+
+const MotionStyledAppBar = motion.create(StyledAppBar);
+const MotionLogoContainer = motion.create(LogoContainer);
+const MotionAddItemButton = motion.create(AddItemButton);
+const MotionHamburgerButton = motion.create(HamburgerButton);
 
 export interface NavbarProps {
   onAddItemClick?: () => void;
@@ -119,25 +126,46 @@ export function Navbar({ onAddItemClick, isAuthPage = false }: NavbarProps) {
 
   return (
     <>
-      <StyledAppBar position="fixed">
+      <MotionStyledAppBar
+        position="fixed"
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: DURATION.slow, ease: EASE.smooth }}
+      >
         <StyledToolbar>
-          <LogoContainer onClick={handleLogoClick}>
+          <MotionLogoContainer
+            onClick={handleLogoClick}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            transition={SPRING.gentle}
+          >
             <LogoIcon>
               <LogoLetter>S</LogoLetter>
             </LogoIcon>
             <LogoText>Sigide</LogoText>
-          </LogoContainer>
+          </MotionLogoContainer>
 
           <RightSection>
             {showUserFeatures && (
               <>
-                <AddItemButton onClick={handleAddItemClick}>
+                <MotionAddItemButton
+                  onClick={handleAddItemClick}
+                  whileHover={{ scale: 1.03, y: -1 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={SPRING.gentle}
+                >
                   <AddIcon />
                   Add Item
-                </AddItemButton>
-                <HamburgerButton onClick={handleMobileDrawerOpen} aria-label="Open menu">
+                </MotionAddItemButton>
+                <MotionHamburgerButton
+                  onClick={handleMobileDrawerOpen}
+                  aria-label="Open menu"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={SPRING.gentle}
+                >
                   <MenuIcon />
-                </HamburgerButton>
+                </MotionHamburgerButton>
                 <Menu
                   id="profile-menu"
                   anchorEl={anchorEl}
@@ -175,7 +203,7 @@ export function Navbar({ onAddItemClick, isAuthPage = false }: NavbarProps) {
             )}
           </RightSection>
         </StyledToolbar>
-      </StyledAppBar>
+      </MotionStyledAppBar>
 
       {showUserFeatures && (
         <>

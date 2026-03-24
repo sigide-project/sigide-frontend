@@ -35,3 +35,6 @@ export { normalizeUser } from './user.utils';
 export type { ApiUser } from './user.utils';
 
 export { default as ScrollToTop } from './ScrollToTop';
+
+// Animation utilities
+export * from './animations';

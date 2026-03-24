@@ -21,3 +21,6 @@ export * from './home';
 export * from './feed';
 export * from './itemDetail';
 export * from './profile';
+
+// Motion components
+export * from './motion';

@@ -1,7 +1,9 @@
 import { useState, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { Alert } from '@mui/material';
 import { useItems, useGeolocation } from '@/hooks';
 import type { ItemType, ItemSortBy, SortOrder } from '@/types';
+import { pageVariants } from '@/utils/animations';
 import {
   FeedHero,
   FiltersSection,
@@ -10,6 +12,8 @@ import {
   FeedLoadingState,
 } from '@/components/feed';
 import { FeedContainer, ContentSection } from './Feed.styled';
+
+const MotionFeedContainer = motion.create(FeedContainer);
 
 const MAX_DISTANCE_KM = 50;
 
@@ -89,7 +93,7 @@ export function Feed() {
   const foundCount = items.filter((item) => item.type === 'found').length;
 
   return (
-    <FeedContainer>
+    <MotionFeedContainer initial="initial" animate="enter" exit="exit" variants={pageVariants}>
       <FeedHero
         type={type}
         onTypeChange={handleTypeChange}
@@ -134,7 +138,7 @@ export function Feed() {
           />
         )}
       </ContentSection>
-    </FeedContainer>
+    </MotionFeedContainer>
   );
 }
 

@@ -1,24 +1,8 @@
-import { styled, keyframes, css } from '@mui/material/styles';
+import { styled, css } from '@mui/material/styles';
 import { Box, Typography, IconButton } from '@mui/material';
 import { colors, typography, spacing, borderRadius, shadows, transitions } from '@/theme';
 
 const shouldForwardProp = (prop: string) => !prop.startsWith('$');
-
-const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const fadeIn = keyframes`
-  from { opacity: 0; }
-  to { opacity: 1; }
-`;
 
 export const ResultsInfo = styled(Box)`
   display: flex;
@@ -27,8 +11,6 @@ export const ResultsInfo = styled(Box)`
   margin-bottom: ${spacing[6]};
   padding-bottom: ${spacing[4]};
   border-bottom: 2px solid ${colors.grey[100]};
-  animation: ${fadeIn} 0.6s ${transitions.easing.easeOut} 0.2s forwards;
-  opacity: 0;
 `;
 
 export const ResultsCount = styled(Typography)`
@@ -100,14 +82,6 @@ export const ItemsGrid = styled(Box, { shouldForwardProp })<ItemsGridProps>(
   `
 );
 
-interface ItemCardWrapperProps {
-  index?: number;
-}
-
-export const ItemCardWrapper = styled(Box, { shouldForwardProp })<ItemCardWrapperProps>(
-  ({ index }) => css`
-    animation: ${fadeInUp} 0.5s ${transitions.easing.easeOut} forwards;
-    animation-delay: ${(index || 0) * 0.05}s;
-    opacity: 0;
-  `
-);
+export const ItemCardWrapper = styled(Box)`
+  will-change: opacity, transform;
+`;

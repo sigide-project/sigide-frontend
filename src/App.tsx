@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { AnimatePresence } from 'framer-motion';
 import { theme } from '@/theme';
 import {
   Feed,
@@ -49,40 +50,42 @@ function AppContent() {
   return (
     <>
       {showNavbar && <Navbar isAuthPage={isAuthPage} />}
-      <Routes>
-        {/* Public routes */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/auth/callback" element={<AuthCallbackPage />} />
-        <Route path="/item/:id" element={<ItemDetailPage />} />
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          {/* Public routes */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/auth/callback" element={<AuthCallbackPage />} />
+          <Route path="/item/:id" element={<ItemDetailPage />} />
 
-        {/* Resource pages */}
-        <Route path="/how-it-works" element={<HowItWorksPage />} />
-        <Route path="/safety-tips" element={<SafetyTipsPage />} />
-        <Route path="/faq" element={<FAQPage />} />
+          {/* Resource pages */}
+          <Route path="/how-it-works" element={<HowItWorksPage />} />
+          <Route path="/safety-tips" element={<SafetyTipsPage />} />
+          <Route path="/faq" element={<FAQPage />} />
 
-        {/* Support pages */}
-        <Route path="/contact" element={<ContactUsPage />} />
-        <Route path="/report-issue" element={<ReportIssuePage />} />
-        <Route path="/feedback" element={<FeedbackPage />} />
+          {/* Support pages */}
+          <Route path="/contact" element={<ContactUsPage />} />
+          <Route path="/report-issue" element={<ReportIssuePage />} />
+          <Route path="/feedback" element={<FeedbackPage />} />
 
-        {/* Legal pages */}
-        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-        <Route path="/cookie-policy" element={<CookiePolicyPage />} />
+          {/* Legal pages */}
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+          <Route path="/cookie-policy" element={<CookiePolicyPage />} />
 
-        {/* Protected routes */}
-        <Route element={<ProtectedRoute />}>
-          <Route path="/feed" element={<Feed />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/user/:username" element={<UserProfilePage />} />
-          {/* <Route path="/post" element={<PostItemPage />} /> */}
-          {/* <Route path="/dashboard" element={<DashboardPage />} /> */}
-          {/* <Route path="/messages/:claimId" element={<MessagesPage />} /> */}
-          {/* <Route path="/map" element={<MapPage />} /> */}
-        </Route>
-      </Routes>
+          {/* Protected routes */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/feed" element={<Feed />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/user/:username" element={<UserProfilePage />} />
+            {/* <Route path="/post" element={<PostItemPage />} /> */}
+            {/* <Route path="/dashboard" element={<DashboardPage />} /> */}
+            {/* <Route path="/messages/:claimId" element={<MessagesPage />} /> */}
+            {/* <Route path="/map" element={<MapPage />} /> */}
+          </Route>
+        </Routes>
+      </AnimatePresence>
       {showFooter && <Footer />}
     </>
   );

@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { CardActionArea, Box } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -7,7 +8,7 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import ImageIcon from '@mui/icons-material/Image';
 import NearMeIcon from '@mui/icons-material/NearMe';
 import type { Item } from '@/types';
-import { formatRelativeTime, formatDistance } from '@/utils';
+import { formatRelativeTime, formatDistance, SPRING, DURATION } from '@/utils';
 import {
   StyledCard,
   ImageContainer,
@@ -25,6 +26,8 @@ import {
   DistanceBadge,
   HoverOverlay,
 } from './ItemCard.styled';
+
+const MotionCard = motion.create(StyledCard);
 
 export interface ItemCardProps {
   item: Item;
@@ -60,14 +63,24 @@ export function ItemCard({ item, onClick }: ItemCardProps) {
   const relativeTime = formatRelativeTime(createdAt) || null;
 
   return (
-    <StyledCard>
+    <MotionCard
+      whileHover={{
+        y: -8,
+        transition: SPRING.gentle,
+      }}
+      whileTap={{
+        scale: 0.98,
+        transition: { duration: DURATION.instant },
+      }}
+      style={{ willChange: 'transform' }}
+    >
       <CardActionArea
         onClick={handleClick}
         sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
       >
         <ImageContainer>
           {photoUrl ? (
-            <StyledCardMedia image={photoUrl} title={title} />
+            <StyledCardMedia image={photoUrl} title={title} className="card-media" />
           ) : (
             <ImagePlaceholder>
               <ImageIcon />
@@ -80,7 +93,7 @@ export function ItemCard({ item, onClick }: ItemCardProps) {
               {formatDistance(distance)}
             </DistanceBadge>
           )}
-          <HoverOverlay />
+          <HoverOverlay className="hover-overlay" />
         </ImageContainer>
 
         <StyledCardContent>
@@ -125,7 +138,7 @@ export function ItemCard({ item, onClick }: ItemCardProps) {
           </MetaContainer>
         </StyledCardContent>
       </CardActionArea>
-    </StyledCard>
+    </MotionCard>
   );
 }
 

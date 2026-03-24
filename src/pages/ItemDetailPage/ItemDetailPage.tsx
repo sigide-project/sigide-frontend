@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Box } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useItem } from '@/hooks';
+import { pageVariants, DURATION, EASE, SPRING } from '@/utils/animations';
 import {
   ImageGallery,
   ItemDetails,
@@ -11,6 +13,35 @@ import {
   ItemDetailErrorState,
 } from '@/components/itemDetail';
 import { PageContainer, BackButton, ContentWrapper, MainContent } from './ItemDetailPage.styled';
+
+const MotionPageContainer = motion.create(PageContainer);
+const MotionBackButton = motion.create(BackButton);
+const MotionContentWrapper = motion.create(ContentWrapper);
+
+const contentVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: DURATION.slow,
+      ease: EASE.smooth,
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: DURATION.slow,
+      ease: EASE.smooth,
+    },
+  },
+};
 
 export function ItemDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -49,47 +80,87 @@ export function ItemDetailPage() {
 
   if (isLoading) {
     return (
-      <PageContainer maxWidth="lg">
-        <BackButton startIcon={<ArrowBackIcon />} onClick={handleGoBack}>
+      <MotionPageContainer
+        maxWidth="lg"
+        initial="initial"
+        animate="enter"
+        exit="exit"
+        variants={pageVariants}
+      >
+        <MotionBackButton
+          startIcon={<ArrowBackIcon />}
+          onClick={handleGoBack}
+          whileHover={{ x: -4 }}
+          whileTap={{ scale: 0.98 }}
+          transition={SPRING.gentle}
+        >
           Go Back
-        </BackButton>
+        </MotionBackButton>
         <ItemDetailLoadingState />
-      </PageContainer>
+      </MotionPageContainer>
     );
   }
 
   if (error || !item) {
     return (
-      <PageContainer maxWidth="lg">
-        <BackButton startIcon={<ArrowBackIcon />} onClick={handleGoBack}>
+      <MotionPageContainer
+        maxWidth="lg"
+        initial="initial"
+        animate="enter"
+        exit="exit"
+        variants={pageVariants}
+      >
+        <MotionBackButton
+          startIcon={<ArrowBackIcon />}
+          onClick={handleGoBack}
+          whileHover={{ x: -4 }}
+          whileTap={{ scale: 0.98 }}
+          transition={SPRING.gentle}
+        >
           Go Back
-        </BackButton>
+        </MotionBackButton>
         <ItemDetailErrorState />
-      </PageContainer>
+      </MotionPageContainer>
     );
   }
 
   return (
-    <PageContainer maxWidth="lg">
-      <BackButton startIcon={<ArrowBackIcon />} onClick={handleGoBack}>
+    <MotionPageContainer
+      maxWidth="lg"
+      initial="initial"
+      animate="enter"
+      exit="exit"
+      variants={pageVariants}
+    >
+      <MotionBackButton
+        startIcon={<ArrowBackIcon />}
+        onClick={handleGoBack}
+        whileHover={{ x: -4 }}
+        whileTap={{ scale: 0.98 }}
+        transition={SPRING.gentle}
+      >
         Go Back
-      </BackButton>
+      </MotionBackButton>
 
-      <ContentWrapper>
-        <MainContent>
-          <ImageGallery
-            imageUrls={item.image_urls || []}
-            selectedIndex={selectedImageIndex}
-            onSelectImage={setSelectedImageIndex}
-          />
-          <ItemDetails item={item} />
-        </MainContent>
+      <MotionContentWrapper variants={contentVariants} initial="hidden" animate="visible">
+        <motion.div variants={itemVariants}>
+          <MainContent>
+            <ImageGallery
+              imageUrls={item.image_urls || []}
+              selectedIndex={selectedImageIndex}
+              onSelectImage={setSelectedImageIndex}
+            />
+            <ItemDetails item={item} />
+          </MainContent>
+        </motion.div>
 
-        <Box>
-          <OwnerSidebar item={item} onShare={handleShare} />
-        </Box>
-      </ContentWrapper>
-    </PageContainer>
+        <motion.div variants={itemVariants}>
+          <Box>
+            <OwnerSidebar item={item} onShare={handleShare} />
+          </Box>
+        </motion.div>
+      </MotionContentWrapper>
+    </MotionPageContainer>
   );
 }
 
