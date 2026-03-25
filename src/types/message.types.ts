@@ -6,5 +6,44 @@ export interface Message {
   sender_id: string;
   sender?: User;
   content: string;
+  read_at?: string | null;
   createdAt: string;
+}
+
+export interface MessagesResponse {
+  success: boolean;
+  messages: Message[];
+  claim: {
+    id: string;
+    status: string;
+    item: {
+      id: string;
+      title: string;
+      type: string;
+      status: string;
+      location_name?: string;
+      image_urls?: string[];
+    };
+    claimant: User;
+    owner: User;
+  };
+  contact?: {
+    whatsapp_url: string;
+  };
+}
+
+export interface Notification {
+  id: string;
+  user_id: string;
+  type: string;
+  payload: Record<string, unknown>;
+  read: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface NotificationsResponse {
+  success: boolean;
+  notifications: Notification[];
+  unread_count: number;
 }

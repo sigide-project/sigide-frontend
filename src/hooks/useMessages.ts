@@ -1,32 +1,27 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { messagesApi } from '@/services';
-import type { Message } from '@/types';
+import type { MessagesResponse } from '@/types';
 
 export const MESSAGES_QUERY_KEY = 'messages';
 
 export function useMessages(claimId: string | undefined) {
-  return useQuery<Message[]>({
+  return useQuery<MessagesResponse>({
     queryKey: [MESSAGES_QUERY_KEY, claimId],
-    queryFn: () => messagesApi.getMessages(claimId!).then((res) => res.data.data),
+    queryFn: () => messagesApi.getMessages(claimId!).then((res) => res.data),
     enabled: !!claimId,
-    refetchInterval: 3000,
+    refetchInterval: 4000,
     staleTime: 0,
   });
 }
 
-interface SendMessageVariables {
-  claimId: string;
-  content: string;
-}
-
-export function useSendMessage() {
+export function useSendMessage(claimId: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ claimId, content }: SendMessageVariables) =>
-      messagesApi.sendMessage(claimId, content).then((res) => res.data.data),
-    onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({ queryKey: [MESSAGES_QUERY_KEY, variables.claimId] });
+    mutationFn: (content: string) =>
+      messagesApi.sendMessage(claimId, content).then((res) => res.data.message),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [MESSAGES_QUERY_KEY, claimId] });
     },
   });
 }

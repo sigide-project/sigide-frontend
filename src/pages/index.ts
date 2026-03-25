@@ -15,3 +15,4 @@ export { FeedbackPage } from './FeedbackPage';
 export { PrivacyPolicyPage } from './PrivacyPolicyPage';
 export { TermsOfServicePage } from './TermsOfServicePage';
 export { CookiePolicyPage } from './CookiePolicyPage';
+export { MessagesPage } from './MessagesPage';

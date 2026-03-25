@@ -198,7 +198,7 @@ export function AddItemDialog({ open, onClose, item }: AddItemDialogProps) {
               )}
             />
 
-            {watchedType === 'found' && (
+            {watchedType === 'lost' && (
               <Controller
                 name="reward_amount"
                 control={control}

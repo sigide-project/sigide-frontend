@@ -13,7 +13,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import { useAuthStore } from '@/store';
 import { useCurrentUser } from '@/hooks';
-import { AddItemDialog } from '@/components';
+import { AddItemDialog, NotificationsBell } from '@/components';
 import { SPRING, DURATION, EASE } from '@/utils/animations';
 import {
   StyledAppBar,
@@ -163,6 +163,8 @@ export function Navbar({ onAddItemClick, isAuthPage = false }: NavbarProps) {
                   <AddIcon />
                   Add Item
                 </MotionAddItemButton>
+
+                <NotificationsBell />
 
                 <MotionProfileButton
                   onClick={handleProfileButtonClick}

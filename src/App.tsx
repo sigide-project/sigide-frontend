@@ -20,6 +20,7 @@ import {
   PrivacyPolicyPage,
   TermsOfServicePage,
   CookiePolicyPage,
+  MessagesPage,
 } from '@/pages';
 import { ProtectedRoute, Navbar, Footer } from '@/components';
 import { ScrollToTop } from './utils';
@@ -37,13 +38,16 @@ const queryClient = new QueryClient({
 const AUTH_PATHS = ['/login', '/register', '/auth/callback'];
 const PATHS_WITHOUT_NAVBAR = ['/auth/callback'];
 const PATHS_WITHOUT_FOOTER = ['/login', '/register', '/auth/callback', '/'];
+const PATHS_WITHOUT_FOOTER_PREFIX = ['/messages/'];
 
 function AppContent() {
   const location = useLocation();
 
   const showNavbar = !PATHS_WITHOUT_NAVBAR.includes(location.pathname);
   const isAuthPage = AUTH_PATHS.includes(location.pathname);
-  const showFooter = !PATHS_WITHOUT_FOOTER.includes(location.pathname);
+  const showFooter =
+    !PATHS_WITHOUT_FOOTER.includes(location.pathname) &&
+    !PATHS_WITHOUT_FOOTER_PREFIX.some((prefix) => location.pathname.startsWith(prefix));
 
   return (
     <>
@@ -77,10 +81,7 @@ function AppContent() {
             <Route path="/feed" element={<Feed />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/user/:username" element={<UserProfilePage />} />
-            {/* <Route path="/post" element={<PostItemPage />} /> */}
-            {/* <Route path="/dashboard" element={<DashboardPage />} /> */}
-            {/* <Route path="/messages/:claimId" element={<MessagesPage />} /> */}
-            {/* <Route path="/map" element={<MapPage />} /> */}
+            <Route path="/messages/:claimId" element={<MessagesPage />} />
           </Route>
         </Routes>
       </AnimatePresence>

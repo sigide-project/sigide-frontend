@@ -1,12 +1,15 @@
-import { Box, CircularProgress } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Box, CircularProgress, Typography, Chip } from '@mui/material';
+import { useNavigate, Link } from 'react-router-dom';
 import ShareIcon from '@mui/icons-material/Share';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import ChatIcon from '@mui/icons-material/Chat';
 import type { Item } from '@/types';
-import { useToggleSaveItem, useSavedItemIds } from '@/hooks';
+import { useToggleSaveItem, useSavedItemIds, useMyClaims } from '@/hooks';
 import { useAuthStore } from '@/store';
 import { formatDateTime, getInitials } from '@/utils';
+import { ClaimSubmitDialog } from '@/components/ClaimSubmitDialog';
 import {
   SidebarCard,
   OwnerSection,
@@ -31,11 +34,19 @@ interface OwnerSidebarProps {
 export function OwnerSidebar({ item, onShare }: OwnerSidebarProps) {
   const navigate = useNavigate();
   const { owner, createdAt } = item;
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, user: currentUser } = useAuthStore();
+  const [claimDialogOpen, setClaimDialogOpen] = useState(false);
 
   const { data: savedIds = [] } = useSavedItemIds();
   const isSaved = isAuthenticated ? savedIds.includes(item.id) : false;
   const { toggleSave, isPending: isSaveLoading } = useToggleSaveItem();
+
+  const { data: myClaims } = useMyClaims();
+  const existingClaim = myClaims?.find((c) => c.item_id === item.id);
+
+  const isOwner = isAuthenticated && currentUser?.id === item.user_id;
+  const isItemOpen = item.status === 'open';
+  const isItemClaimedOrResolved = item.status === 'claimed' || item.status === 'resolved';
 
   const handleSaveClick = async () => {
     if (!isAuthenticated) {
@@ -50,6 +61,12 @@ export function OwnerSidebar({ item, onShare }: OwnerSidebarProps) {
   const handleOwnerClick = () => {
     if (owner?.username) {
       navigate(`/user/${owner.username}`);
+    }
+  };
+
+  const handleMessageOwner = () => {
+    if (existingClaim) {
+      navigate(`/messages/${existingClaim.id}`);
     }
   };
 
@@ -90,9 +107,46 @@ export function OwnerSidebar({ item, onShare }: OwnerSidebarProps) {
       </OwnerSection>
 
       <ActionButtonsContainer>
-        <ContactButton variant="contained" fullWidth size="large">
-          Contact Owner
-        </ContactButton>
+        {!isAuthenticated ? (
+          <Typography variant="body2" sx={{ textAlign: 'center', py: 1 }}>
+            <Link to="/login" style={{ color: 'inherit' }}>
+              Sign in to contact the owner
+            </Link>
+          </Typography>
+        ) : isItemClaimedOrResolved ? (
+          <Chip
+            label={item.status === 'claimed' ? 'Item Claimed' : 'Item Resolved'}
+            color={item.status === 'claimed' ? 'warning' : 'default'}
+            sx={{ alignSelf: 'center' }}
+          />
+        ) : (
+          <>
+            {existingClaim ? (
+              <ContactButton
+                variant="contained"
+                fullWidth
+                size="large"
+                onClick={handleMessageOwner}
+                startIcon={<ChatIcon />}
+              >
+                Message Owner
+              </ContactButton>
+            ) : (
+              !isOwner &&
+              isItemOpen && (
+                <ContactButton
+                  variant="contained"
+                  fullWidth
+                  size="large"
+                  onClick={() => setClaimDialogOpen(true)}
+                >
+                  I Found This
+                </ContactButton>
+              )
+            )}
+          </>
+        )}
+
         <SecondaryButton
           variant="outlined"
           fullWidth
@@ -133,6 +187,17 @@ export function OwnerSidebar({ item, onShare }: OwnerSidebarProps) {
           </DateRow>
         </DateInfo>
       )}
+
+      <ClaimSubmitDialog
+        open={claimDialogOpen}
+        onClose={() => setClaimDialogOpen(false)}
+        item={{
+          id: item.id,
+          title: item.title,
+          type: item.type,
+          owner: owner ? { name: owner.name } : undefined,
+        }}
+      />
     </SidebarCard>
   );
 }

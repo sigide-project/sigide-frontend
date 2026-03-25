@@ -47,20 +47,32 @@ describe('api service', () => {
   });
 
   describe('claimsApi', () => {
-    it('should have getClaims method', () => {
-      expect(claimsApi.getClaims).toBeDefined();
+    it('should have submitClaim method', () => {
+      expect(claimsApi.submitClaim).toBeDefined();
+    });
+
+    it('should have getMyClaims method', () => {
+      expect(claimsApi.getMyClaims).toBeDefined();
+    });
+
+    it('should have getClaimsOnMyItems method', () => {
+      expect(claimsApi.getClaimsOnMyItems).toBeDefined();
     });
 
     it('should have getClaim method', () => {
       expect(claimsApi.getClaim).toBeDefined();
     });
 
-    it('should have createClaim method', () => {
-      expect(claimsApi.createClaim).toBeDefined();
+    it('should have acceptClaim method', () => {
+      expect(claimsApi.acceptClaim).toBeDefined();
     });
 
-    it('should have updateClaimStatus method', () => {
-      expect(claimsApi.updateClaimStatus).toBeDefined();
+    it('should have rejectClaim method', () => {
+      expect(claimsApi.rejectClaim).toBeDefined();
+    });
+
+    it('should have resolveClaim method', () => {
+      expect(claimsApi.resolveClaim).toBeDefined();
     });
   });
 

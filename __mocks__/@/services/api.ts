@@ -25,15 +25,24 @@ export const itemsApi = {
 };
 
 export const claimsApi = {
-  getClaims: jest.fn(),
+  submitClaim: jest.fn(),
+  getMyClaims: jest.fn(),
+  getClaimsOnMyItems: jest.fn(),
   getClaim: jest.fn(),
-  createClaim: jest.fn(),
-  updateClaimStatus: jest.fn(),
+  acceptClaim: jest.fn(),
+  rejectClaim: jest.fn(),
+  resolveClaim: jest.fn(),
 };
 
 export const messagesApi = {
   getMessages: jest.fn(),
   sendMessage: jest.fn(),
+};
+
+export const notificationsApi = {
+  getAll: jest.fn(),
+  markRead: jest.fn(),
+  markAllRead: jest.fn(),
 };
 
 export const authApi = {

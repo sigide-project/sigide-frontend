@@ -7,9 +7,10 @@ export const ITEM_TYPES: Record<ItemType, ItemType> = {
 
 export const CLAIM_STATUS: Record<ClaimStatus, ClaimStatus> = {
   pending: 'pending',
-  approved: 'approved',
+  accepted: 'accepted',
   rejected: 'rejected',
-  completed: 'completed',
+  resolved: 'resolved',
+  disputed: 'disputed',
 } as const;
 
 export const DEFAULT_RADIUS_KM = 10;
