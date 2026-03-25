@@ -25,7 +25,7 @@ import type {
   NotificationsResponse,
 } from '@/types';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+const API_BASE_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:4000'}/api`;
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
@@ -111,8 +111,9 @@ export const itemsApi = {
 };
 
 export const claimsApi = {
-  submitClaim: (data: CreateClaimData): Promise<AxiosResponse<{ success: boolean; claim: Claim }>> =>
-    api.post('/claims', data),
+  submitClaim: (
+    data: CreateClaimData
+  ): Promise<AxiosResponse<{ success: boolean; claim: Claim }>> => api.post('/claims', data),
 
   getMyClaims: (): Promise<AxiosResponse<{ success: boolean; claims: Claim[] }>> =>
     api.get('/claims/mine'),
@@ -137,15 +138,19 @@ export const messagesApi = {
   getMessages: (claimId: string): Promise<AxiosResponse<MessagesResponse>> =>
     api.get(`/messages/${claimId}`),
 
-  sendMessage: (claimId: string, content: string): Promise<AxiosResponse<{ success: boolean; message: Message }>> =>
+  sendMessage: (
+    claimId: string,
+    content: string
+  ): Promise<AxiosResponse<{ success: boolean; message: Message }>> =>
     api.post(`/messages/${claimId}`, { content }),
 };
 
 export const notificationsApi = {
-  getAll: (): Promise<AxiosResponse<NotificationsResponse>> =>
-    api.get('/notifications'),
+  getAll: (): Promise<AxiosResponse<NotificationsResponse>> => api.get('/notifications'),
 
-  markRead: (id: string): Promise<AxiosResponse<{ success: boolean; notification: Notification }>> =>
+  markRead: (
+    id: string
+  ): Promise<AxiosResponse<{ success: boolean; notification: Notification }>> =>
     api.patch(`/notifications/${id}/read`),
 
   markAllRead: (): Promise<AxiosResponse<{ success: boolean; updated: number }>> =>

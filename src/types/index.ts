@@ -23,7 +23,12 @@ export { ITEM_CATEGORIES } from './item.types';
 export type { ClaimStatus, Claim, CreateClaimData } from './claim.types';
 
 // Message types
-export type { Message, MessagesResponse, Notification, NotificationsResponse } from './message.types';
+export type {
+  Message,
+  MessagesResponse,
+  Notification,
+  NotificationsResponse,
+} from './message.types';
 
 // Auth types
 export type { LoginCredentials, RegisterData, AuthResponse } from './auth.types';

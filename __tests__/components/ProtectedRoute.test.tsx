@@ -3,6 +3,12 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { ProtectedRoute } from '@/components/ProtectedRoute/ProtectedRoute';
 import { useAuthStore } from '@/store';
 
+jest.mock('@/services', () => ({
+  ...jest.requireActual('@/services'),
+  connectSocket: jest.fn(),
+  disconnectSocket: jest.fn(),
+}));
+
 const ProtectedContent = () => <div>Protected Content</div>;
 const LoginPage = () => <div>Login Page</div>;
 

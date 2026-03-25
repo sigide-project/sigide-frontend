@@ -79,7 +79,9 @@ export function ClaimSubmitDialog({ open, onClose, item }: ClaimSubmitDialogProp
     const remaining = MAX_PROOF_IMAGES - stagedImages.length;
 
     if (fileArray.length > remaining) {
-      setUploadError(`You can upload up to ${MAX_PROOF_IMAGES} images. ${remaining} slots remaining.`);
+      setUploadError(
+        `You can upload up to ${MAX_PROOF_IMAGES} images. ${remaining} slots remaining.`
+      );
       return;
     }
 
@@ -97,10 +99,7 @@ export function ClaimSubmitDialog({ open, onClose, item }: ClaimSubmitDialogProp
       try {
         const res = await uploadsApi.uploadImage(file);
         const url = res.data.url;
-        setStagedImages((prev) => [
-          ...prev,
-          { id: crypto.randomUUID(), type: 'new', url, file },
-        ]);
+        setStagedImages((prev) => [...prev, { id: crypto.randomUUID(), type: 'new', url, file }]);
       } catch {
         setUploadError('Failed to upload image');
       }
@@ -168,9 +167,7 @@ export function ClaimSubmitDialog({ open, onClose, item }: ClaimSubmitDialogProp
             <ItemInfoBox>
               <div>
                 <ItemTitle>{item.title}</ItemTitle>
-                {item.owner?.name && (
-                  <ItemOwnerName>Posted by {item.owner.name}</ItemOwnerName>
-                )}
+                {item.owner?.name && <ItemOwnerName>Posted by {item.owner.name}</ItemOwnerName>}
               </div>
             </ItemInfoBox>
 

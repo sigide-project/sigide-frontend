@@ -13,6 +13,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import { useAuthStore } from '@/store';
 import { useCurrentUser } from '@/hooks';
+import { disconnectSocket } from '@/services';
 import { AddItemDialog, NotificationsBell } from '@/components';
 import { SPRING, DURATION, EASE } from '@/utils/animations';
 import {
@@ -97,6 +98,7 @@ export function Navbar({ onAddItemClick, isAuthPage = false }: NavbarProps) {
   const handleLogoutClick = useCallback(() => {
     handleMenuClose();
     setMobileDrawerOpen(false);
+    disconnectSocket();
     clearAuth();
     navigate('/login');
   }, [clearAuth, navigate, handleMenuClose]);

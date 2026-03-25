@@ -8,11 +8,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import VerifiedIcon from '@mui/icons-material/Verified';
-import {
-  useNotifications,
-  useMarkNotificationRead,
-  useMarkAllNotificationsRead,
-} from '@/hooks';
+import { useNotifications, useMarkNotificationRead, useMarkAllNotificationsRead } from '@/hooks';
 import type { Notification } from '@/types';
 import {
   BellButton,
@@ -137,7 +133,11 @@ export function NotificationsBell() {
   return (
     <>
       <BellButton onClick={handleBellClick} aria-label="Notifications">
-        <Badge badgeContent={unreadCount} color="error" variant={unreadCount > 0 ? 'standard' : undefined}>
+        <Badge
+          badgeContent={unreadCount}
+          color="error"
+          variant={unreadCount > 0 ? 'standard' : undefined}
+        >
           <NotificationsOutlinedIcon />
         </Badge>
       </BellButton>

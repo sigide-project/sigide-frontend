@@ -16,3 +16,11 @@ export type {
   SavedItemIdsResponse,
   SavedStatusResponse,
 } from './api';
+
+export {
+  connectSocket,
+  disconnectSocket,
+  getSocket,
+  isSocketConnected,
+  onSocketConnectionChange,
+} from './socket';

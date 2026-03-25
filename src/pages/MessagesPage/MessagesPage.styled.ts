@@ -165,7 +165,12 @@ export const ResolveButton = styled(Button)`
   border-radius: ${borderRadius.lg};
 `;
 
-export const WhatsAppButton = styled(Button)<{ component?: React.ElementType; href?: string; target?: string; rel?: string }>`
+export const WhatsAppButton = styled(Button)<{
+  component?: React.ElementType;
+  href?: string;
+  target?: string;
+  rel?: string;
+}>`
   text-transform: none;
   font-weight: ${typography.fontWeight.semibold};
   border-radius: ${borderRadius.lg};
@@ -209,7 +214,9 @@ interface MessageBubbleProps {
 
 const forwardPropOwn = (prop: string) => prop !== 'isOwn';
 
-export const MessageBubbleRow = styled(Box, { shouldForwardProp: forwardPropOwn })<MessageBubbleProps>`
+export const MessageBubbleRow = styled(Box, {
+  shouldForwardProp: forwardPropOwn,
+})<MessageBubbleProps>`
   display: flex;
   flex-direction: column;
   align-items: ${({ isOwn }) => (isOwn ? 'flex-end' : 'flex-start')};

@@ -228,7 +228,11 @@ export function MessagesPage() {
                 onClick={handleAccept}
                 disabled={acceptClaim.isPending}
               >
-                {acceptClaim.isPending ? <CircularProgress size={20} color="inherit" /> : 'Accept Claim'}
+                {acceptClaim.isPending ? (
+                  <CircularProgress size={20} color="inherit" />
+                ) : (
+                  'Accept Claim'
+                )}
               </AcceptButton>
               <RejectButton
                 variant="outlined"
@@ -267,9 +271,7 @@ export function MessagesPage() {
               >
                 WhatsApp
               </WhatsAppButton>
-              <ContactNote>
-                Contact details are only shared after claim is accepted
-              </ContactNote>
+              <ContactNote>Contact details are only shared after claim is accepted</ContactNote>
             </ActionButtonsSection>
           )}
         </Sidebar>

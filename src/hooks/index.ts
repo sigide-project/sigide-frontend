@@ -68,3 +68,5 @@ export {
   SAVED_ITEMS_QUERY_KEY,
   SAVED_ITEM_IDS_QUERY_KEY,
 } from './useSavedItems';
+
+export { useSocket } from './useSocket';

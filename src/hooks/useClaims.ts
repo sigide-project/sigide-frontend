@@ -76,8 +76,7 @@ export function useAcceptClaim() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) =>
-      claimsApi.acceptClaim(id).then((res) => res.data.claim),
+    mutationFn: (id: string) => claimsApi.acceptClaim(id).then((res) => res.data.claim),
     onSuccess: (_data, _id) => {
       queryClient.invalidateQueries({ queryKey: [CLAIMS_ON_MY_ITEMS_QUERY_KEY] });
     },
@@ -88,8 +87,7 @@ export function useRejectClaim() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) =>
-      claimsApi.rejectClaim(id).then((res) => res.data.claim),
+    mutationFn: (id: string) => claimsApi.rejectClaim(id).then((res) => res.data.claim),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [CLAIMS_ON_MY_ITEMS_QUERY_KEY] });
     },
@@ -100,8 +98,7 @@ export function useResolveClaim() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) =>
-      claimsApi.resolveClaim(id).then((res) => res.data.claim),
+    mutationFn: (id: string) => claimsApi.resolveClaim(id).then((res) => res.data.claim),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [CLAIMS_MINE_QUERY_KEY] });
       queryClient.invalidateQueries({ queryKey: [CLAIMS_ON_MY_ITEMS_QUERY_KEY] });

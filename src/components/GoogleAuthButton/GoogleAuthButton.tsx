@@ -1,6 +1,6 @@
 import { StyledGoogleButton, GoogleLogoWrapper } from './GoogleAuthButton.styled';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+const API_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:4000'}/api`;
 
 const GoogleLogo = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
