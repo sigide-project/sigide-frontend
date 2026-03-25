@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
-import { colors } from '@/theme';
+import { tc } from '@/theme';
 
 export const HeaderContainer = styled('div')`
   position: relative;
@@ -75,7 +75,7 @@ export const UserName = styled('h1')`
   gap: 8px;
   font-size: 1.75rem;
   font-weight: 700;
-  color: ${colors.text.inverse};
+  color: ${tc((c) => c.text.inverse)};
   margin: 0 0 12px;
 
   @media (min-width: 768px) {

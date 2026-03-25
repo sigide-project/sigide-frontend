@@ -1,6 +1,6 @@
 import { styled, keyframes, css } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
-import { colors, typography, spacing, borderRadius, shadows, transitions } from '@/theme';
+import { tc, ts, typography, spacing, borderRadius, transitions, getThemeColors } from '@/theme';
 
 const shouldForwardProp = (prop: string) => !prop.startsWith('$');
 
@@ -30,7 +30,7 @@ export const HeroSection = styled(Box)`
   padding: ${spacing[16]} ${spacing[6]} ${spacing[12]};
   padding-top: calc(72px + ${spacing[16]});
   width: 100%;
-  background: ${colors.background.hero};
+  background: ${tc((c) => c.background.hero)};
   border-radius: 0 0 ${borderRadius['3xl']} ${borderRadius['3xl']};
   margin-bottom: ${spacing[8]};
   overflow: hidden;
@@ -44,7 +44,7 @@ export const HeroSection = styled(Box)`
     right: -20%;
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, ${colors.primary[200]} 0%, transparent 70%);
+    background: radial-gradient(circle, ${tc((c) => c.primary[200])} 0%, transparent 70%);
     opacity: 0.5;
     animation: ${pulse} 8s ease-in-out infinite;
   }
@@ -56,7 +56,7 @@ export const HeroSection = styled(Box)`
     left: -10%;
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, ${colors.secondary[200]} 0%, transparent 70%);
+    background: radial-gradient(circle, ${tc((c) => c.secondary[200])} 0%, transparent 70%);
     opacity: 0.4;
     animation: ${pulse} 10s ease-in-out infinite reverse;
   }
@@ -85,11 +85,11 @@ export const HeroTitle = styled(Typography)`
   font-weight: ${typography.fontWeight.extrabold};
   line-height: ${typography.lineHeight.tight};
   letter-spacing: ${typography.letterSpacing.tight};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   margin-bottom: ${spacing[4]};
 
   span {
-    background: ${colors.decorative.purple};
+    background: ${tc((c) => c.decorative.purple)};
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -106,7 +106,7 @@ export const HeroTitle = styled(Typography)`
 
 export const HeroSubtitle = styled(Typography)`
   font-size: ${typography.fontSize.xl};
-  color: ${colors.text.secondary};
+  color: ${tc((c) => c.text.secondary)};
   line-height: ${typography.lineHeight.relaxed};
   max-width: 600px;
 
@@ -132,29 +132,29 @@ export const StatItem = styled(Box)`
   display: flex;
   flex-direction: column;
   padding: ${spacing[4]} ${spacing[6]};
-  background: rgba(255, 255, 255, 0.7);
+  background: ${tc((c) => c.glass.light)};
   backdrop-filter: blur(10px);
   border-radius: ${borderRadius.xl};
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: ${shadows.sm};
+  border: 1px solid ${tc((c) => c.glass.border)};
+  box-shadow: ${ts((s) => s.sm)};
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: ${shadows.purple.sm};
-    border-color: ${colors.primary[200]};
+    box-shadow: ${ts((s) => s.purple.sm)};
+    border-color: ${tc((c) => c.primary[200])};
   }
 `;
 
 export const StatValue = styled(Typography)`
   font-size: ${typography.fontSize['2xl']};
   font-weight: ${typography.fontWeight.bold};
-  color: ${colors.primary.main};
+  color: ${tc((c) => c.primary.main)};
 `;
 
 export const StatLabel = styled(Typography)`
   font-size: ${typography.fontSize.sm};
-  color: ${colors.text.secondary};
+  color: ${tc((c) => c.text.secondary)};
   font-weight: ${typography.fontWeight.medium};
 `;
 
@@ -165,14 +165,21 @@ interface FloatingShapeProps {
   right?: string;
 }
 
-export const FloatingShape = styled(Box, { shouldForwardProp })<FloatingShapeProps>(
-  ({ delay, size, top, right }) => css`
+export const FloatingShape = styled(Box, { shouldForwardProp })<FloatingShapeProps>(({
+  delay,
+  size,
+  top,
+  right,
+  theme,
+}) => {
+  const c = getThemeColors(theme);
+  return css`
     position: absolute;
     width: ${size || 60}px;
     height: ${size || 60}px;
     top: ${top || '20%'};
     right: ${right || '10%'};
-    background: ${colors.decorative.purple};
+    background: ${c.decorative.purple};
     border-radius: ${borderRadius.xl};
     opacity: 0.1;
     animation: ${float} 6s ease-in-out infinite;
@@ -182,8 +189,8 @@ export const FloatingShape = styled(Box, { shouldForwardProp })<FloatingShapePro
     @media (max-width: 900px) {
       display: none;
     }
-  `
-);
+  `;
+});
 
 export const QuickFilters = styled(Box)`
   display: flex;
@@ -199,8 +206,13 @@ interface QuickFilterButtonProps {
   variant?: 'lost' | 'found' | 'all';
 }
 
-export const QuickFilterButton = styled(Box, { shouldForwardProp })<QuickFilterButtonProps>(
-  ({ active, variant }) => css`
+export const QuickFilterButton = styled(Box, { shouldForwardProp })<QuickFilterButtonProps>(({
+  active,
+  variant,
+  theme,
+}) => {
+  const c = getThemeColors(theme);
+  return css`
     display: flex;
     align-items: center;
     gap: ${spacing[2]};
@@ -215,36 +227,36 @@ export const QuickFilterButton = styled(Box, { shouldForwardProp })<QuickFilterB
     ${active
       ? variant === 'lost'
         ? css`
-            background: ${colors.lost.light};
-            color: ${colors.lost.dark};
-            border-color: ${colors.lost.main};
+            background: ${c.lost.light};
+            color: ${c.lost.dark};
+            border-color: ${c.lost.main};
           `
         : variant === 'found'
           ? css`
-              background: ${colors.found.light};
-              color: ${colors.found.dark};
-              border-color: ${colors.found.main};
+              background: ${c.found.light};
+              color: ${c.found.dark};
+              border-color: ${c.found.main};
             `
           : css`
-              background: ${colors.primary[100]};
-              color: ${colors.primary[700]};
-              border-color: ${colors.primary.main};
+              background: ${c.primary[100]};
+              color: ${c.primary[700]};
+              border-color: ${c.primary.main};
             `
       : css`
-          background: rgba(255, 255, 255, 0.8);
-          color: ${colors.text.secondary};
-          border-color: ${colors.grey[200]};
+          background: ${c.glass.light};
+          color: ${c.text.secondary};
+          border-color: ${c.grey[200]};
           backdrop-filter: blur(10px);
 
           &:hover {
-            border-color: ${colors.primary[300]};
-            color: ${colors.primary.main};
-            background: ${colors.background.paper};
+            border-color: ${c.primary[300]};
+            color: ${c.primary.main};
+            background: ${c.background.paper};
           }
         `}
 
     svg {
       font-size: 18px;
     }
-  `
-);
+  `;
+});

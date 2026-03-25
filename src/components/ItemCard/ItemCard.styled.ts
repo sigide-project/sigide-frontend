@@ -1,6 +1,6 @@
 import { styled, keyframes } from '@mui/material/styles';
 import { Card, CardContent, CardMedia, Chip, Typography, Box } from '@mui/material';
-import { colors, typography, spacing, borderRadius, shadows, transitions } from '@/theme';
+import { tc, ts, typography, spacing, borderRadius, transitions } from '@/theme';
 
 const shimmer = keyframes`
   0% { background-position: -200% 0; }
@@ -11,9 +11,9 @@ export const StyledCard = styled(Card)`
   position: relative;
   border-radius: ${borderRadius['2xl']};
   overflow: hidden;
-  background: ${colors.background.paper};
-  border: 1px solid ${colors.grey[100]};
-  box-shadow: ${shadows.sm};
+  background: ${tc((c) => c.background.paper)};
+  border: 1px solid ${tc((c) => c.grey[100])};
+  box-shadow: ${ts((s) => s.sm)};
   transition:
     box-shadow ${transitions.duration.normal} ${transitions.easing.easeInOut},
     border-color ${transitions.duration.normal} ${transitions.easing.easeInOut};
@@ -24,8 +24,8 @@ export const StyledCard = styled(Card)`
   will-change: transform;
 
   &:hover {
-    box-shadow: ${shadows.purple.lg};
-    border-color: ${colors.primary[200]};
+    box-shadow: ${ts((s) => s.purple.lg)};
+    border-color: ${tc((c) => c.primary[200])};
   }
 
   &:hover .card-media {
@@ -43,7 +43,7 @@ export const StyledCard = styled(Card)`
     left: 0;
     right: 0;
     height: 4px;
-    background: ${colors.decorative.purple};
+    background: ${tc((c) => c.decorative.purple)};
     opacity: 0;
     transition: opacity ${transitions.duration.normal} ${transitions.easing.easeInOut};
     z-index: 1;
@@ -104,15 +104,15 @@ export const TypeBadge = styled(Chip)`
   padding: ${spacing[1]} ${spacing[2]};
 
   &.lost {
-    background: ${colors.lost.gradient};
-    color: ${colors.lost.dark};
-    border: 1px solid ${colors.lost.main};
+    background: ${tc((c) => c.lost.gradient)};
+    color: ${tc((c) => c.lost.dark)};
+    border: 1px solid ${tc((c) => c.lost.main)};
   }
 
   &.found {
-    background: ${colors.found.gradient};
-    color: ${colors.found.dark};
-    border: 1px solid ${colors.found.main};
+    background: ${tc((c) => c.found.gradient)};
+    color: ${tc((c) => c.found.dark)};
+    border: 1px solid ${tc((c) => c.found.main)};
   }
 `;
 
@@ -120,13 +120,13 @@ export const RewardBadge = styled(Box)`
   display: inline-flex;
   align-items: center;
   gap: ${spacing[1]};
-  background: ${colors.reward.gradient};
-  color: ${colors.reward.dark};
+  background: ${tc((c) => c.reward.gradient)};
+  color: ${tc((c) => c.reward.dark)};
   font-weight: ${typography.fontWeight.bold};
   font-size: ${typography.fontSize.xs};
   padding: ${spacing[1]} ${spacing[2]};
   border-radius: ${borderRadius.base};
-  border: 1px solid ${colors.reward.main};
+  border: 1px solid ${tc((c) => c.reward.main)};
 
   svg {
     font-size: 0.875rem;
@@ -140,8 +140,8 @@ export const DistanceBadge = styled(Box)`
   display: inline-flex;
   align-items: center;
   gap: ${spacing[1]};
-  background: rgba(255, 255, 255, 0.9);
-  color: ${colors.text.secondary};
+  background: ${tc((c) => c.glass.heavy)};
+  color: ${tc((c) => c.text.secondary)};
   font-weight: ${typography.fontWeight.semibold};
   font-size: ${typography.fontSize.xs};
   padding: ${spacing[1]} ${spacing[2]};
@@ -151,7 +151,7 @@ export const DistanceBadge = styled(Box)`
 
   svg {
     font-size: 0.875rem;
-    color: ${colors.primary.main};
+    color: ${tc((c) => c.primary.main)};
   }
 `;
 
@@ -173,7 +173,7 @@ export const HeaderRow = styled(Box)`
 export const Title = styled(Typography)`
   font-weight: ${typography.fontWeight.semibold};
   font-size: ${typography.fontSize.lg};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   line-height: ${typography.lineHeight.tight};
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -186,7 +186,7 @@ export const Title = styled(Typography)`
 export const CardTitle = styled(Typography)`
   font-weight: ${typography.fontWeight.semibold};
   font-size: ${typography.fontSize.lg};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   line-height: ${typography.lineHeight.tight};
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -196,7 +196,7 @@ export const CardTitle = styled(Typography)`
 `;
 
 export const CardDescription = styled(Typography)`
-  color: ${colors.text.secondary};
+  color: ${tc((c) => c.text.secondary)};
   font-size: ${typography.fontSize.sm};
   line-height: ${typography.lineHeight.relaxed};
   display: -webkit-box;
@@ -211,12 +211,12 @@ export const LocationText = styled(Box)`
   align-items: center;
   gap: ${spacing[1]};
   font-size: ${typography.fontSize.sm};
-  color: ${colors.text.tertiary};
+  color: ${tc((c) => c.text.tertiary)};
   margin-bottom: ${spacing[2]};
 
   svg {
     font-size: 1rem;
-    color: ${colors.primary[400]};
+    color: ${tc((c) => c.primary[400])};
     flex-shrink: 0;
   }
 `;
@@ -227,7 +227,7 @@ export const MetaContainer = styled(Box)`
   gap: ${spacing[2]};
   margin-top: auto;
   padding-top: ${spacing[3]};
-  border-top: 1px solid ${colors.grey[100]};
+  border-top: 1px solid ${tc((c) => c.grey[100])};
 `;
 
 export const CardMeta = styled(Box)`
@@ -236,7 +236,7 @@ export const CardMeta = styled(Box)`
   gap: ${spacing[2]};
   margin-top: auto;
   padding-top: ${spacing[3]};
-  border-top: 1px solid ${colors.grey[100]};
+  border-top: 1px solid ${tc((c) => c.grey[100])};
 `;
 
 export const MetaItem = styled(Box)`
@@ -244,11 +244,11 @@ export const MetaItem = styled(Box)`
   align-items: center;
   gap: ${spacing[2]};
   font-size: ${typography.fontSize.sm};
-  color: ${colors.text.tertiary};
+  color: ${tc((c) => c.text.tertiary)};
 
   svg {
     font-size: 1rem;
-    color: ${colors.primary[400]};
+    color: ${tc((c) => c.primary[400])};
     flex-shrink: 0;
   }
 
@@ -262,9 +262,9 @@ export const MetaItem = styled(Box)`
 export const CategoryChip = styled(Chip)`
   font-size: ${typography.fontSize.xs};
   font-weight: ${typography.fontWeight.medium};
-  background: ${colors.primary[50]};
-  color: ${colors.primary[700]};
-  border: 1px solid ${colors.primary[100]};
+  background: ${tc((c) => c.primary[50])};
+  color: ${tc((c) => c.primary[700])};
+  border: 1px solid ${tc((c) => c.primary[100])};
   height: auto;
   padding: 0.125rem ${spacing[1]};
   border-radius: ${borderRadius.base};
@@ -279,11 +279,11 @@ export const ImagePlaceholder = styled(Box)`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, ${colors.grey[50]} 0%, ${colors.grey[100]} 100%);
+  background: linear-gradient(135deg, ${tc((c) => c.grey[50])} 0%, ${tc((c) => c.grey[100])} 100%);
 
   svg {
     font-size: 4rem;
-    color: ${colors.grey[300]};
+    color: ${tc((c) => c.grey[300])};
     opacity: 0.5;
   }
 `;
@@ -293,11 +293,11 @@ export const PlaceholderImage = styled(Box)`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, ${colors.grey[50]} 0%, ${colors.grey[100]} 100%);
+  background: linear-gradient(135deg, ${tc((c) => c.grey[50])} 0%, ${tc((c) => c.grey[100])} 100%);
 
   svg {
     font-size: 4rem;
-    color: ${colors.grey[300]};
+    color: ${tc((c) => c.grey[300])};
     opacity: 0.5;
   }
 `;
@@ -305,17 +305,17 @@ export const PlaceholderImage = styled(Box)`
 export const SkeletonCard = styled(Card)`
   border-radius: ${borderRadius['2xl']};
   overflow: hidden;
-  background: ${colors.background.paper};
-  border: 1px solid ${colors.grey[100]};
+  background: ${tc((c) => c.background.paper)};
+  border: 1px solid ${tc((c) => c.grey[100])};
 `;
 
 export const SkeletonMedia = styled(Box)`
   height: 200px;
   background: linear-gradient(
     90deg,
-    ${colors.grey[100]} 25%,
-    ${colors.grey[50]} 50%,
-    ${colors.grey[100]} 75%
+    ${tc((c) => c.grey[100])} 25%,
+    ${tc((c) => c.grey[50])} 50%,
+    ${tc((c) => c.grey[100])} 75%
   );
   background-size: 200% 100%;
   animation: ${shimmer} 1.5s infinite;
@@ -334,9 +334,9 @@ export const SkeletonLine = styled(Box)<{ width?: string; height?: string }>`
   border-radius: ${borderRadius.base};
   background: linear-gradient(
     90deg,
-    ${colors.grey[100]} 25%,
-    ${colors.grey[50]} 50%,
-    ${colors.grey[100]} 75%
+    ${tc((c) => c.grey[100])} 25%,
+    ${tc((c) => c.grey[50])} 50%,
+    ${tc((c) => c.grey[100])} 75%
   );
   background-size: 200% 100%;
   animation: ${shimmer} 1.5s infinite;

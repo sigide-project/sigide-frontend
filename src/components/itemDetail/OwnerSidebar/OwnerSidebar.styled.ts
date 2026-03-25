@@ -1,6 +1,6 @@
 import { styled, keyframes } from '@mui/material/styles';
 import { Box, Typography, Button, Paper, Avatar } from '@mui/material';
-import { colors, typography, spacing, borderRadius, shadows, transitions } from '@/theme';
+import { tc, ts, typography, spacing, borderRadius, transitions } from '@/theme';
 
 const fadeInUp = keyframes`
   from {
@@ -16,9 +16,9 @@ const fadeInUp = keyframes`
 export const SidebarCard = styled(Paper)`
   padding: ${spacing[6]};
   border-radius: ${borderRadius['2xl']};
-  background: ${colors.background.paper};
-  border: 1px solid ${colors.grey[100]};
-  box-shadow: ${shadows.md};
+  background: ${tc((c) => c.background.paper)};
+  border: 1px solid ${tc((c) => c.grey[100])};
+  box-shadow: ${ts((s) => s.md)};
   position: sticky;
   top: ${spacing[6]};
   animation: ${fadeInUp} 0.6s ${transitions.easing.easeOut} 0.2s forwards;
@@ -30,7 +30,7 @@ export const OwnerSection = styled(Box)`
   align-items: center;
   gap: ${spacing[4]};
   padding-bottom: ${spacing[5]};
-  border-bottom: 1px solid ${colors.grey[100]};
+  border-bottom: 1px solid ${tc((c) => c.grey[100])};
   margin-bottom: ${spacing[5]};
 `;
 
@@ -39,21 +39,21 @@ export const OwnerAvatar = styled(Avatar)`
   height: 64px;
   font-size: ${typography.fontSize.xl};
   font-weight: ${typography.fontWeight.bold};
-  background: ${colors.decorative.purple};
-  color: ${colors.text.inverse};
-  border: 3px solid ${colors.background.paper};
-  box-shadow: ${shadows.purple.sm};
+  background: ${tc((c) => c.decorative.purple)};
+  color: ${tc((c) => c.text.inverse)};
+  border: 3px solid ${tc((c) => c.background.paper)};
+  box-shadow: ${ts((s) => s.purple.sm)};
 `;
 
 export const OwnerName = styled(Typography)`
   font-weight: ${typography.fontWeight.semibold};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   font-size: ${typography.fontSize.lg};
 `;
 
 export const OwnerLabel = styled(Typography)`
   font-size: ${typography.fontSize.xs};
-  color: ${colors.text.tertiary};
+  color: ${tc((c) => c.text.tertiary)};
   text-transform: uppercase;
   letter-spacing: ${typography.letterSpacing.wider};
   font-weight: ${typography.fontWeight.medium};
@@ -69,13 +69,13 @@ const ActionButton = styled(Button)`
 `;
 
 export const ContactButton = styled(ActionButton)`
-  background: ${colors.decorative.purple};
-  color: ${colors.text.inverse};
-  box-shadow: ${shadows.purple.sm};
+  background: ${tc((c) => c.decorative.purple)};
+  color: ${tc((c) => c.text.inverse)};
+  box-shadow: ${ts((s) => s.purple.sm)};
 
   &:hover {
-    background: ${colors.decorative.violet};
-    box-shadow: ${shadows.purple.md};
+    background: ${tc((c) => c.decorative.violet)};
+    box-shadow: ${ts((s) => s.purple.md)};
     transform: translateY(-2px);
   }
 
@@ -85,13 +85,13 @@ export const ContactButton = styled(ActionButton)`
 `;
 
 export const SecondaryButton = styled(ActionButton)`
-  background: ${colors.background.paper};
-  color: ${colors.primary.main};
-  border: 2px solid ${colors.primary[200]};
+  background: ${tc((c) => c.background.paper)};
+  color: ${tc((c) => c.primary.main)};
+  border: 2px solid ${tc((c) => c.primary[200])};
 
   &:hover {
-    background: ${colors.primary[50]};
-    border-color: ${colors.primary.main};
+    background: ${tc((c) => c.primary[50])};
+    border-color: ${tc((c) => c.primary.main)};
   }
 `;
 
@@ -102,13 +102,13 @@ export const ActionButtonsContainer = styled(Box)`
 `;
 
 export const ShareButton = styled(ActionButton)`
-  background: ${colors.grey[100]};
-  color: ${colors.text.secondary};
-  border: 1px solid ${colors.grey[200]};
+  background: ${tc((c) => c.grey[100])};
+  color: ${tc((c) => c.text.secondary)};
+  border: 1px solid ${tc((c) => c.grey[200])};
 
   &:hover {
-    background: ${colors.grey[200]};
-    color: ${colors.text.primary};
+    background: ${tc((c) => c.grey[200])};
+    color: ${tc((c) => c.text.primary)};
   }
 
   svg {
@@ -121,7 +121,7 @@ export const DateInfo = styled(Box)`
   flex-direction: column;
   gap: ${spacing[3]};
   padding-top: ${spacing[5]};
-  border-top: 1px solid ${colors.grey[100]};
+  border-top: 1px solid ${tc((c) => c.grey[100])};
   margin-top: ${spacing[5]};
 `;
 
@@ -133,12 +133,12 @@ export const DateRow = styled(Box)`
 
 export const DateLabel = styled(Typography)`
   font-size: ${typography.fontSize.sm};
-  color: ${colors.text.tertiary};
+  color: ${tc((c) => c.text.tertiary)};
   font-weight: ${typography.fontWeight.medium};
 `;
 
 export const DateValue = styled(Typography)`
   font-size: ${typography.fontSize.sm};
   font-weight: ${typography.fontWeight.semibold};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
 `;

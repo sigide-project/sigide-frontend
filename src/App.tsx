@@ -1,9 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import { AnimatePresence } from 'framer-motion';
-import { theme } from '@/theme';
+import { ColorModeProvider } from '@/context';
 import {
   Feed,
   LoginPage,
@@ -94,13 +92,12 @@ function AppContent() {
 export function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+      <ColorModeProvider>
         <BrowserRouter>
           <ScrollToTop />
           <AppContent />
         </BrowserRouter>
-      </ThemeProvider>
+      </ColorModeProvider>
     </QueryClientProvider>
   );
 }

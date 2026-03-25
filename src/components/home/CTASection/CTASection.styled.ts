@@ -1,6 +1,6 @@
 import { styled, keyframes, css } from '@mui/material/styles';
 import { Button, Typography } from '@mui/material';
-import { colors, typography, spacing, borderRadius, shadows, transitions } from '@/theme';
+import { tc, ts, typography, spacing, borderRadius, transitions, getThemeColors } from '@/theme';
 import { breakpoints } from '@/theme/theme';
 
 const shouldForwardProp = (prop: string) => !prop.startsWith('$');
@@ -12,7 +12,7 @@ const spin = keyframes`
 
 export const CTASection = styled('section')`
   padding: ${spacing[24]} ${spacing[6]};
-  background: ${colors.background.paper};
+  background: ${tc((c) => c.background.paper)};
   position: relative;
   overflow: hidden;
 
@@ -30,12 +30,12 @@ export const CTACard = styled('div')`
   max-width: 900px;
   margin: 0 auto;
   padding: ${spacing[12]} ${spacing[10]};
-  background: ${colors.decorative.purple};
+  background: ${tc((c) => c.decorative.purple)};
   border-radius: ${borderRadius['3xl']};
   text-align: center;
   position: relative;
   overflow: hidden;
-  box-shadow: ${shadows.purple.xl};
+  box-shadow: ${ts((s) => s.purple.xl)};
 
   &::before {
     content: '';
@@ -59,7 +59,7 @@ export const CTATitle = styled(Typography)`
   font-family: ${typography.fontFamily.display};
   font-size: ${typography.fontSize['4xl']};
   font-weight: ${typography.fontWeight.bold};
-  color: ${colors.text.inverse};
+  color: ${tc((c) => c.text.inverse)};
   margin-bottom: ${spacing[6]};
   position: relative;
   z-index: 1;
@@ -72,7 +72,7 @@ export const CTATitle = styled(Typography)`
 
 export const CTADescription = styled(Typography)`
   font-size: ${typography.fontSize.lg};
-  color: rgba(255, 255, 255, 0.9);
+  color: ${tc((c) => c.glass.heavy)};
   margin-bottom: ${spacing[10]};
   position: relative;
   z-index: 1;
@@ -91,18 +91,18 @@ export const CTAWhiteButton = styled(Button)`
   font-size: ${typography.fontSize.lg};
   font-weight: ${typography.fontWeight.semibold};
   border-radius: ${borderRadius.xl};
-  background: ${colors.background.paper};
-  color: ${colors.primary[700]};
+  background: ${tc((c) => c.background.paper)};
+  color: ${tc((c) => c.primary[700])};
   text-transform: none;
-  box-shadow: ${shadows.lg};
+  box-shadow: ${ts((s) => s.lg)};
   position: relative;
   z-index: 1;
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
 
   &:hover {
     transform: translateY(-3px) scale(1.02);
-    box-shadow: ${shadows.xl};
-    background: ${colors.background.paper};
+    box-shadow: ${ts((s) => s.xl)};
+    background: ${tc((c) => c.background.paper)};
   }
 
   @media (max-width: ${breakpoints.sm}) {
@@ -117,15 +117,21 @@ interface DecorativeRingProps {
   right?: string;
 }
 
-export const DecorativeRing = styled('div', { shouldForwardProp })<DecorativeRingProps>(
-  ({ size, top, right }) => css`
+export const DecorativeRing = styled('div', { shouldForwardProp })<DecorativeRingProps>(({
+  size,
+  top,
+  right,
+  theme,
+}) => {
+  const c = getThemeColors(theme);
+  return css`
     position: absolute;
     width: ${size}px;
     height: ${size}px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid ${c.glass.faint};
     border-radius: 50%;
     ${top && `top: ${top};`}
     ${right && `right: ${right};`}
-    animation: ${spin} 20s linear infinite;
-  `
-);
+      animation: ${spin} 20s linear infinite;
+  `;
+});

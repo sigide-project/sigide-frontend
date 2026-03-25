@@ -1,17 +1,17 @@
 import { styled } from '@mui/material/styles';
 import { Box, Paper } from '@mui/material';
-import { colors, typography, spacing, borderRadius, shadows, transitions } from '@/theme';
+import { tc, ts, typography, spacing, borderRadius, transitions } from '@/theme';
 
 export const FilterPanelContainer = styled(Paper)`
   padding: ${spacing[5]};
   border-radius: ${borderRadius.xl};
-  background-color: ${colors.background.paper};
-  border: 1px solid ${colors.grey[100]};
+  background-color: ${tc((c) => c.background.paper)};
+  border: 1px solid ${tc((c) => c.grey[100])};
   box-shadow: none;
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
 
   &:hover {
-    border-color: ${colors.grey[200]};
+    border-color: ${tc((c) => c.grey[200])};
   }
 `;
 
@@ -33,7 +33,7 @@ export const FilterHeader = styled(Box)`
 export const FilterSection = styled(Box)`
   margin-bottom: ${spacing[4]};
   padding-bottom: ${spacing[4]};
-  border-bottom: 1px solid ${colors.grey[100]};
+  border-bottom: 1px solid ${tc((c) => c.grey[100])};
 
   &:last-child {
     margin-bottom: 0;
@@ -45,7 +45,7 @@ export const FilterSection = styled(Box)`
 export const FilterSectionTitle = styled(Box)`
   font-size: ${typography.fontSize.sm};
   font-weight: ${typography.fontWeight.semibold};
-  color: ${colors.text.secondary};
+  color: ${tc((c) => c.text.secondary)};
   text-transform: uppercase;
   letter-spacing: ${typography.letterSpacing.wider};
   margin-bottom: ${spacing[3]};
@@ -60,18 +60,18 @@ export const ChipsContainer = styled(Box)`
     border-radius: ${borderRadius.full};
     font-weight: ${typography.fontWeight.medium};
     transition: all ${transitions.duration.fast} ${transitions.easing.easeInOut};
-    border: 1px solid ${colors.grey[200]};
-    background: ${colors.background.paper};
+    border: 1px solid ${tc((c) => c.grey[200])};
+    background: ${tc((c) => c.background.paper)};
 
     &:hover {
-      border-color: ${colors.primary[300]};
-      background: ${colors.primary[50]};
+      border-color: ${tc((c) => c.primary[300])};
+      background: ${tc((c) => c.primary[50])};
     }
 
     &.MuiChip-filled {
-      background: ${colors.primary[100]};
-      border-color: ${colors.primary[200]};
-      color: ${colors.primary[700]};
+      background: ${tc((c) => c.primary[100])};
+      border-color: ${tc((c) => c.primary[200])};
+      color: ${tc((c) => c.primary[700])};
     }
   }
 `;
@@ -80,36 +80,36 @@ export const DistanceSliderContainer = styled(Box)`
   padding: ${spacing[2]} ${spacing[4]};
 
   .MuiSlider-root {
-    color: ${colors.primary.main};
+    color: ${tc((c) => c.primary.main)};
   }
 
   .MuiSlider-thumb {
     width: 20px;
     height: 20px;
-    background: ${colors.background.paper};
-    border: 3px solid ${colors.primary.main};
-    box-shadow: ${shadows.sm};
+    background: ${tc((c) => c.background.paper)};
+    border: 3px solid ${tc((c) => c.primary.main)};
+    box-shadow: ${ts((s) => s.sm)};
 
     &:hover,
     &.Mui-focusVisible {
-      box-shadow: ${shadows.purple.sm};
+      box-shadow: ${ts((s) => s.purple.sm)};
     }
   }
 
   .MuiSlider-track {
     height: 6px;
     border-radius: ${borderRadius.full};
-    background: ${colors.decorative.purple};
+    background: ${tc((c) => c.decorative.purple)};
   }
 
   .MuiSlider-rail {
     height: 6px;
     border-radius: ${borderRadius.full};
-    background: ${colors.grey[200]};
+    background: ${tc((c) => c.grey[200])};
   }
 
   .MuiSlider-valueLabel {
-    background: ${colors.primary.main};
+    background: ${tc((c) => c.primary.main)};
     border-radius: ${borderRadius.base};
     font-weight: ${typography.fontWeight.semibold};
   }
@@ -118,7 +118,7 @@ export const DistanceSliderContainer = styled(Box)`
 export const TypeToggleContainer = styled(Box)`
   .MuiToggleButtonGroup-root {
     width: 100%;
-    background: ${colors.grey[100]};
+    background: ${tc((c) => c.grey[100])};
     border-radius: ${borderRadius.lg};
     padding: ${spacing[1]};
   }
@@ -130,20 +130,20 @@ export const TypeToggleContainer = styled(Box)`
     padding: ${spacing[2]} ${spacing[4]};
     border: none;
     border-radius: ${borderRadius.base} !important;
-    color: ${colors.text.secondary};
+    color: ${tc((c) => c.text.secondary)};
     transition: all ${transitions.duration.fast} ${transitions.easing.easeInOut};
 
     &:hover {
-      background: ${colors.grey[200]};
+      background: ${tc((c) => c.grey[200])};
     }
 
     &.Mui-selected {
-      background: ${colors.background.paper};
-      color: ${colors.primary.main};
-      box-shadow: ${shadows.sm};
+      background: ${tc((c) => c.background.paper)};
+      color: ${tc((c) => c.primary.main)};
+      box-shadow: ${ts((s) => s.sm)};
 
       &:hover {
-        background: ${colors.background.paper};
+        background: ${tc((c) => c.background.paper)};
       }
     }
   }

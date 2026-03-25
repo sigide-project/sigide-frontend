@@ -2,6 +2,20 @@ import { render, screen } from '@testing-library/react';
 import { App } from '@/App';
 import { useAuthStore } from '@/store';
 
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation((query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+});
+
 jest.mock('@/pages', () => ({
   Feed: () => <div data-testid="feed-page">Feed Page</div>,
   LoginPage: () => <div data-testid="login-page">Login Page</div>,

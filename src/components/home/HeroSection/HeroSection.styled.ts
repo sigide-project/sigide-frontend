@@ -1,6 +1,6 @@
 import { styled, keyframes, css } from '@mui/material/styles';
 import { Button, Typography } from '@mui/material';
-import { colors, typography, spacing, borderRadius, shadows, transitions } from '@/theme';
+import { tc, ts, typography, spacing, borderRadius, transitions, getThemeColors } from '@/theme';
 import { breakpoints } from '@/theme/theme';
 
 const shouldForwardProp = (prop: string) => !prop.startsWith('$');
@@ -50,7 +50,7 @@ export const HeroSection = styled('section')`
 export const HeroBackground = styled('div')`
   position: absolute;
   inset: 0;
-  background: ${colors.background.hero};
+  background: ${tc((c) => c.background.hero)};
   z-index: 0;
 
   &::before {
@@ -86,20 +86,30 @@ interface FloatingOrbProps {
   color?: string;
 }
 
-export const FloatingOrb = styled('div', { shouldForwardProp })<FloatingOrbProps>(
-  ({ size, top, left, right, bottom, delay, color }) => css`
+export const FloatingOrb = styled('div', { shouldForwardProp })<FloatingOrbProps>(({
+  size,
+  top,
+  left,
+  right,
+  bottom,
+  delay,
+  color,
+  theme,
+}) => {
+  const c = getThemeColors(theme);
+  return css`
     position: absolute;
     width: ${size}px;
     height: ${size}px;
     border-radius: 50%;
-    background: ${color || colors.decorative.purple};
+    background: ${color || c.decorative.purple};
     opacity: 0.1;
     filter: blur(${Math.max(size / 3, 20)}px);
     ${top && `top: ${top};`}
     ${left && `left: ${left};`}
-    ${right && `right: ${right};`}
-    ${bottom && `bottom: ${bottom};`}
-    animation: ${pulse} ${4 + (delay || 0)}s ease-in-out infinite;
+      ${right && `right: ${right};`}
+      ${bottom && `bottom: ${bottom};`}
+      animation: ${pulse} ${4 + (delay || 0)}s ease-in-out infinite;
     animation-delay: ${delay || 0}s;
     z-index: 0;
     pointer-events: none;
@@ -107,8 +117,8 @@ export const FloatingOrb = styled('div', { shouldForwardProp })<FloatingOrbProps
     @media (max-width: ${breakpoints.md}) {
       display: none;
     }
-  `
-);
+  `;
+});
 
 interface FloatingShapeProps {
   size: number;
@@ -120,44 +130,50 @@ interface FloatingShapeProps {
   variant?: 'square' | 'circle' | 'triangle';
 }
 
-export const FloatingShape = styled('div', { shouldForwardProp })<FloatingShapeProps>(
-  ({ size, top, left, right, bottom, delay, variant }) => css`
+export const FloatingShape = styled('div', { shouldForwardProp })<FloatingShapeProps>(({
+  size,
+  top,
+  left,
+  right,
+  bottom,
+  delay,
+  variant,
+  theme,
+}) => {
+  const c = getThemeColors(theme);
+  return css`
     position: absolute;
     width: ${size}px;
     height: ${size}px;
     ${top && `top: ${top};`}
     ${left && `left: ${left};`}
-    ${right && `right: ${right};`}
-    ${bottom && `bottom: ${bottom};`}
-    z-index: 1;
+      ${right && `right: ${right};`}
+      ${bottom && `bottom: ${bottom};`}
+      z-index: 1;
     pointer-events: none;
 
     ${variant === 'circle'
       ? css`
           border-radius: 50%;
-          background: ${colors.decorative.purple};
+          background: ${c.decorative.purple};
           opacity: 0.15;
         `
       : css`
           border-radius: ${borderRadius.lg};
-          background: linear-gradient(
-            135deg,
-            ${colors.primary[100]} 0%,
-            ${colors.secondary[100]} 100%
-          );
+          background: linear-gradient(135deg, ${c.primary[100]} 0%, ${c.secondary[100]} 100%);
           opacity: 0.4;
         `}
 
-    animation: ${delay && delay % 2 === 0 ? floatReverse : float} 
-      ${6 + (delay || 0)}s ease-in-out infinite;
+    animation: ${delay && delay % 2 === 0 ? floatReverse : float}
+        ${6 + (delay || 0)}s ease-in-out infinite;
     animation-delay: ${delay || 0}s;
 
     @media (max-width: ${breakpoints.sm}) {
       opacity: 0.2;
       transform: scale(0.7);
     }
-  `
-);
+  `;
+});
 
 export const HeroContent = styled('div')`
   display: flex;
@@ -176,18 +192,18 @@ export const Badge = styled('div')`
   align-items: center;
   gap: ${spacing[2]};
   padding: ${spacing[2]} ${spacing[4]};
-  background: ${colors.background.paper};
-  border: 1px solid ${colors.primary[200]};
+  background: ${tc((c) => c.background.paper)};
+  border: 1px solid ${tc((c) => c.primary[200])};
   border-radius: ${borderRadius.full};
   font-size: ${typography.fontSize.sm};
   font-weight: ${typography.fontWeight.medium};
-  color: ${colors.primary[700]};
+  color: ${tc((c) => c.primary[700])};
   margin-bottom: ${spacing[8]};
-  box-shadow: ${shadows.sm};
+  box-shadow: ${ts((s) => s.sm)};
 
   svg {
     font-size: 1rem;
-    color: ${colors.primary.main};
+    color: ${tc((c) => c.primary.main)};
   }
 `;
 
@@ -197,11 +213,11 @@ export const HeroTitle = styled(Typography)`
   font-weight: ${typography.fontWeight.extrabold};
   line-height: ${typography.lineHeight.tight};
   letter-spacing: ${typography.letterSpacing.tight};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   margin-bottom: ${spacing[8]};
 
   span {
-    background: ${colors.decorative.purple};
+    background: ${tc((c) => c.decorative.purple)};
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -219,7 +235,7 @@ export const HeroTitle = styled(Typography)`
 
 export const HeroSubtitle = styled(Typography)`
   font-size: ${typography.fontSize.xl};
-  color: ${colors.text.secondary};
+  color: ${tc((c) => c.text.secondary)};
   line-height: ${typography.lineHeight.relaxed};
   max-width: 640px;
   margin: 0 auto ${spacing[12]};
@@ -248,10 +264,10 @@ export const PrimaryButton = styled(Button)`
   font-size: ${typography.fontSize.lg};
   font-weight: ${typography.fontWeight.semibold};
   border-radius: ${borderRadius.xl};
-  background: ${colors.decorative.purple};
-  color: ${colors.text.inverse};
+  background: ${tc((c) => c.decorative.purple)};
+  color: ${tc((c) => c.text.inverse)};
   text-transform: none;
-  box-shadow: ${shadows.purple.md};
+  box-shadow: ${ts((s) => s.purple.md)};
   position: relative;
   overflow: hidden;
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
@@ -260,7 +276,7 @@ export const PrimaryButton = styled(Button)`
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, ${tc((c) => c.glass.faint)}, transparent);
     background-size: 200% 100%;
     opacity: 0;
     transition: opacity ${transitions.duration.normal} ${transitions.easing.easeInOut};
@@ -268,8 +284,8 @@ export const PrimaryButton = styled(Button)`
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: ${shadows.purple.lg};
-    background: ${colors.decorative.purple};
+    box-shadow: ${ts((s) => s.purple.lg)};
+    background: ${tc((c) => c.decorative.purple)};
 
     &::before {
       opacity: 1;
@@ -294,18 +310,18 @@ export const SecondaryButton = styled(Button)`
   font-size: ${typography.fontSize.lg};
   font-weight: ${typography.fontWeight.semibold};
   border-radius: ${borderRadius.xl};
-  background: ${colors.background.paper};
-  color: ${colors.text.primary};
+  background: ${tc((c) => c.background.paper)};
+  color: ${tc((c) => c.text.primary)};
   text-transform: none;
-  border: 2px solid ${colors.grey[200]};
-  box-shadow: ${shadows.sm};
+  border: 2px solid ${tc((c) => c.grey[200])};
+  box-shadow: ${ts((s) => s.sm)};
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
 
   &:hover {
     transform: translateY(-3px);
-    border-color: ${colors.primary[300]};
-    background: ${colors.primary[50]};
-    box-shadow: ${shadows.md};
+    border-color: ${tc((c) => c.primary[300])};
+    background: ${tc((c) => c.primary[50])};
+    box-shadow: ${ts((s) => s.md)};
   }
 
   &:active {

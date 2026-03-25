@@ -1,6 +1,14 @@
 import { styled, keyframes, css } from '@mui/material/styles';
 import { Box, Paper } from '@mui/material';
-import { colors, spacing, borderRadius, shadows, transitions } from '@/theme';
+import {
+  tc,
+  ts,
+  getThemeColors,
+  getThemeShadows,
+  spacing,
+  borderRadius,
+  transitions,
+} from '@/theme';
 
 const shouldForwardProp = (prop: string) => !['imageUrl', 'isActive'].includes(prop);
 
@@ -18,9 +26,9 @@ const scaleIn = keyframes`
 export const ImageGalleryContainer = styled(Paper)`
   border-radius: ${borderRadius['2xl']};
   overflow: hidden;
-  background: ${colors.background.paper};
-  border: 1px solid ${colors.grey[100]};
-  box-shadow: ${shadows.md};
+  background: ${tc((c) => c.background.paper)};
+  border: 1px solid ${tc((c) => c.grey[100])};
+  box-shadow: ${ts((s) => s.md)};
   animation: ${scaleIn} 0.5s ${transitions.easing.easeOut} forwards;
 `;
 
@@ -28,14 +36,18 @@ interface MainImageProps {
   imageUrl?: string;
 }
 
-export const MainImage = styled(Box, { shouldForwardProp })<MainImageProps>(
-  ({ imageUrl }) => css`
+export const MainImage = styled(Box, { shouldForwardProp })<MainImageProps>(({
+  imageUrl,
+  theme,
+}) => {
+  const c = getThemeColors(theme);
+  return css`
     width: 100%;
     height: 450px;
     background-image: ${imageUrl ? `url(${imageUrl})` : 'none'};
     background-size: cover;
     background-position: center;
-    background-color: ${colors.grey[50]};
+    background-color: ${c.grey[50]};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,30 +64,30 @@ export const MainImage = styled(Box, { shouldForwardProp })<MainImageProps>(
 
     svg {
       font-size: 5rem;
-      color: ${colors.grey[300]};
+      color: ${c.grey[300]};
       opacity: 0.5;
     }
 
     @media (max-width: 600px) {
       height: 300px;
     }
-  `
-);
+  `;
+});
 
 export const ThumbnailStrip = styled(Box)`
   display: flex;
   gap: ${spacing[3]};
   padding: ${spacing[4]};
   overflow-x: auto;
-  background: ${colors.grey[50]};
-  border-top: 1px solid ${colors.grey[100]};
+  background: ${tc((c) => c.grey[50])};
+  border-top: 1px solid ${tc((c) => c.grey[100])};
 
   &::-webkit-scrollbar {
     height: 6px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: ${colors.grey[300]};
+    background-color: ${tc((c) => c.grey[300])};
     border-radius: ${borderRadius.full};
   }
 `;
@@ -85,8 +97,14 @@ interface ThumbnailProps {
   isActive?: boolean;
 }
 
-export const Thumbnail = styled(Box, { shouldForwardProp })<ThumbnailProps>(
-  ({ imageUrl, isActive }) => css`
+export const Thumbnail = styled(Box, { shouldForwardProp })<ThumbnailProps>(({
+  imageUrl,
+  isActive,
+  theme,
+}) => {
+  const c = getThemeColors(theme);
+  const s = getThemeShadows(theme);
+  return css`
     width: 80px;
     height: 80px;
     min-width: 80px;
@@ -95,13 +113,13 @@ export const Thumbnail = styled(Box, { shouldForwardProp })<ThumbnailProps>(
     background-size: cover;
     background-position: center;
     cursor: pointer;
-    border: 3px solid ${isActive ? colors.primary.main : 'transparent'};
+    border: 3px solid ${isActive ? c.primary.main : 'transparent'};
     transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
-    box-shadow: ${isActive ? shadows.purple.sm : 'none'};
+    box-shadow: ${isActive ? s.purple.sm : 'none'};
 
     &:hover {
-      border-color: ${isActive ? colors.primary.main : colors.primary[300]};
+      border-color: ${isActive ? c.primary.main : c.primary[300]};
       transform: scale(1.05);
     }
-  `
-);
+  `;
+});

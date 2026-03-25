@@ -1,6 +1,6 @@
 import { styled, keyframes, css } from '@mui/material/styles';
 import { Box, Button, Typography } from '@mui/material';
-import { colors, typography, spacing, borderRadius, shadows, transitions } from '@/theme';
+import { tc, ts, typography, spacing, borderRadius, transitions, getThemeColors } from '@/theme';
 import { breakpoints } from '@/theme/theme';
 
 const shouldForwardProp = (prop: string) => !prop.startsWith('$');
@@ -50,7 +50,7 @@ export const PageContainer = styled(Box)`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: ${colors.background.gradient};
+  background: ${tc((c) => c.background.gradient)};
   overflow-x: hidden;
 `;
 
@@ -76,7 +76,7 @@ export const HeroSection = styled('section')`
 export const HeroBackground = styled('div')`
   position: absolute;
   inset: 0;
-  background: ${colors.background.hero};
+  background: ${tc((c) => c.background.hero)};
   z-index: 0;
 
   &::before {
@@ -112,20 +112,30 @@ interface FloatingOrbProps {
   color?: string;
 }
 
-export const FloatingOrb = styled('div', { shouldForwardProp })<FloatingOrbProps>(
-  ({ size, top, left, right, bottom, delay, color }) => css`
+export const FloatingOrb = styled('div', { shouldForwardProp })<FloatingOrbProps>(({
+  size,
+  top,
+  left,
+  right,
+  bottom,
+  delay,
+  color,
+  theme,
+}) => {
+  const c = getThemeColors(theme);
+  return css`
     position: absolute;
     width: ${size}px;
     height: ${size}px;
     border-radius: 50%;
-    background: ${color || colors.decorative.purple};
+    background: ${color || c.decorative.purple};
     opacity: 0.1;
     filter: blur(${Math.max(size / 3, 20)}px);
     ${top && `top: ${top};`}
     ${left && `left: ${left};`}
-    ${right && `right: ${right};`}
-    ${bottom && `bottom: ${bottom};`}
-    animation: ${pulse} ${4 + (delay || 0)}s ease-in-out infinite;
+      ${right && `right: ${right};`}
+      ${bottom && `bottom: ${bottom};`}
+      animation: ${pulse} ${4 + (delay || 0)}s ease-in-out infinite;
     animation-delay: ${delay || 0}s;
     z-index: 0;
     pointer-events: none;
@@ -133,8 +143,8 @@ export const FloatingOrb = styled('div', { shouldForwardProp })<FloatingOrbProps
     @media (max-width: ${breakpoints.md}) {
       display: none;
     }
-  `
-);
+  `;
+});
 
 interface FloatingShapeProps {
   size: number;
@@ -146,44 +156,50 @@ interface FloatingShapeProps {
   variant?: 'square' | 'circle' | 'triangle';
 }
 
-export const FloatingShape = styled('div', { shouldForwardProp })<FloatingShapeProps>(
-  ({ size, top, left, right, bottom, delay, variant }) => css`
+export const FloatingShape = styled('div', { shouldForwardProp })<FloatingShapeProps>(({
+  size,
+  top,
+  left,
+  right,
+  bottom,
+  delay,
+  variant,
+  theme,
+}) => {
+  const c = getThemeColors(theme);
+  return css`
     position: absolute;
     width: ${size}px;
     height: ${size}px;
     ${top && `top: ${top};`}
     ${left && `left: ${left};`}
-    ${right && `right: ${right};`}
-    ${bottom && `bottom: ${bottom};`}
-    z-index: 1;
+      ${right && `right: ${right};`}
+      ${bottom && `bottom: ${bottom};`}
+      z-index: 1;
     pointer-events: none;
 
     ${variant === 'circle'
       ? css`
           border-radius: 50%;
-          background: ${colors.decorative.purple};
+          background: ${c.decorative.purple};
           opacity: 0.15;
         `
       : css`
           border-radius: ${borderRadius.lg};
-          background: linear-gradient(
-            135deg,
-            ${colors.primary[100]} 0%,
-            ${colors.secondary[100]} 100%
-          );
+          background: linear-gradient(135deg, ${c.primary[100]} 0%, ${c.secondary[100]} 100%);
           opacity: 0.4;
         `}
 
-    animation: ${delay && delay % 2 === 0 ? floatReverse : float} 
-      ${6 + (delay || 0)}s ease-in-out infinite;
+    animation: ${delay && delay % 2 === 0 ? floatReverse : float}
+        ${6 + (delay || 0)}s ease-in-out infinite;
     animation-delay: ${delay || 0}s;
 
     @media (max-width: ${breakpoints.sm}) {
       opacity: 0.2;
       transform: scale(0.7);
     }
-  `
-);
+  `;
+});
 
 export const HeroContent = styled('div')`
   display: flex;
@@ -203,21 +219,21 @@ export const Badge = styled('div')`
   align-items: center;
   gap: ${spacing[2]};
   padding: ${spacing[2]} ${spacing[4]};
-  background: ${colors.background.paper};
-  border: 1px solid ${colors.primary[200]};
+  background: ${tc((c) => c.background.paper)};
+  border: 1px solid ${tc((c) => c.primary[200])};
   border-radius: ${borderRadius.full};
   font-size: ${typography.fontSize.sm};
   font-weight: ${typography.fontWeight.medium};
-  color: ${colors.primary[700]};
+  color: ${tc((c) => c.primary[700])};
   margin-bottom: ${spacing[8]};
-  box-shadow: ${shadows.sm};
+  box-shadow: ${ts((s) => s.sm)};
   animation: ${fadeIn} 0.6s ${transitions.easing.easeOut} forwards;
   animation-delay: 0.2s;
   opacity: 0;
 
   svg {
     font-size: 1rem;
-    color: ${colors.primary.main};
+    color: ${tc((c) => c.primary.main)};
   }
 `;
 
@@ -227,14 +243,14 @@ export const HeroTitle = styled(Typography)`
   font-weight: ${typography.fontWeight.extrabold};
   line-height: ${typography.lineHeight.tight};
   letter-spacing: ${typography.letterSpacing.tight};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   margin-bottom: ${spacing[8]};
   animation: ${fadeInUp} 0.8s ${transitions.easing.easeOut} forwards;
   animation-delay: 0.1s;
   opacity: 0;
 
   span {
-    background: ${colors.decorative.purple};
+    background: ${tc((c) => c.decorative.purple)};
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -252,7 +268,7 @@ export const HeroTitle = styled(Typography)`
 
 export const HeroSubtitle = styled(Typography)`
   font-size: ${typography.fontSize.xl};
-  color: ${colors.text.secondary};
+  color: ${tc((c) => c.text.secondary)};
   line-height: ${typography.lineHeight.relaxed};
   max-width: 640px;
   margin: 0 auto ${spacing[12]};
@@ -287,10 +303,10 @@ export const PrimaryButton = styled(Button)`
   font-size: ${typography.fontSize.lg};
   font-weight: ${typography.fontWeight.semibold};
   border-radius: ${borderRadius.xl};
-  background: ${colors.decorative.purple};
-  color: ${colors.text.inverse};
+  background: ${tc((c) => c.decorative.purple)};
+  color: ${tc((c) => c.text.inverse)};
   text-transform: none;
-  box-shadow: ${shadows.purple.md};
+  box-shadow: ${ts((s) => s.purple.md)};
   position: relative;
   overflow: hidden;
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
@@ -299,7 +315,7 @@ export const PrimaryButton = styled(Button)`
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, ${tc((c) => c.glass.faint)}, transparent);
     background-size: 200% 100%;
     opacity: 0;
     transition: opacity ${transitions.duration.normal} ${transitions.easing.easeInOut};
@@ -307,8 +323,8 @@ export const PrimaryButton = styled(Button)`
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: ${shadows.purple.lg};
-    background: ${colors.decorative.purple};
+    box-shadow: ${ts((s) => s.purple.lg)};
+    background: ${tc((c) => c.decorative.purple)};
 
     &::before {
       opacity: 1;
@@ -331,18 +347,18 @@ export const SecondaryButton = styled(Button)`
   font-size: ${typography.fontSize.lg};
   font-weight: ${typography.fontWeight.semibold};
   border-radius: ${borderRadius.xl};
-  background: ${colors.background.paper};
-  color: ${colors.text.primary};
+  background: ${tc((c) => c.background.paper)};
+  color: ${tc((c) => c.text.primary)};
   text-transform: none;
-  border: 2px solid ${colors.grey[200]};
-  box-shadow: ${shadows.sm};
+  border: 2px solid ${tc((c) => c.grey[200])};
+  box-shadow: ${ts((s) => s.sm)};
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
 
   &:hover {
     transform: translateY(-3px);
-    border-color: ${colors.primary[300]};
-    background: ${colors.primary[50]};
-    box-shadow: ${shadows.md};
+    border-color: ${tc((c) => c.primary[300])};
+    background: ${tc((c) => c.primary[50])};
+    box-shadow: ${ts((s) => s.md)};
   }
 
   &:active {
@@ -357,7 +373,7 @@ export const SecondaryButton = styled(Button)`
 
 export const StatsSection = styled('section')`
   padding: ${spacing[20]} ${spacing[6]};
-  background: ${colors.background.paper};
+  background: ${tc((c) => c.background.paper)};
   position: relative;
 
   &::before {
@@ -367,7 +383,12 @@ export const StatsSection = styled('section')`
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent 0%, ${colors.grey[200]} 50%, transparent 100%);
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      ${tc((c) => c.grey[200])} 50%,
+      transparent 100%
+    );
   }
 
   @media (max-width: ${breakpoints.sm}) {
@@ -397,14 +418,14 @@ export const StatCard = styled('div')`
   text-align: center;
   padding: ${spacing[6]};
   border-radius: ${borderRadius.xl};
-  background: ${colors.background.gradient};
-  border: 1px solid ${colors.grey[100]};
+  background: ${tc((c) => c.background.gradient)};
+  border: 1px solid ${tc((c) => c.grey[100])};
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: ${shadows.purple.md};
-    border-color: ${colors.primary[200]};
+    box-shadow: ${ts((s) => s.purple.md)};
+    border-color: ${tc((c) => c.primary[200])};
   }
 `;
 
@@ -413,35 +434,35 @@ export const StatIcon = styled('div')`
   height: 56px;
   margin: 0 auto ${spacing[4]};
   border-radius: ${borderRadius.xl};
-  background: ${colors.decorative.purple};
+  background: ${tc((c) => c.decorative.purple)};
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: ${shadows.purple.sm};
+  box-shadow: ${ts((s) => s.purple.sm)};
 
   svg {
     font-size: 1.75rem;
-    color: ${colors.text.inverse};
+    color: ${tc((c) => c.text.inverse)};
   }
 `;
 
 export const StatValue = styled('div')`
   font-size: ${typography.fontSize['4xl']};
   font-weight: ${typography.fontWeight.extrabold};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   font-family: ${typography.fontFamily.display};
   margin-bottom: ${spacing[1]};
 `;
 
 export const StatLabel = styled('div')`
   font-size: ${typography.fontSize.sm};
-  color: ${colors.text.secondary};
+  color: ${tc((c) => c.text.secondary)};
   font-weight: ${typography.fontWeight.medium};
 `;
 
 export const FeaturesSection = styled('section')`
   padding: ${spacing[24]} ${spacing[6]};
-  background: ${colors.background.hero};
+  background: ${tc((c) => c.background.hero)};
   position: relative;
 
   @media (max-width: ${breakpoints.sm}) {
@@ -463,11 +484,11 @@ export const SectionTitle = styled(Typography)`
   font-family: ${typography.fontFamily.display};
   font-size: ${typography.fontSize['4xl']};
   font-weight: ${typography.fontWeight.bold};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   margin-bottom: ${spacing[4]};
 
   span {
-    background: ${colors.decorative.purple};
+    background: ${tc((c) => c.decorative.purple)};
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -480,7 +501,7 @@ export const SectionTitle = styled(Typography)`
 
 export const SectionSubtitle = styled(Typography)`
   font-size: ${typography.fontSize.lg};
-  color: ${colors.text.secondary};
+  color: ${tc((c) => c.text.secondary)};
   line-height: ${typography.lineHeight.relaxed};
 
   @media (max-width: ${breakpoints.sm}) {
@@ -508,16 +529,16 @@ export const FeaturesGrid = styled('div')`
 
 export const FeatureCard = styled('div')`
   padding: ${spacing[8]};
-  background: ${colors.background.paper};
+  background: ${tc((c) => c.background.paper)};
   border-radius: ${borderRadius['2xl']};
-  border: 1px solid ${colors.grey[100]};
-  box-shadow: ${shadows.sm};
+  border: 1px solid ${tc((c) => c.grey[100])};
+  box-shadow: ${ts((s) => s.sm)};
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
 
   &:hover {
     transform: translateY(-8px);
-    box-shadow: ${shadows.purple.lg};
-    border-color: ${colors.primary[200]};
+    box-shadow: ${ts((s) => s.purple.lg)};
+    border-color: ${tc((c) => c.primary[200])};
   }
 
   &:hover .feature-icon {
@@ -529,12 +550,16 @@ interface FeatureIconProps {
   color?: string;
 }
 
-export const FeatureIcon = styled('div', { shouldForwardProp })<FeatureIconProps>(
-  ({ color }) => css`
+export const FeatureIcon = styled('div', { shouldForwardProp })<FeatureIconProps>(({
+  color,
+  theme,
+}) => {
+  const c = getThemeColors(theme);
+  return css`
     width: 64px;
     height: 64px;
     border-radius: ${borderRadius.xl};
-    background: ${color || colors.primary[50]};
+    background: ${color || c.primary[50]};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -543,28 +568,28 @@ export const FeatureIcon = styled('div', { shouldForwardProp })<FeatureIconProps
 
     svg {
       font-size: 2rem;
-      color: ${colors.primary.main};
+      color: ${c.primary.main};
     }
-  `
-);
+  `;
+});
 
 export const FeatureTitle = styled('h3')`
   font-size: ${typography.fontSize.xl};
   font-weight: ${typography.fontWeight.semibold};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   margin: 0 0 ${spacing[3]};
 `;
 
 export const FeatureDescription = styled('p')`
   font-size: ${typography.fontSize.base};
-  color: ${colors.text.secondary};
+  color: ${tc((c) => c.text.secondary)};
   line-height: ${typography.lineHeight.relaxed};
   margin: 0;
 `;
 
 export const CTASection = styled('section')`
   padding: ${spacing[24]} ${spacing[6]};
-  background: ${colors.background.paper};
+  background: ${tc((c) => c.background.paper)};
   position: relative;
   overflow: hidden;
 
@@ -582,12 +607,12 @@ export const CTACard = styled('div')`
   max-width: 900px;
   margin: 0 auto;
   padding: ${spacing[12]} ${spacing[10]};
-  background: ${colors.decorative.purple};
+  background: ${tc((c) => c.decorative.purple)};
   border-radius: ${borderRadius['3xl']};
   text-align: center;
   position: relative;
   overflow: hidden;
-  box-shadow: ${shadows.purple.xl};
+  box-shadow: ${ts((s) => s.purple.xl)};
 
   &::before {
     content: '';
@@ -611,7 +636,7 @@ export const CTATitle = styled(Typography)`
   font-family: ${typography.fontFamily.display};
   font-size: ${typography.fontSize['4xl']};
   font-weight: ${typography.fontWeight.bold};
-  color: ${colors.text.inverse};
+  color: ${tc((c) => c.text.inverse)};
   margin-bottom: ${spacing[6]};
   position: relative;
   z-index: 1;
@@ -624,7 +649,7 @@ export const CTATitle = styled(Typography)`
 
 export const CTADescription = styled(Typography)`
   font-size: ${typography.fontSize.lg};
-  color: rgba(255, 255, 255, 0.9);
+  color: ${tc((c) => c.glass.heavy)};
   margin-bottom: ${spacing[10]};
   position: relative;
   z-index: 1;
@@ -643,18 +668,18 @@ export const CTAWhiteButton = styled(Button)`
   font-size: ${typography.fontSize.lg};
   font-weight: ${typography.fontWeight.semibold};
   border-radius: ${borderRadius.xl};
-  background: ${colors.background.paper};
-  color: ${colors.primary[700]};
+  background: ${tc((c) => c.background.paper)};
+  color: ${tc((c) => c.primary[700])};
   text-transform: none;
-  box-shadow: ${shadows.lg};
+  box-shadow: ${ts((s) => s.lg)};
   position: relative;
   z-index: 1;
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
 
   &:hover {
     transform: translateY(-3px) scale(1.02);
-    box-shadow: ${shadows.xl};
-    background: ${colors.background.paper};
+    box-shadow: ${ts((s) => s.xl)};
+    background: ${tc((c) => c.background.paper)};
   }
 
   @media (max-width: ${breakpoints.sm}) {
@@ -669,15 +694,21 @@ interface DecorativeRingProps {
   right?: string;
 }
 
-export const DecorativeRing = styled('div', { shouldForwardProp })<DecorativeRingProps>(
-  ({ size, top, right }) => css`
+export const DecorativeRing = styled('div', { shouldForwardProp })<DecorativeRingProps>(({
+  size,
+  top,
+  right,
+  theme,
+}) => {
+  const c = getThemeColors(theme);
+  return css`
     position: absolute;
     width: ${size}px;
     height: ${size}px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid ${c.glass.faint};
     border-radius: 50%;
     ${top && `top: ${top};`}
     ${right && `right: ${right};`}
-    animation: ${spin} 20s linear infinite;
-  `
-);
+      animation: ${spin} 20s linear infinite;
+  `;
+});

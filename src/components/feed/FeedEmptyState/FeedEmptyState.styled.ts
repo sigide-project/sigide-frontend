@@ -1,6 +1,6 @@
 import { styled, keyframes } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
-import { colors, typography, spacing, borderRadius, transitions } from '@/theme';
+import { tc, typography, spacing, borderRadius, transitions } from '@/theme';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -21,7 +21,7 @@ export const EmptyStateIcon = styled(Box)`
   width: 120px;
   height: 120px;
   margin-bottom: ${spacing[6]};
-  background: ${colors.background.hero};
+  background: ${tc((c) => c.background.hero)};
   border-radius: ${borderRadius.full};
   display: flex;
   align-items: center;
@@ -29,19 +29,19 @@ export const EmptyStateIcon = styled(Box)`
 
   svg {
     font-size: 48px;
-    color: ${colors.primary[300]};
+    color: ${tc((c) => c.primary[300])};
   }
 `;
 
 export const EmptyStateTitle = styled(Typography)`
   font-size: ${typography.fontSize.xl};
   font-weight: ${typography.fontWeight.semibold};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   margin-bottom: ${spacing[2]};
 `;
 
 export const EmptyStateDescription = styled(Typography)`
   font-size: ${typography.fontSize.base};
-  color: ${colors.text.secondary};
+  color: ${tc((c) => c.text.secondary)};
   max-width: 400px;
 `;

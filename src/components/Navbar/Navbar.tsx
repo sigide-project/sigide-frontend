@@ -24,6 +24,7 @@ import {
   LogoText,
   RightSection,
   AddItemButton,
+  ProfileButton,
   MenuItemText,
   HamburgerButton,
   MobileDrawer,
@@ -45,6 +46,7 @@ import {
 const MotionStyledAppBar = motion.create(StyledAppBar);
 const MotionLogoContainer = motion.create(LogoContainer);
 const MotionAddItemButton = motion.create(AddItemButton);
+const MotionProfileButton = motion.create(ProfileButton);
 const MotionHamburgerButton = motion.create(HamburgerButton);
 
 export interface NavbarProps {
@@ -77,6 +79,10 @@ export function Navbar({ onAddItemClick, isAuthPage = false }: NavbarProps) {
     }
     setMobileDrawerOpen(false);
   }, [onAddItemClick]);
+
+  const handleProfileButtonClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  }, []);
 
   const handleMenuClose = useCallback(() => {
     setAnchorEl(null);
@@ -157,6 +163,16 @@ export function Navbar({ onAddItemClick, isAuthPage = false }: NavbarProps) {
                   <AddIcon />
                   Add Item
                 </MotionAddItemButton>
+
+                <MotionProfileButton
+                  onClick={handleProfileButtonClick}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={SPRING.gentle}
+                >
+                  <Avatar {...getAvatarContent()} sx={{ width: 36, height: 36 }} />
+                </MotionProfileButton>
+
                 <MotionHamburgerButton
                   onClick={handleMobileDrawerOpen}
                   aria-label="Open menu"
@@ -166,6 +182,7 @@ export function Navbar({ onAddItemClick, isAuthPage = false }: NavbarProps) {
                 >
                   <MenuIcon />
                 </MotionHamburgerButton>
+
                 <Menu
                   id="profile-menu"
                   anchorEl={anchorEl}

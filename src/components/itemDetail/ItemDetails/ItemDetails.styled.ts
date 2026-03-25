@@ -1,6 +1,6 @@
 import { styled, keyframes, css } from '@mui/material/styles';
 import { Box, Typography, Chip, Paper } from '@mui/material';
-import { colors, typography, spacing, borderRadius, shadows, transitions } from '@/theme';
+import { tc, ts, getThemeColors, typography, spacing, borderRadius, transitions } from '@/theme';
 
 const shouldForwardProp = (prop: string) => !['status'].includes(prop);
 
@@ -28,9 +28,9 @@ const glow = keyframes`
 export const DetailsCard = styled(Paper)`
   padding: ${spacing[8]};
   border-radius: ${borderRadius['2xl']};
-  background: ${colors.background.paper};
-  border: 1px solid ${colors.grey[100]};
-  box-shadow: ${shadows.sm};
+  background: ${tc((c) => c.background.paper)};
+  border: 1px solid ${tc((c) => c.grey[100])};
+  box-shadow: ${ts((s) => s.sm)};
   animation: ${fadeInUp} 0.6s ${transitions.easing.easeOut} 0.1s forwards;
   opacity: 0;
 `;
@@ -45,15 +45,15 @@ export const TypeBadge = styled(Chip)`
   border-radius: ${borderRadius.base};
 
   &.lost {
-    background: ${colors.lost.gradient};
-    color: ${colors.lost.dark};
-    border: 1px solid ${colors.lost.main};
+    background: ${tc((c) => c.lost.gradient)};
+    color: ${tc((c) => c.lost.dark)};
+    border: 1px solid ${tc((c) => c.lost.main)};
   }
 
   &.found {
-    background: ${colors.found.gradient};
-    color: ${colors.found.dark};
-    border: 1px solid ${colors.found.main};
+    background: ${tc((c) => c.found.gradient)};
+    color: ${tc((c) => c.found.dark)};
+    border: 1px solid ${tc((c) => c.found.main)};
   }
 `;
 
@@ -61,8 +61,12 @@ interface StatusBadgeProps {
   status: string;
 }
 
-export const StatusBadge = styled(Chip, { shouldForwardProp })<StatusBadgeProps>(
-  ({ status }) => css`
+export const StatusBadge = styled(Chip, { shouldForwardProp })<StatusBadgeProps>(({
+  status,
+  theme,
+}) => {
+  const c = getThemeColors(theme);
+  return css`
     font-weight: ${typography.fontWeight.semibold};
     font-size: ${typography.fontSize.xs};
     height: auto;
@@ -71,38 +75,38 @@ export const StatusBadge = styled(Chip, { shouldForwardProp })<StatusBadgeProps>
 
     ${status === 'open' &&
     css`
-      background: ${colors.info.light};
-      color: ${colors.info.dark};
-      border: 1px solid ${colors.info.main};
+      background: ${c.info.light};
+      color: ${c.info.dark};
+      border: 1px solid ${c.info.main};
     `}
 
     ${status === 'claimed' &&
     css`
-      background: ${colors.warning.light};
-      color: ${colors.warning.dark};
-      border: 1px solid ${colors.warning.main};
+      background: ${c.warning.light};
+      color: ${c.warning.dark};
+      border: 1px solid ${c.warning.main};
     `}
 
-    ${status === 'resolved' &&
+      ${status === 'resolved' &&
     css`
-      background: ${colors.success.light};
-      color: ${colors.success.dark};
-      border: 1px solid ${colors.success.main};
+      background: ${c.success.light};
+      color: ${c.success.dark};
+      border: 1px solid ${c.success.main};
     `}
 
-    ${status === 'expired' &&
+      ${status === 'expired' &&
     css`
-      background: ${colors.grey[100]};
-      color: ${colors.grey[600]};
-      border: 1px solid ${colors.grey[300]};
+      background: ${c.grey[100]};
+      color: ${c.grey[600]};
+      border: 1px solid ${c.grey[300]};
     `}
-  `
-);
+  `;
+});
 
 export const Title = styled(Typography)`
   font-size: ${typography.fontSize['3xl']};
   font-weight: ${typography.fontWeight.bold};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   line-height: ${typography.lineHeight.tight};
   letter-spacing: ${typography.letterSpacing.tight};
 
@@ -114,16 +118,16 @@ export const Title = styled(Typography)`
 export const CategoryChip = styled(Chip)`
   font-size: ${typography.fontSize.xs};
   font-weight: ${typography.fontWeight.medium};
-  background: ${colors.primary[50]};
-  color: ${colors.primary[700]};
-  border: 1px solid ${colors.primary[100]};
+  background: ${tc((c) => c.primary[50])};
+  color: ${tc((c) => c.primary[700])};
+  border: 1px solid ${tc((c) => c.primary[100])};
   height: auto;
   padding: ${spacing[1]} ${spacing[2]};
   border-radius: ${borderRadius.base};
 `;
 
 export const Description = styled(Typography)`
-  color: ${colors.text.secondary};
+  color: ${tc((c) => c.text.secondary)};
   line-height: ${typography.lineHeight.relaxed};
   white-space: pre-wrap;
   font-size: ${typography.fontSize.base};
@@ -134,9 +138,9 @@ export const InfoSection = styled(Box)`
   flex-direction: column;
   gap: ${spacing[4]};
   padding: ${spacing[6]};
-  background: ${colors.background.hero};
+  background: ${tc((c) => c.background.hero)};
   border-radius: ${borderRadius.xl};
-  border: 1px solid ${colors.primary[100]};
+  border: 1px solid ${tc((c) => c.primary[100])};
 `;
 
 export const InfoRow = styled(Box)`
@@ -145,7 +149,7 @@ export const InfoRow = styled(Box)`
   gap: ${spacing[4]};
 
   svg {
-    color: ${colors.primary.main};
+    color: ${tc((c) => c.primary.main)};
     font-size: 1.5rem;
     margin-top: 2px;
     flex-shrink: 0;
@@ -154,7 +158,7 @@ export const InfoRow = styled(Box)`
 
 export const InfoLabel = styled(Typography)`
   font-size: ${typography.fontSize.xs};
-  color: ${colors.text.tertiary};
+  color: ${tc((c) => c.text.tertiary)};
   text-transform: uppercase;
   letter-spacing: ${typography.letterSpacing.wider};
   font-weight: ${typography.fontWeight.semibold};
@@ -163,7 +167,7 @@ export const InfoLabel = styled(Typography)`
 
 export const InfoValue = styled(Typography)`
   font-weight: ${typography.fontWeight.medium};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   font-size: ${typography.fontSize.base};
 `;
 
@@ -172,9 +176,9 @@ export const RewardCard = styled(Box)`
   align-items: center;
   gap: ${spacing[4]};
   padding: ${spacing[5]} ${spacing[6]};
-  background: ${colors.reward.gradient};
+  background: ${tc((c) => c.reward.gradient)};
   border-radius: ${borderRadius.xl};
-  border: 2px solid ${colors.reward.main};
+  border: 2px solid ${tc((c) => c.reward.main)};
   position: relative;
   overflow: hidden;
   animation: ${glow} 3s ease-in-out infinite;
@@ -191,7 +195,7 @@ export const RewardCard = styled(Box)`
   }
 
   svg {
-    color: ${colors.reward.dark};
+    color: ${tc((c) => c.reward.dark)};
     font-size: 2rem;
     position: relative;
     z-index: 1;
@@ -201,14 +205,14 @@ export const RewardCard = styled(Box)`
 export const RewardAmount = styled(Typography)`
   font-size: ${typography.fontSize['2xl']};
   font-weight: ${typography.fontWeight.extrabold};
-  color: ${colors.reward.dark};
+  color: ${tc((c) => c.reward.dark)};
   position: relative;
   z-index: 1;
 `;
 
 export const RewardLabel = styled(Typography)`
   font-size: ${typography.fontSize.xs};
-  color: ${colors.reward.dark};
+  color: ${tc((c) => c.reward.dark)};
   opacity: 0.8;
   font-weight: ${typography.fontWeight.semibold};
   text-transform: uppercase;
@@ -226,13 +230,13 @@ export const BadgeContainer = styled(Box)`
 
 export const Divider = styled(Box)`
   height: 1px;
-  background: ${colors.grey[100]};
+  background: ${tc((c) => c.grey[100])};
   margin: ${spacing[6]} 0;
 `;
 
 export const SectionLabel = styled(Typography)`
   font-size: ${typography.fontSize.xs};
-  color: ${colors.text.tertiary};
+  color: ${tc((c) => c.text.tertiary)};
   text-transform: uppercase;
   letter-spacing: ${typography.letterSpacing.wider};
   font-weight: ${typography.fontWeight.semibold};

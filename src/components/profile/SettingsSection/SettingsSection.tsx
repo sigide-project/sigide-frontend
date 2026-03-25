@@ -10,8 +10,10 @@ import DialogActions from '@mui/material/DialogActions';
 import SettingsIcon from '@mui/icons-material/Settings';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 import SecurityIcon from '@mui/icons-material/Security';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useColorMode } from '@/context';
 import {
   SectionCard,
   SectionHeader,
@@ -31,7 +33,7 @@ interface SettingsSectionProps {
 
 export function SettingsSection({ onLogout }: SettingsSectionProps) {
   const [notifications, setNotifications] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
+  const { isDarkMode, toggleColorMode } = useColorMode();
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
 
   const handleLogoutClick = () => {
@@ -78,21 +80,17 @@ export function SettingsSection({ onLogout }: SettingsSectionProps) {
 
         <SettingItem>
           <SettingInfo>
-            <SettingIcon>
-              <DarkModeIcon />
-            </SettingIcon>
+            <SettingIcon>{isDarkMode ? <DarkModeIcon /> : <LightModeIcon />}</SettingIcon>
             <Box>
               <SettingLabel>Dark Mode</SettingLabel>
               <SettingDescription>
-                Switch to dark theme for better viewing at night
+                {isDarkMode
+                  ? 'Switch to light theme for daytime viewing'
+                  : 'Switch to dark theme for better viewing at night'}
               </SettingDescription>
             </Box>
           </SettingInfo>
-          <Switch
-            checked={darkMode}
-            onChange={(e) => setDarkMode(e.target.checked)}
-            color="primary"
-          />
+          <Switch checked={isDarkMode} onChange={toggleColorMode} color="primary" />
         </SettingItem>
 
         <SettingItem>

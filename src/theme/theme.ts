@@ -88,7 +88,7 @@ export const colors = {
     900: '#18181B',
   },
 
-  // Background Colors
+  // Background Colors (Light Mode)
   background: {
     default: '#FAFAFA',
     paper: '#FFFFFF',
@@ -99,13 +99,24 @@ export const colors = {
     card: 'linear-gradient(180deg, #FFFFFF 0%, #FAFAFA 100%)',
   },
 
-  // Text Colors
+  // Text Colors (Light Mode)
   text: {
     primary: '#18181B',
     secondary: '#52525B',
     tertiary: '#71717A',
     disabled: '#A1A1AA',
     inverse: '#FFFFFF',
+  },
+
+  // Glass / semi-transparent overlays (Light Mode)
+  glass: {
+    heavy: 'rgba(255, 255, 255, 0.95)',
+    medium: 'rgba(255, 255, 255, 0.85)',
+    light: 'rgba(255, 255, 255, 0.7)',
+    subtle: 'rgba(255, 255, 255, 0.5)',
+    faint: 'rgba(255, 255, 255, 0.2)',
+    border: 'rgba(255, 255, 255, 0.8)',
+    scrim: 'rgba(0, 0, 0, 0.4)',
   },
 
   // Status Colors
@@ -360,13 +371,189 @@ export const animations = {
   `,
 } as const;
 
+// Dark Mode Colors
+export const darkColors = {
+  // Primary Purple Palette (adjusted for dark mode)
+  primary: {
+    50: '#1E1B2E',
+    100: '#2D2845',
+    200: '#3D365C',
+    300: '#5B4F8A',
+    400: '#8B7FC4',
+    500: '#A78BFA',
+    600: '#B49BFF',
+    700: '#C4B5FD',
+    800: '#DDD6FE',
+    900: '#EDE9FE',
+    main: '#A78BFA',
+    light: '#C4B5FD',
+    dark: '#7C3AED',
+  },
+
+  // Secondary - Soft Violet (adjusted for dark mode)
+  secondary: {
+    50: '#1F1525',
+    100: '#2E1F38',
+    200: '#4A2D5C',
+    300: '#7A4A8F',
+    400: '#C77DDB',
+    500: '#E879F9',
+    600: '#F0ABFC',
+    700: '#F5D0FE',
+    800: '#FAE8FF',
+    900: '#FDF4FF',
+    main: '#E879F9',
+    light: '#F0ABFC',
+    dark: '#C026D3',
+  },
+
+  // Accent - Warm Coral for CTAs (adjusted for dark mode)
+  accent: {
+    50: '#1F1510',
+    100: '#2E1F15',
+    200: '#4A3020',
+    300: '#7A5030',
+    400: '#C47840',
+    500: '#FB923C',
+    600: '#FDBA74',
+    700: '#FED7AA',
+    800: '#FFEDD5',
+    900: '#FFF7ED',
+    main: '#FB923C',
+    light: '#FDBA74',
+    dark: '#EA580C',
+  },
+
+  // Semantic Colors (adjusted for dark mode visibility)
+  lost: {
+    main: '#F87171',
+    light: '#3B1F1F',
+    dark: '#EF4444',
+    gradient: 'linear-gradient(135deg, #3B1F1F 0%, #4A2525 100%)',
+  },
+
+  found: {
+    main: '#34D399',
+    light: '#1A3D2E',
+    dark: '#10B981',
+    gradient: 'linear-gradient(135deg, #1A3D2E 0%, #1F4A38 100%)',
+  },
+
+  reward: {
+    main: '#FBBF24',
+    light: '#3D3010',
+    dark: '#F59E0B',
+    gradient: 'linear-gradient(135deg, #3D3010 0%, #4A3A15 100%)',
+  },
+
+  // Neutrals (inverted for dark mode)
+  grey: {
+    50: '#18181B',
+    100: '#27272A',
+    200: '#3F3F46',
+    300: '#52525B',
+    400: '#71717A',
+    500: '#A1A1AA',
+    600: '#D4D4D8',
+    700: '#E4E4E7',
+    800: '#F4F4F5',
+    900: '#FAFAFA',
+  },
+
+  // Background Colors (Dark Mode)
+  background: {
+    default: '#0F0F12',
+    paper: '#18181B',
+    elevated: '#1F1F24',
+    subtle: '#1A1825',
+    gradient: 'linear-gradient(180deg, #0F0F12 0%, #1A1825 100%)',
+    hero: 'linear-gradient(135deg, #1A1825 0%, #1E1B2E 50%, #2D2845 100%)',
+    card: 'linear-gradient(180deg, #18181B 0%, #1F1F24 100%)',
+  },
+
+  // Text Colors (Dark Mode)
+  text: {
+    primary: '#FAFAFA',
+    secondary: '#A1A1AA',
+    tertiary: '#71717A',
+    disabled: '#52525B',
+    inverse: '#18181B',
+  },
+
+  // Glass / semi-transparent overlays (Dark Mode)
+  glass: {
+    heavy: 'rgba(24, 24, 27, 0.95)',
+    medium: 'rgba(24, 24, 27, 0.85)',
+    light: 'rgba(24, 24, 27, 0.7)',
+    subtle: 'rgba(255, 255, 255, 0.08)',
+    faint: 'rgba(255, 255, 255, 0.05)',
+    border: 'rgba(255, 255, 255, 0.1)',
+    scrim: 'rgba(0, 0, 0, 0.6)',
+  },
+
+  // Status Colors (adjusted for dark mode)
+  success: {
+    main: '#34D399',
+    light: '#1A3D2E',
+    dark: '#10B981',
+  },
+
+  warning: {
+    main: '#FBBF24',
+    light: '#3D3010',
+    dark: '#F59E0B',
+  },
+
+  error: {
+    main: '#F87171',
+    light: '#3B1F1F',
+    dark: '#EF4444',
+  },
+
+  info: {
+    main: '#60A5FA',
+    light: '#1E3A5F',
+    dark: '#3B82F6',
+  },
+
+  // Decorative (adjusted for dark mode)
+  decorative: {
+    purple: 'linear-gradient(135deg, #7C3AED 0%, #A78BFA 100%)',
+    violet: 'linear-gradient(135deg, #8B5CF6 0%, #D946EF 100%)',
+    sunset: 'linear-gradient(135deg, #F97316 0%, #EC4899 100%)',
+    aurora: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
+  },
+} as const;
+
+// Dark mode shadows
+export const darkShadows = {
+  none: 'none',
+  xs: '0 1px 2px 0 rgba(0, 0, 0, 0.3)',
+  sm: '0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4)',
+  base: '0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4)',
+  md: '0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4)',
+  lg: '0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4)',
+  xl: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+  inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.3)',
+  purple: {
+    sm: '0 1px 3px 0 rgba(167, 139, 250, 0.15), 0 1px 2px -1px rgba(167, 139, 250, 0.15)',
+    base: '0 4px 6px -1px rgba(167, 139, 250, 0.15), 0 2px 4px -2px rgba(167, 139, 250, 0.15)',
+    md: '0 10px 15px -3px rgba(167, 139, 250, 0.2), 0 4px 6px -4px rgba(167, 139, 250, 0.15)',
+    lg: '0 20px 25px -5px rgba(167, 139, 250, 0.2), 0 8px 10px -6px rgba(167, 139, 250, 0.15)',
+    xl: '0 25px 50px -12px rgba(167, 139, 250, 0.3)',
+    glow: '0 0 40px rgba(167, 139, 250, 0.25)',
+  },
+} as const;
+
 // Complete theme object
 export const theme = {
   colors,
+  darkColors,
   typography,
   spacing,
   borderRadius,
   shadows,
+  darkShadows,
   transitions,
   breakpoints,
   zIndex,
@@ -375,6 +562,7 @@ export const theme = {
 
 export type Theme = typeof theme;
 export type Colors = typeof colors;
+export type DarkColors = typeof darkColors;
 export type Typography = typeof typography;
 export type Spacing = typeof spacing;
 

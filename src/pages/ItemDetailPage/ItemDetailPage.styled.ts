@@ -1,6 +1,15 @@
 import { styled, keyframes, css } from '@mui/material/styles';
 import { Container, Box, Typography, Chip, Button, Paper, Avatar } from '@mui/material';
-import { colors, typography, spacing, borderRadius, shadows, transitions } from '@/theme';
+import {
+  tc,
+  ts,
+  typography,
+  spacing,
+  borderRadius,
+  transitions,
+  getThemeColors,
+  getThemeShadows,
+} from '@/theme';
 
 const shouldForwardProp = (prop: string) => !['imageUrl', 'isActive', 'status'].includes(prop);
 
@@ -52,18 +61,18 @@ export const BackButton = styled(Button)`
   margin-bottom: ${spacing[6]};
   text-transform: none;
   font-weight: ${typography.fontWeight.semibold};
-  color: ${colors.text.secondary};
+  color: ${tc((c) => c.text.secondary)};
   padding: ${spacing[2]} ${spacing[4]};
   border-radius: ${borderRadius.lg};
-  background: ${colors.background.paper};
-  border: 1px solid ${colors.grey[200]};
+  background: ${tc((c) => c.background.paper)};
+  border: 1px solid ${tc((c) => c.grey[200])};
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
   animation: ${fadeIn} 0.4s ${transitions.easing.easeOut} forwards;
 
   &:hover {
-    background: ${colors.primary[50]};
-    border-color: ${colors.primary[200]};
-    color: ${colors.primary.main};
+    background: ${tc((c) => c.primary[50])};
+    border-color: ${tc((c) => c.primary[200])};
+    color: ${tc((c) => c.primary.main)};
     transform: translateX(-4px);
   }
 
@@ -96,9 +105,9 @@ export const MainContent = styled(Box)`
 export const ImageGallery = styled(Paper)`
   border-radius: ${borderRadius['2xl']};
   overflow: hidden;
-  background: ${colors.background.paper};
-  border: 1px solid ${colors.grey[100]};
-  box-shadow: ${shadows.md};
+  background: ${tc((c) => c.background.paper)};
+  border: 1px solid ${tc((c) => c.grey[100])};
+  box-shadow: ${ts((s) => s.md)};
   animation: ${scaleIn} 0.5s ${transitions.easing.easeOut} forwards;
 `;
 
@@ -106,14 +115,18 @@ interface MainImageProps {
   imageUrl?: string;
 }
 
-export const MainImage = styled(Box, { shouldForwardProp })<MainImageProps>(
-  ({ imageUrl }) => css`
+export const MainImage = styled(Box, { shouldForwardProp })<MainImageProps>(({
+  imageUrl,
+  theme,
+}) => {
+  const c = getThemeColors(theme);
+  return css`
     width: 100%;
     height: 450px;
     background-image: ${imageUrl ? `url(${imageUrl})` : 'none'};
     background-size: cover;
     background-position: center;
-    background-color: ${colors.grey[50]};
+    background-color: ${c.grey[50]};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -130,30 +143,30 @@ export const MainImage = styled(Box, { shouldForwardProp })<MainImageProps>(
 
     svg {
       font-size: 5rem;
-      color: ${colors.grey[300]};
+      color: ${c.grey[300]};
       opacity: 0.5;
     }
 
     @media (max-width: 600px) {
       height: 300px;
     }
-  `
-);
+  `;
+});
 
 export const ThumbnailStrip = styled(Box)`
   display: flex;
   gap: ${spacing[3]};
   padding: ${spacing[4]};
   overflow-x: auto;
-  background: ${colors.grey[50]};
-  border-top: 1px solid ${colors.grey[100]};
+  background: ${tc((c) => c.grey[50])};
+  border-top: 1px solid ${tc((c) => c.grey[100])};
 
   &::-webkit-scrollbar {
     height: 6px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: ${colors.grey[300]};
+    background-color: ${tc((c) => c.grey[300])};
     border-radius: ${borderRadius.full};
   }
 `;
@@ -163,8 +176,14 @@ interface ThumbnailProps {
   isActive?: boolean;
 }
 
-export const Thumbnail = styled(Box, { shouldForwardProp })<ThumbnailProps>(
-  ({ imageUrl, isActive }) => css`
+export const Thumbnail = styled(Box, { shouldForwardProp })<ThumbnailProps>(({
+  imageUrl,
+  isActive,
+  theme,
+}) => {
+  const c = getThemeColors(theme);
+  const sh = getThemeShadows(theme);
+  return css`
     width: 80px;
     height: 80px;
     min-width: 80px;
@@ -173,23 +192,23 @@ export const Thumbnail = styled(Box, { shouldForwardProp })<ThumbnailProps>(
     background-size: cover;
     background-position: center;
     cursor: pointer;
-    border: 3px solid ${isActive ? colors.primary.main : 'transparent'};
+    border: 3px solid ${isActive ? c.primary.main : 'transparent'};
     transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
-    box-shadow: ${isActive ? shadows.purple.sm : 'none'};
+    box-shadow: ${isActive ? sh.purple.sm : 'none'};
 
     &:hover {
-      border-color: ${isActive ? colors.primary.main : colors.primary[300]};
+      border-color: ${isActive ? c.primary.main : c.primary[300]};
       transform: scale(1.05);
     }
-  `
-);
+  `;
+});
 
 export const DetailsCard = styled(Paper)`
   padding: ${spacing[8]};
   border-radius: ${borderRadius['2xl']};
-  background: ${colors.background.paper};
-  border: 1px solid ${colors.grey[100]};
-  box-shadow: ${shadows.sm};
+  background: ${tc((c) => c.background.paper)};
+  border: 1px solid ${tc((c) => c.grey[100])};
+  box-shadow: ${ts((s) => s.sm)};
   animation: ${fadeInUp} 0.6s ${transitions.easing.easeOut} 0.1s forwards;
   opacity: 0;
 `;
@@ -204,15 +223,15 @@ export const TypeBadge = styled(Chip)`
   border-radius: ${borderRadius.base};
 
   &.lost {
-    background: ${colors.lost.gradient};
-    color: ${colors.lost.dark};
-    border: 1px solid ${colors.lost.main};
+    background: ${tc((c) => c.lost.gradient)};
+    color: ${tc((c) => c.lost.dark)};
+    border: 1px solid ${tc((c) => c.lost.main)};
   }
 
   &.found {
-    background: ${colors.found.gradient};
-    color: ${colors.found.dark};
-    border: 1px solid ${colors.found.main};
+    background: ${tc((c) => c.found.gradient)};
+    color: ${tc((c) => c.found.dark)};
+    border: 1px solid ${tc((c) => c.found.main)};
   }
 `;
 
@@ -220,8 +239,12 @@ interface StatusBadgeProps {
   status: string;
 }
 
-export const StatusBadge = styled(Chip, { shouldForwardProp })<StatusBadgeProps>(
-  ({ status }) => css`
+export const StatusBadge = styled(Chip, { shouldForwardProp })<StatusBadgeProps>(({
+  status,
+  theme,
+}) => {
+  const c = getThemeColors(theme);
+  return css`
     font-weight: ${typography.fontWeight.semibold};
     font-size: ${typography.fontSize.xs};
     height: auto;
@@ -230,38 +253,38 @@ export const StatusBadge = styled(Chip, { shouldForwardProp })<StatusBadgeProps>
 
     ${status === 'open' &&
     css`
-      background: ${colors.info.light};
-      color: ${colors.info.dark};
-      border: 1px solid ${colors.info.main};
+      background: ${c.info.light};
+      color: ${c.info.dark};
+      border: 1px solid ${c.info.main};
     `}
 
     ${status === 'claimed' &&
     css`
-      background: ${colors.warning.light};
-      color: ${colors.warning.dark};
-      border: 1px solid ${colors.warning.main};
+      background: ${c.warning.light};
+      color: ${c.warning.dark};
+      border: 1px solid ${c.warning.main};
     `}
 
-    ${status === 'resolved' &&
+      ${status === 'resolved' &&
     css`
-      background: ${colors.success.light};
-      color: ${colors.success.dark};
-      border: 1px solid ${colors.success.main};
+      background: ${c.success.light};
+      color: ${c.success.dark};
+      border: 1px solid ${c.success.main};
     `}
 
-    ${status === 'expired' &&
+      ${status === 'expired' &&
     css`
-      background: ${colors.grey[100]};
-      color: ${colors.grey[600]};
-      border: 1px solid ${colors.grey[300]};
+      background: ${c.grey[100]};
+      color: ${c.grey[600]};
+      border: 1px solid ${c.grey[300]};
     `}
-  `
-);
+  `;
+});
 
 export const Title = styled(Typography)`
   font-size: ${typography.fontSize['3xl']};
   font-weight: ${typography.fontWeight.bold};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   line-height: ${typography.lineHeight.tight};
   letter-spacing: ${typography.letterSpacing.tight};
 
@@ -273,16 +296,16 @@ export const Title = styled(Typography)`
 export const CategoryChip = styled(Chip)`
   font-size: ${typography.fontSize.xs};
   font-weight: ${typography.fontWeight.medium};
-  background: ${colors.primary[50]};
-  color: ${colors.primary[700]};
-  border: 1px solid ${colors.primary[100]};
+  background: ${tc((c) => c.primary[50])};
+  color: ${tc((c) => c.primary[700])};
+  border: 1px solid ${tc((c) => c.primary[100])};
   height: auto;
   padding: ${spacing[1]} ${spacing[2]};
   border-radius: ${borderRadius.base};
 `;
 
 export const Description = styled(Typography)`
-  color: ${colors.text.secondary};
+  color: ${tc((c) => c.text.secondary)};
   line-height: ${typography.lineHeight.relaxed};
   white-space: pre-wrap;
   font-size: ${typography.fontSize.base};
@@ -293,9 +316,9 @@ export const InfoSection = styled(Box)`
   flex-direction: column;
   gap: ${spacing[4]};
   padding: ${spacing[6]};
-  background: ${colors.background.hero};
+  background: ${tc((c) => c.background.hero)};
   border-radius: ${borderRadius.xl};
-  border: 1px solid ${colors.primary[100]};
+  border: 1px solid ${tc((c) => c.primary[100])};
 `;
 
 export const InfoRow = styled(Box)`
@@ -304,7 +327,7 @@ export const InfoRow = styled(Box)`
   gap: ${spacing[4]};
 
   svg {
-    color: ${colors.primary.main};
+    color: ${tc((c) => c.primary.main)};
     font-size: 1.5rem;
     margin-top: 2px;
     flex-shrink: 0;
@@ -313,7 +336,7 @@ export const InfoRow = styled(Box)`
 
 export const InfoLabel = styled(Typography)`
   font-size: ${typography.fontSize.xs};
-  color: ${colors.text.tertiary};
+  color: ${tc((c) => c.text.tertiary)};
   text-transform: uppercase;
   letter-spacing: ${typography.letterSpacing.wider};
   font-weight: ${typography.fontWeight.semibold};
@@ -322,7 +345,7 @@ export const InfoLabel = styled(Typography)`
 
 export const InfoValue = styled(Typography)`
   font-weight: ${typography.fontWeight.medium};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   font-size: ${typography.fontSize.base};
 `;
 
@@ -331,9 +354,9 @@ export const RewardCard = styled(Box)`
   align-items: center;
   gap: ${spacing[4]};
   padding: ${spacing[5]} ${spacing[6]};
-  background: ${colors.reward.gradient};
+  background: ${tc((c) => c.reward.gradient)};
   border-radius: ${borderRadius.xl};
-  border: 2px solid ${colors.reward.main};
+  border: 2px solid ${tc((c) => c.reward.main)};
   position: relative;
   overflow: hidden;
   animation: ${glow} 3s ease-in-out infinite;
@@ -350,7 +373,7 @@ export const RewardCard = styled(Box)`
   }
 
   svg {
-    color: ${colors.reward.dark};
+    color: ${tc((c) => c.reward.dark)};
     font-size: 2rem;
     position: relative;
     z-index: 1;
@@ -360,14 +383,14 @@ export const RewardCard = styled(Box)`
 export const RewardAmount = styled(Typography)`
   font-size: ${typography.fontSize['2xl']};
   font-weight: ${typography.fontWeight.extrabold};
-  color: ${colors.reward.dark};
+  color: ${tc((c) => c.reward.dark)};
   position: relative;
   z-index: 1;
 `;
 
 export const RewardLabel = styled(Typography)`
   font-size: ${typography.fontSize.xs};
-  color: ${colors.reward.dark};
+  color: ${tc((c) => c.reward.dark)};
   opacity: 0.8;
   font-weight: ${typography.fontWeight.semibold};
   text-transform: uppercase;
@@ -379,9 +402,9 @@ export const RewardLabel = styled(Typography)`
 export const SidebarCard = styled(Paper)`
   padding: ${spacing[6]};
   border-radius: ${borderRadius['2xl']};
-  background: ${colors.background.paper};
-  border: 1px solid ${colors.grey[100]};
-  box-shadow: ${shadows.md};
+  background: ${tc((c) => c.background.paper)};
+  border: 1px solid ${tc((c) => c.grey[100])};
+  box-shadow: ${ts((s) => s.md)};
   position: sticky;
   top: ${spacing[6]};
   animation: ${fadeInUp} 0.6s ${transitions.easing.easeOut} 0.2s forwards;
@@ -393,7 +416,7 @@ export const OwnerSection = styled(Box)`
   align-items: center;
   gap: ${spacing[4]};
   padding-bottom: ${spacing[5]};
-  border-bottom: 1px solid ${colors.grey[100]};
+  border-bottom: 1px solid ${tc((c) => c.grey[100])};
   margin-bottom: ${spacing[5]};
 `;
 
@@ -402,21 +425,21 @@ export const OwnerAvatar = styled(Avatar)`
   height: 64px;
   font-size: ${typography.fontSize.xl};
   font-weight: ${typography.fontWeight.bold};
-  background: ${colors.decorative.purple};
-  color: ${colors.text.inverse};
-  border: 3px solid ${colors.background.paper};
-  box-shadow: ${shadows.purple.sm};
+  background: ${tc((c) => c.decorative.purple)};
+  color: ${tc((c) => c.text.inverse)};
+  border: 3px solid ${tc((c) => c.background.paper)};
+  box-shadow: ${ts((s) => s.purple.sm)};
 `;
 
 export const OwnerName = styled(Typography)`
   font-weight: ${typography.fontWeight.semibold};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   font-size: ${typography.fontSize.lg};
 `;
 
 export const OwnerLabel = styled(Typography)`
   font-size: ${typography.fontSize.xs};
-  color: ${colors.text.tertiary};
+  color: ${tc((c) => c.text.tertiary)};
   text-transform: uppercase;
   letter-spacing: ${typography.letterSpacing.wider};
   font-weight: ${typography.fontWeight.medium};
@@ -432,13 +455,13 @@ export const ActionButton = styled(Button)`
 `;
 
 export const ContactButton = styled(ActionButton)`
-  background: ${colors.decorative.purple};
-  color: ${colors.text.inverse};
-  box-shadow: ${shadows.purple.sm};
+  background: ${tc((c) => c.decorative.purple)};
+  color: ${tc((c) => c.text.inverse)};
+  box-shadow: ${ts((s) => s.purple.sm)};
 
   &:hover {
-    background: ${colors.decorative.violet};
-    box-shadow: ${shadows.purple.md};
+    background: ${tc((c) => c.decorative.violet)};
+    box-shadow: ${ts((s) => s.purple.md)};
     transform: translateY(-2px);
   }
 
@@ -448,13 +471,13 @@ export const ContactButton = styled(ActionButton)`
 `;
 
 export const SecondaryButton = styled(ActionButton)`
-  background: ${colors.background.paper};
-  color: ${colors.primary.main};
-  border: 2px solid ${colors.primary[200]};
+  background: ${tc((c) => c.background.paper)};
+  color: ${tc((c) => c.primary.main)};
+  border: 2px solid ${tc((c) => c.primary[200])};
 
   &:hover {
-    background: ${colors.primary[50]};
-    border-color: ${colors.primary.main};
+    background: ${tc((c) => c.primary[50])};
+    border-color: ${tc((c) => c.primary.main)};
   }
 `;
 
@@ -479,7 +502,7 @@ export const LoadingSpinner = styled(Box)`
   width: 60px;
   height: 60px;
   border-radius: ${borderRadius.full};
-  background: ${colors.decorative.purple};
+  background: ${tc((c) => c.decorative.purple)};
   animation: ${pulse} 1.5s ease-in-out infinite;
 `;
 
@@ -499,14 +522,14 @@ export const ErrorIcon = styled(Box)`
   width: 100px;
   height: 100px;
   border-radius: ${borderRadius.full};
-  background: ${colors.error.light};
+  background: ${tc((c) => c.error.light)};
   display: flex;
   align-items: center;
   justify-content: center;
 
   svg {
     font-size: 48px;
-    color: ${colors.error.main};
+    color: ${tc((c) => c.error.main)};
   }
 `;
 
@@ -515,7 +538,7 @@ export const DateInfo = styled(Box)`
   flex-direction: column;
   gap: ${spacing[3]};
   padding-top: ${spacing[5]};
-  border-top: 1px solid ${colors.grey[100]};
+  border-top: 1px solid ${tc((c) => c.grey[100])};
   margin-top: ${spacing[5]};
 `;
 
@@ -527,14 +550,14 @@ export const DateRow = styled(Box)`
 
 export const DateLabel = styled(Typography)`
   font-size: ${typography.fontSize.sm};
-  color: ${colors.text.tertiary};
+  color: ${tc((c) => c.text.tertiary)};
   font-weight: ${typography.fontWeight.medium};
 `;
 
 export const DateValue = styled(Typography)`
   font-size: ${typography.fontSize.sm};
   font-weight: ${typography.fontWeight.semibold};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
 `;
 
 export const ActionButtonsContainer = styled(Box)`
@@ -544,13 +567,13 @@ export const ActionButtonsContainer = styled(Box)`
 `;
 
 export const ShareButton = styled(ActionButton)`
-  background: ${colors.grey[100]};
-  color: ${colors.text.secondary};
-  border: 1px solid ${colors.grey[200]};
+  background: ${tc((c) => c.grey[100])};
+  color: ${tc((c) => c.text.secondary)};
+  border: 1px solid ${tc((c) => c.grey[200])};
 
   &:hover {
-    background: ${colors.grey[200]};
-    color: ${colors.text.primary};
+    background: ${tc((c) => c.grey[200])};
+    color: ${tc((c) => c.text.primary)};
   }
 
   svg {
@@ -562,10 +585,10 @@ export const MapPreview = styled(Box)`
   width: 100%;
   height: 200px;
   border-radius: ${borderRadius.xl};
-  background: ${colors.grey[100]};
+  background: ${tc((c) => c.grey[100])};
   margin-top: ${spacing[4]};
   overflow: hidden;
-  border: 1px solid ${colors.grey[200]};
+  border: 1px solid ${tc((c) => c.grey[200])};
   position: relative;
 
   &::after {
@@ -575,7 +598,7 @@ export const MapPreview = styled(Box)`
     display: flex;
     align-items: center;
     justify-content: center;
-    color: ${colors.text.tertiary};
+    color: ${tc((c) => c.text.tertiary)};
     font-size: ${typography.fontSize.sm};
     font-weight: ${typography.fontWeight.medium};
   }
@@ -589,8 +612,8 @@ export const TagsContainer = styled(Box)`
 `;
 
 export const Tag = styled(Chip)`
-  background: ${colors.grey[100]};
-  color: ${colors.text.secondary};
+  background: ${tc((c) => c.grey[100])};
+  color: ${tc((c) => c.text.secondary)};
   font-size: ${typography.fontSize.xs};
   font-weight: ${typography.fontWeight.medium};
   height: auto;
@@ -599,20 +622,20 @@ export const Tag = styled(Chip)`
   transition: all ${transitions.duration.fast} ${transitions.easing.easeInOut};
 
   &:hover {
-    background: ${colors.primary[100]};
-    color: ${colors.primary[700]};
+    background: ${tc((c) => c.primary[100])};
+    color: ${tc((c) => c.primary[700])};
   }
 `;
 
 export const Divider = styled(Box)`
   height: 1px;
-  background: ${colors.grey[100]};
+  background: ${tc((c) => c.grey[100])};
   margin: ${spacing[6]} 0;
 `;
 
 export const SectionLabel = styled(Typography)`
   font-size: ${typography.fontSize.xs};
-  color: ${colors.text.tertiary};
+  color: ${tc((c) => c.text.tertiary)};
   text-transform: uppercase;
   letter-spacing: ${typography.letterSpacing.wider};
   font-weight: ${typography.fontWeight.semibold};

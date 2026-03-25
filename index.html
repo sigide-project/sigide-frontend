@@ -18,6 +18,29 @@
       crossorigin=""
     />
     <title>Sigide - Lost & Found</title>
+    <script>
+      (function() {
+        const storageKey = 'sigide-color-mode';
+        const storedMode = localStorage.getItem(storageKey);
+        let mode = storedMode;
+        if (!mode) {
+          mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', mode);
+        document.documentElement.style.colorScheme = mode;
+        if (mode === 'dark') {
+          document.documentElement.style.backgroundColor = '#0F0F12';
+        }
+      })();
+    </script>
+    <style>
+      html[data-theme="dark"] {
+        background-color: #0F0F12;
+      }
+      html[data-theme="light"] {
+        background-color: #FAFAFA;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

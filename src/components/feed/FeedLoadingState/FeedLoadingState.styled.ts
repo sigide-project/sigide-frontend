@@ -1,6 +1,6 @@
 import { styled } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
-import { colors, typography, spacing } from '@/theme';
+import { tc, typography, spacing } from '@/theme';
 
 export const LoadingContainer = styled(Box)`
   display: flex;
@@ -13,6 +13,6 @@ export const LoadingContainer = styled(Box)`
 
 export const LoadingText = styled(Typography)`
   font-size: ${typography.fontSize.base};
-  color: ${colors.text.secondary};
+  color: ${tc((c) => c.text.secondary)};
   font-weight: ${typography.fontWeight.medium};
 `;

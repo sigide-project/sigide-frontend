@@ -1,6 +1,6 @@
 import { styled, keyframes } from '@mui/material/styles';
 import { Box, Button } from '@mui/material';
-import { colors, typography, spacing, borderRadius, shadows, transitions } from '@/theme';
+import { tc, ts, typography, spacing, borderRadius, transitions } from '@/theme';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -23,14 +23,14 @@ export const ErrorIcon = styled(Box)`
   width: 100px;
   height: 100px;
   border-radius: ${borderRadius.full};
-  background: ${colors.error.light};
+  background: ${tc((c) => c.error.light)};
   display: flex;
   align-items: center;
   justify-content: center;
 
   svg {
     font-size: 48px;
-    color: ${colors.error.main};
+    color: ${tc((c) => c.error.main)};
   }
 `;
 
@@ -40,14 +40,14 @@ export const BrowseButton = styled(Button)`
   padding: ${spacing[4]} ${spacing[6]};
   border-radius: ${borderRadius.xl};
   font-size: ${typography.fontSize.base};
-  background: ${colors.decorative.purple};
-  color: ${colors.text.inverse};
-  box-shadow: ${shadows.purple.sm};
+  background: ${tc((c) => c.decorative.purple)};
+  color: ${tc((c) => c.text.inverse)};
+  box-shadow: ${ts((s) => s.purple.sm)};
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
 
   &:hover {
-    background: ${colors.decorative.violet};
-    box-shadow: ${shadows.purple.md};
+    background: ${tc((c) => c.decorative.violet)};
+    box-shadow: ${ts((s) => s.purple.md)};
     transform: translateY(-2px);
   }
 `;

@@ -1,6 +1,6 @@
 import { styled, keyframes } from '@mui/material/styles';
 import { Box } from '@mui/material';
-import { colors, typography, spacing, borderRadius, transitions } from '@/theme';
+import { tc, typography, spacing, borderRadius, transitions } from '@/theme';
 import { breakpoints } from '@/theme/theme';
 
 const shimmer = keyframes`
@@ -14,8 +14,12 @@ const float = keyframes`
 `;
 
 export const FooterContainer = styled('footer')`
-  background: linear-gradient(180deg, ${colors.background.default} 0%, ${colors.primary[50]} 100%);
-  border-top: 1px solid ${colors.grey[100]};
+  background: linear-gradient(
+    180deg,
+    ${tc((c) => c.background.default)} 0%,
+    ${tc((c) => c.primary[50])} 100%
+  );
+  border-top: 1px solid ${tc((c) => c.grey[100])};
   position: relative;
   overflow: hidden;
 
@@ -29,7 +33,7 @@ export const FooterContainer = styled('footer')`
     background: linear-gradient(
       90deg,
       transparent 0%,
-      ${colors.primary[200]} 50%,
+      ${tc((c) => c.primary[200])} 50%,
       transparent 100%
     );
   }
@@ -92,7 +96,7 @@ export const LogoIcon = styled('div')`
   width: 48px;
   height: 48px;
   border-radius: ${borderRadius.lg};
-  background: ${colors.decorative.purple};
+  background: ${tc((c) => c.decorative.purple)};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -104,14 +108,14 @@ export const LogoIcon = styled('div')`
 export const LogoLetter = styled('span')`
   font-size: 1.5rem;
   font-weight: ${typography.fontWeight.extrabold};
-  color: ${colors.text.inverse};
+  color: ${tc((c) => c.text.inverse)};
   font-family: ${typography.fontFamily.display};
 `;
 
 export const LogoText = styled('span')`
   font-size: 1.75rem;
   font-weight: ${typography.fontWeight.extrabold};
-  background: ${colors.decorative.purple};
+  background: ${tc((c) => c.decorative.purple)};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -121,7 +125,7 @@ export const LogoText = styled('span')`
 
 export const BrandDescription = styled('p')`
   font-size: ${typography.fontSize.base};
-  color: ${colors.text.secondary};
+  color: ${tc((c) => c.text.secondary)};
   line-height: ${typography.lineHeight.relaxed};
   max-width: 320px;
   margin: 0;
@@ -137,19 +141,19 @@ export const SocialLink = styled('a')`
   width: 40px;
   height: 40px;
   border-radius: ${borderRadius.full};
-  background: ${colors.background.paper};
-  border: 1px solid ${colors.grey[200]};
+  background: ${tc((c) => c.background.paper)};
+  border: 1px solid ${tc((c) => c.grey[200])};
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${colors.text.secondary};
+  color: ${tc((c) => c.text.secondary)};
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
   cursor: pointer;
 
   &:hover {
-    background: ${colors.primary[50]};
-    border-color: ${colors.primary[200]};
-    color: ${colors.primary.main};
+    background: ${tc((c) => c.primary[50])};
+    border-color: ${tc((c) => c.primary[200])};
+    color: ${tc((c) => c.primary.main)};
     transform: translateY(-3px);
     box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
   }
@@ -168,7 +172,7 @@ export const FooterSection = styled('div')`
 export const SectionTitle = styled('h4')`
   font-size: ${typography.fontSize.sm};
   font-weight: ${typography.fontWeight.bold};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   text-transform: uppercase;
   letter-spacing: ${typography.letterSpacing.wider};
   margin: 0;
@@ -182,7 +186,7 @@ export const FooterLinks = styled('nav')`
 
 export const FooterLink = styled('a')`
   font-size: ${typography.fontSize.sm};
-  color: ${colors.text.secondary};
+  color: ${tc((c) => c.text.secondary)};
   text-decoration: none;
   transition: all ${transitions.duration.fast} ${transitions.easing.easeInOut};
   cursor: pointer;
@@ -191,7 +195,7 @@ export const FooterLink = styled('a')`
   gap: ${spacing[2]};
 
   &:hover {
-    color: ${colors.primary.main};
+    color: ${tc((c) => c.primary.main)};
     transform: translateX(4px);
   }
 
@@ -210,7 +214,7 @@ export const FooterBottom = styled('div')`
   max-width: 1400px;
   margin: 0 auto;
   padding: ${spacing[6]} ${spacing[6]};
-  border-top: 1px solid ${colors.grey[200]};
+  border-top: 1px solid ${tc((c) => c.grey[200])};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -226,7 +230,7 @@ export const FooterBottom = styled('div')`
 
 export const Copyright = styled('p')`
   font-size: ${typography.fontSize.sm};
-  color: ${colors.text.tertiary};
+  color: ${tc((c) => c.text.tertiary)};
   margin: 0;
 `;
 
@@ -241,19 +245,19 @@ export const LegalLinks = styled('div')`
 
 export const LegalLink = styled('a')`
   font-size: ${typography.fontSize.sm};
-  color: ${colors.text.tertiary};
+  color: ${tc((c) => c.text.tertiary)};
   text-decoration: none;
   transition: color ${transitions.duration.fast} ${transitions.easing.easeInOut};
   cursor: pointer;
 
   &:hover {
-    color: ${colors.primary.main};
+    color: ${tc((c) => c.primary.main)};
   }
 `;
 
 export const HeartIcon = styled('span')`
   display: inline-block;
-  color: ${colors.error.main};
+  color: ${tc((c) => c.error.main)};
   animation: ${float} 1.5s ease-in-out infinite;
 `;
 
@@ -264,7 +268,7 @@ export const GradientAccent = styled('div')`
   transform: translateX(-50%);
   width: 200px;
   height: 3px;
-  background: ${colors.decorative.purple};
+  background: ${tc((c) => c.decorative.purple)};
   border-radius: ${borderRadius.full};
   opacity: 0.5;
 
@@ -272,7 +276,7 @@ export const GradientAccent = styled('div')`
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    background: linear-gradient(90deg, transparent, ${tc((c) => c.glass.subtle)}, transparent);
     background-size: 200% 100%;
     animation: ${shimmer} 2s infinite;
   }

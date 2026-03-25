@@ -1,29 +1,33 @@
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
+import { getThemeColors } from '@/theme';
 
-export const StyledGoogleButton = styled(Button)(({ theme }) => ({
-  backgroundColor: '#ffffff',
-  color: theme.palette.text.primary,
-  border: `1px solid ${theme.palette.divider}`,
-  textTransform: 'none',
-  fontWeight: 500,
-  fontSize: '0.9375rem',
-  padding: theme.spacing(1.25, 3),
-  borderRadius: theme.shape.borderRadius,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: theme.spacing(1.5),
-  width: '100%',
-  '&:hover': {
-    backgroundColor: '#f8f9fa',
-    borderColor: theme.palette.divider,
-  },
-  '&:disabled': {
-    backgroundColor: '#f8f9fa',
-    color: theme.palette.text.disabled,
-  },
-}));
+export const StyledGoogleButton = styled(Button)(({ theme }) => {
+  const c = getThemeColors(theme);
+  return {
+    backgroundColor: c.background.paper,
+    color: c.text.primary,
+    border: `1px solid ${c.grey[200]}`,
+    textTransform: 'none',
+    fontWeight: 500,
+    fontSize: '0.9375rem',
+    padding: theme.spacing(1.25, 3),
+    borderRadius: theme.shape.borderRadius,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: theme.spacing(1.5),
+    width: '100%',
+    '&:hover': {
+      backgroundColor: c.grey[50],
+      borderColor: c.grey[300],
+    },
+    '&:disabled': {
+      backgroundColor: c.grey[50],
+      color: c.text.disabled,
+    },
+  };
+});
 
 export const GoogleLogoWrapper = styled('span')({
   display: 'flex',

@@ -2,7 +2,7 @@ import { styled, keyframes } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { Button } from '@mui/material';
-import { colors, typography, spacing, borderRadius, shadows, transitions } from '@/theme';
+import { tc, ts, typography, spacing, borderRadius, transitions } from '@/theme';
 
 export const NAVBAR_HEIGHT = 72;
 
@@ -12,12 +12,12 @@ const fadeIn = keyframes`
 `;
 
 export const StyledAppBar = styled(AppBar)`
-  background: rgba(255, 255, 255, 0.85);
-  color: ${colors.text.primary};
-  box-shadow: ${shadows.sm};
+  background: ${tc((c) => c.glass.medium)};
+  color: ${tc((c) => c.text.primary)};
+  box-shadow: ${ts((s) => s.sm)};
   height: ${NAVBAR_HEIGHT}px;
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid ${colors.grey[100]};
+  border-bottom: 1px solid ${tc((c) => c.grey[100])};
   z-index: 1100;
   animation: ${fadeIn} 0.4s ${transitions.easing.easeOut} forwards;
 
@@ -31,7 +31,7 @@ export const StyledAppBar = styled(AppBar)`
     background: linear-gradient(
       90deg,
       transparent 0%,
-      ${colors.primary[200]} 50%,
+      ${tc((c) => c.primary[200])} 50%,
       transparent 100%
     );
     opacity: 0.5;
@@ -70,7 +70,7 @@ export const LogoContainer = styled('div')`
   }
 
   &:hover .public-navbar-logo-icon {
-    box-shadow: ${shadows.purple.md};
+    box-shadow: ${ts((s) => s.purple.md)};
     transform: rotate(-5deg);
   }
 `;
@@ -79,11 +79,11 @@ export const LogoIcon = styled('div')`
   width: 44px;
   height: 44px;
   border-radius: ${borderRadius.lg};
-  background: ${colors.decorative.purple};
+  background: ${tc((c) => c.decorative.purple)};
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: ${shadows.purple.sm};
+  box-shadow: ${ts((s) => s.purple.sm)};
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
 
   @media (max-width: 600px) {
@@ -96,7 +96,7 @@ export const LogoIcon = styled('div')`
 export const LogoLetter = styled('span')`
   font-size: 1.5rem;
   font-weight: ${typography.fontWeight.extrabold};
-  color: ${colors.text.inverse};
+  color: ${tc((c) => c.text.inverse)};
   font-family: ${typography.fontFamily.display};
 
   @media (max-width: 600px) {
@@ -107,7 +107,7 @@ export const LogoLetter = styled('span')`
 export const LogoText = styled('span')`
   font-size: 1.75rem;
   font-weight: ${typography.fontWeight.extrabold};
-  background: ${colors.decorative.purple};
+  background: ${tc((c) => c.decorative.purple)};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -129,13 +129,13 @@ export const LoginButton = styled(Button)`
   padding: ${spacing[2]} ${spacing[5]};
   font-size: ${typography.fontSize.sm};
   font-weight: ${typography.fontWeight.medium};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   text-transform: none;
   border-radius: ${borderRadius.lg};
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
 
   &:hover {
-    background: ${colors.grey[100]};
+    background: ${tc((c) => c.grey[100])};
   }
 `;
 
@@ -143,17 +143,17 @@ export const SignUpButton = styled(Button)`
   padding: ${spacing[2]} ${spacing[5]};
   font-size: ${typography.fontSize.sm};
   font-weight: ${typography.fontWeight.semibold};
-  color: ${colors.text.inverse};
-  background: ${colors.decorative.purple};
+  color: ${tc((c) => c.text.inverse)};
+  background: ${tc((c) => c.decorative.purple)};
   text-transform: none;
   border-radius: ${borderRadius.lg};
-  box-shadow: ${shadows.purple.sm};
+  box-shadow: ${ts((s) => s.purple.sm)};
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: ${shadows.purple.md};
-    background: ${colors.decorative.purple};
+    box-shadow: ${ts((s) => s.purple.md)};
+    background: ${tc((c) => c.decorative.purple)};
   }
 
   &:active {
@@ -171,13 +171,13 @@ export const BrowseButton = styled(Button)`
   padding: ${spacing[2]} ${spacing[5]};
   font-size: ${typography.fontSize.sm};
   font-weight: ${typography.fontWeight.medium};
-  color: ${colors.text.primary};
+  color: ${tc((c) => c.text.primary)};
   text-transform: none;
   border-radius: ${borderRadius.lg};
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
 
   &:hover {
-    background: ${colors.grey[100]};
+    background: ${tc((c) => c.grey[100])};
   }
 `;
 
@@ -187,14 +187,14 @@ export const ProfileButton = styled('button')`
   gap: ${spacing[2]};
   padding: ${spacing[1]};
   background: transparent;
-  border: 2px solid ${colors.grey[200]};
+  border: 2px solid ${tc((c) => c.grey[200])};
   border-radius: ${borderRadius.full};
   cursor: pointer;
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
 
   &:hover {
-    border-color: ${colors.primary[300]};
-    box-shadow: ${shadows.purple.sm};
+    border-color: ${tc((c) => c.primary[300])};
+    box-shadow: ${ts((s) => s.purple.sm)};
   }
 
   .MuiAvatar-root {
@@ -202,6 +202,6 @@ export const ProfileButton = styled('button')`
     height: 36px;
     font-size: ${typography.fontSize.sm};
     font-weight: ${typography.fontWeight.bold};
-    background: ${colors.decorative.purple};
+    background: ${tc((c) => c.decorative.purple)};
   }
 `;
