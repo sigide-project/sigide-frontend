@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Drawer from '@mui/material/Drawer';
 import { useTheme } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
@@ -17,6 +18,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import ContactsIcon from '@mui/icons-material/Contacts';
 import { useAuthStore } from '@/store';
 import {
   useMessages,
@@ -75,6 +77,18 @@ import {
   MobileItemDetails,
   MobileItemTitle,
   MobileItemStatus,
+  MobileActionsBar,
+  MobileAcceptButton,
+  MobileRejectButton,
+  MobileResolveButton,
+  MobileContactButton,
+  MobileContactDrawer,
+  MobileContactCard,
+  MobileContactItem,
+  MobileContactIcon,
+  MobileContactContent,
+  MobileContactLabel,
+  MobileContactValue,
 } from './MessagesPage.styled';
 
 function getRelativeTime(dateStr: string): string {
@@ -126,6 +140,7 @@ export function MessagesPage({ claimId: propClaimId }: MessagesPageProps = {}) {
     open: boolean;
     action: 'reject' | 'resolve';
   }>({ open: false, action: 'reject' });
+  const [contactDrawerOpen, setContactDrawerOpen] = useState(false);
   const messageEndRef = useRef<HTMLDivElement>(null);
   const prevMessageCount = useRef(0);
 
@@ -221,18 +236,68 @@ export function MessagesPage({ claimId: propClaimId }: MessagesPageProps = {}) {
     <>
       <PageWrapper $embedded={isEmbedded}>
         {isMobile && (
-          <MobileHeader>
-            <IconButton onClick={handleBack} size="small">
-              <ArrowBackIcon />
-            </IconButton>
-            <MobileItemInfo>
-              {firstImage && <MobileItemImage src={firstImage} alt={itemData.title} />}
-              <MobileItemDetails>
-                <MobileItemTitle>{itemData.title}</MobileItemTitle>
-                <MobileItemStatus>{statusLabels[claim.status] || claim.status}</MobileItemStatus>
-              </MobileItemDetails>
-            </MobileItemInfo>
-          </MobileHeader>
+          <>
+            <MobileHeader>
+              <IconButton onClick={handleBack} size="small">
+                <ArrowBackIcon />
+              </IconButton>
+              <MobileItemInfo>
+                {firstImage && <MobileItemImage src={firstImage} alt={itemData.title} />}
+                <MobileItemDetails>
+                  <MobileItemTitle>{itemData.title}</MobileItemTitle>
+                  <MobileItemStatus>{statusLabels[claim.status] || claim.status}</MobileItemStatus>
+                </MobileItemDetails>
+              </MobileItemInfo>
+            </MobileHeader>
+
+            {(isOwner && claim.status === 'pending') || claim.status === 'accepted' ? (
+              <MobileActionsBar>
+                {isOwner && claim.status === 'pending' && (
+                  <>
+                    <MobileAcceptButton
+                      variant="contained"
+                      onClick={handleAccept}
+                      disabled={acceptClaim.isPending}
+                      startIcon={
+                        acceptClaim.isPending ? (
+                          <CircularProgress size={14} color="inherit" />
+                        ) : null
+                      }
+                    >
+                      Accept
+                    </MobileAcceptButton>
+                    <MobileRejectButton
+                      variant="outlined"
+                      onClick={() => setConfirmDialog({ open: true, action: 'reject' })}
+                      disabled={rejectClaim.isPending}
+                    >
+                      Reject
+                    </MobileRejectButton>
+                  </>
+                )}
+                {claim.status === 'accepted' && (
+                  <>
+                    <MobileResolveButton
+                      variant="outlined"
+                      onClick={() => setConfirmDialog({ open: true, action: 'resolve' })}
+                      disabled={resolveClaim.isPending}
+                    >
+                      Mark Resolved
+                    </MobileResolveButton>
+                    {contact && (
+                      <MobileContactButton
+                        variant="contained"
+                        onClick={() => setContactDrawerOpen(true)}
+                        startIcon={<ContactsIcon />}
+                      >
+                        View Contact
+                      </MobileContactButton>
+                    )}
+                  </>
+                )}
+              </MobileActionsBar>
+            ) : null}
+          </>
         )}
 
         {!isMobile && (
@@ -417,6 +482,46 @@ export function MessagesPage({ claimId: propClaimId }: MessagesPageProps = {}) {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Drawer
+        anchor="bottom"
+        open={contactDrawerOpen}
+        onClose={() => setContactDrawerOpen(false)}
+        PaperProps={{
+          sx: {
+            borderRadius: '16px 16px 0 0',
+            maxHeight: '70vh',
+          },
+        }}
+      >
+        <MobileContactDrawer>
+          <ContactCardTitle sx={{ mb: 2 }}>
+            <VerifiedUserIcon fontSize="small" />
+            {otherParty?.name ? `${otherParty.name}'s Contact` : 'Contact Details'}
+          </ContactCardTitle>
+          <MobileContactCard>
+            <MobileContactItem>
+              <MobileContactIcon>
+                <PhoneIcon />
+              </MobileContactIcon>
+              <MobileContactContent>
+                <MobileContactLabel>Phone Number</MobileContactLabel>
+                <MobileContactValue>{contact?.phone ?? 'Not provided'}</MobileContactValue>
+              </MobileContactContent>
+            </MobileContactItem>
+            <MobileContactItem>
+              <MobileContactIcon>
+                <LocationOnIcon />
+              </MobileContactIcon>
+              <MobileContactContent>
+                <MobileContactLabel>Pickup Location</MobileContactLabel>
+                <MobileContactValue>{contact?.address ?? 'Not provided'}</MobileContactValue>
+              </MobileContactContent>
+            </MobileContactItem>
+          </MobileContactCard>
+          <ContactFooter sx={{ mt: 2 }}>Contact shared after claim acceptance</ContactFooter>
+        </MobileContactDrawer>
+      </Drawer>
     </>
   );
 }

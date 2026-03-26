@@ -594,3 +594,129 @@ export const MobileItemStatus = styled(Typography)`
   font-size: ${typography.fontSize.xs};
   color: ${tc((c) => c.text.tertiary)};
 `;
+
+export const MobileActionsBar = styled(Box)`
+  display: none;
+
+  @media (max-width: 900px) {
+    display: flex;
+    align-items: center;
+    gap: ${spacing[2]};
+    padding: ${spacing[2]} ${spacing[3]};
+    background: ${tc((c) => c.background.paper)};
+    border-bottom: 1px solid ${tc((c) => c.grey[100])};
+    flex-shrink: 0;
+    overflow-x: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+`;
+
+export const MobileActionButton = styled(Button)`
+  text-transform: none;
+  font-weight: ${typography.fontWeight.semibold};
+  font-size: ${typography.fontSize.xs};
+  border-radius: ${borderRadius.lg};
+  padding: ${spacing[2]} ${spacing[3]};
+  white-space: nowrap;
+  flex-shrink: 0;
+`;
+
+export const MobileAcceptButton = styled(MobileActionButton)`
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.25);
+
+  &:hover {
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  }
+`;
+
+export const MobileRejectButton = styled(MobileActionButton)`
+  color: #dc2626;
+  border-color: #fecaca;
+  background: #fef2f2;
+
+  &:hover {
+    background: #fee2e2;
+    border-color: #dc2626;
+  }
+`;
+
+export const MobileResolveButton = styled(MobileActionButton)`
+  background: ${tc((c) => c.grey[100])};
+  color: ${tc((c) => c.text.primary)};
+  border: 1px solid ${tc((c) => c.grey[300])};
+
+  &:hover {
+    background: ${tc((c) => c.grey[200])};
+  }
+`;
+
+export const MobileContactButton = styled(MobileActionButton)`
+  background: linear-gradient(135deg, #00c896 0%, #00a67e 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 200, 150, 0.25);
+
+  &:hover {
+    background: linear-gradient(135deg, #00a67e 0%, #008f6b 100%);
+  }
+`;
+
+export const MobileContactDrawer = styled(Box)`
+  padding: ${spacing[4]};
+  background: ${tc((c) => c.background.paper)};
+  border-radius: ${borderRadius.xl} ${borderRadius.xl} 0 0;
+`;
+
+export const MobileContactCard = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing[3]};
+`;
+
+export const MobileContactItem = styled(Box)`
+  display: flex;
+  align-items: center;
+  gap: ${spacing[3]};
+  padding: ${spacing[3]};
+  background: ${tc((c) => c.grey[50])};
+  border-radius: ${borderRadius.lg};
+`;
+
+export const MobileContactIcon = styled(Box)`
+  width: 44px;
+  height: 44px;
+  border-radius: ${borderRadius.lg};
+  background: linear-gradient(135deg, #00c896 0%, #00a67e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+`;
+
+export const MobileContactContent = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+`;
+
+export const MobileContactLabel = styled(Typography)`
+  font-size: 11px;
+  font-weight: ${typography.fontWeight.medium};
+  color: ${tc((c) => c.text.tertiary)};
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+`;
+
+export const MobileContactValue = styled(Typography)`
+  font-size: ${typography.fontSize.base};
+  color: ${tc((c) => c.text.primary)};
+  font-weight: ${typography.fontWeight.semibold};
+  word-break: break-word;
+`;
