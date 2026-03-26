@@ -233,32 +233,111 @@ export const ResolveButton = styled(Button)`
   }
 `;
 
-export const WhatsAppButton = styled(Button)<{
-  component?: React.ElementType;
-  href?: string;
-  target?: string;
-  rel?: string;
-}>`
-  text-transform: none;
-  font-weight: ${typography.fontWeight.semibold};
-  border-radius: ${borderRadius.xl};
-  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
-  color: white;
-  padding: ${spacing[3]} ${spacing[4]};
-  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
-  transition: all ${transitions.duration.fast} ${transitions.easing.easeInOut};
-
-  &:hover {
-    background: linear-gradient(135deg, #128c7e 0%, #075e54 100%);
-    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.35);
-    transform: translateY(-1px);
-  }
-`;
-
 export const ContactNote = styled(Typography)`
   font-size: ${typography.fontSize.xs};
   color: ${tc((c) => c.text.tertiary)};
   text-align: center;
+`;
+
+export const ContactCard = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing[3]};
+  padding: ${spacing[4]};
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: ${borderRadius.xl};
+  border: 1px solid ${tc((c) => c.grey[200])};
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.04),
+    0 1px 3px rgba(0, 0, 0, 0.02);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #00c896 0%, #00a67e 100%);
+  }
+`;
+
+export const ContactCardTitle = styled(Typography)`
+  font-weight: ${typography.fontWeight.bold};
+  font-size: ${typography.fontSize.sm};
+  color: ${tc((c) => c.text.primary)};
+  display: flex;
+  align-items: center;
+  gap: ${spacing[2]};
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  svg {
+    color: #00c896;
+  }
+`;
+
+export const ContactItem = styled(Box)`
+  display: flex;
+  align-items: center;
+  gap: ${spacing[3]};
+  padding: ${spacing[3]};
+  background: ${tc((c) => c.grey[50])};
+  border-radius: ${borderRadius.lg};
+  transition: all ${transitions.duration.fast} ${transitions.easing.easeInOut};
+
+  &:hover {
+    background: ${tc((c) => c.grey[100])};
+  }
+`;
+
+export const ContactIcon = styled(Box)`
+  width: 40px;
+  height: 40px;
+  border-radius: ${borderRadius.lg};
+  background: linear-gradient(135deg, #00c896 0%, #00a67e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 200, 150, 0.25);
+`;
+
+export const ContactContent = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+`;
+
+export const ContactLabel = styled(Typography)`
+  font-size: 11px;
+  font-weight: ${typography.fontWeight.medium};
+  color: ${tc((c) => c.text.tertiary)};
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+`;
+
+export const ContactValue = styled(Typography)`
+  font-size: ${typography.fontSize.base};
+  color: ${tc((c) => c.text.primary)};
+  font-weight: ${typography.fontWeight.semibold};
+  word-break: break-word;
+  line-height: 1.4;
+`;
+
+export const ContactFooter = styled(Typography)`
+  font-size: 11px;
+  color: ${tc((c) => c.text.tertiary)};
+  text-align: center;
+  margin-top: ${spacing[1]};
+  padding: ${spacing[2]} ${spacing[3]};
+  background: ${tc((c) => c.grey[50])};
+  border-radius: ${borderRadius.md};
 `;
 
 export const ChatPanel = styled(Box)`

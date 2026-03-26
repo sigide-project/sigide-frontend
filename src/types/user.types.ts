@@ -5,6 +5,7 @@ export interface User {
   name: string;
   phone?: string | null;
   avatar_url?: string | null;
+  address?: string | null;
   roles?: string[];
   createdAt: string;
   updatedAt: string;
@@ -32,4 +33,5 @@ export interface UpdateUserData {
   phone?: string;
   avatar_url?: string;
   username?: string;
+  address?: string;
 }

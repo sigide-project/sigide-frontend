@@ -21,6 +21,7 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import LockIcon from '@mui/icons-material/Lock';
 import EditIcon from '@mui/icons-material/Edit';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -47,6 +48,10 @@ const phoneSchema = yup.object({
     .matches(/^[0-9]*$/, 'Phone must contain only numbers')
     .min(10, 'Phone must be at least 10 digits')
     .default(''),
+});
+
+const addressSchema = yup.object({
+  address: yup.string().max(500, 'Address must be at most 500 characters').default(''),
 });
 
 const usernameSchema = yup.object({
@@ -93,6 +98,7 @@ const setPasswordSchema = yup.object({
 });
 
 type PhoneFormData = yup.InferType<typeof phoneSchema>;
+type AddressFormData = yup.InferType<typeof addressSchema>;
 type PasswordFormData = yup.InferType<typeof passwordSchema>;
 type SetPasswordFormData = yup.InferType<typeof setPasswordSchema>;
 type UsernameFormData = yup.InferType<typeof usernameSchema>;
@@ -112,6 +118,7 @@ export function PersonalInfoSection({
 }: PersonalInfoSectionProps) {
   const [isEditingPhone, setIsEditingPhone] = useState(false);
   const [isEditingUsername, setIsEditingUsername] = useState(false);
+  const [isEditingAddress, setIsEditingAddress] = useState(false);
   const [passwordDialogOpen, setPasswordDialogOpen] = useState(false);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -143,6 +150,16 @@ export function PersonalInfoSection({
   } = useForm<PhoneFormData>({
     resolver: yupResolver(phoneSchema) as any,
     defaultValues: { phone: user?.phone || '' },
+  });
+
+  const {
+    control: addressControl,
+    handleSubmit: handleAddressSubmit,
+    reset: resetAddressForm,
+    formState: { errors: addressErrors },
+  } = useForm<AddressFormData>({
+    resolver: yupResolver(addressSchema) as any,
+    defaultValues: { address: user?.address || '' },
   });
 
   const {
@@ -208,6 +225,16 @@ export function PersonalInfoSection({
   const handlePhoneCancel = () => {
     resetPhoneForm({ phone: user?.phone || '' });
     setIsEditingPhone(false);
+  };
+
+  const handleAddressSave = (data: AddressFormData) => {
+    onUpdateProfile({ address: data.address });
+    setIsEditingAddress(false);
+  };
+
+  const handleAddressCancel = () => {
+    resetAddressForm({ address: user?.address || '' });
+    setIsEditingAddress(false);
   };
 
   const handleUsernameSave = (data: UsernameFormData) => {
@@ -468,6 +495,68 @@ export function PersonalInfoSection({
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <InfoValue>{user?.phone || 'Not set'}</InfoValue>
                 <IconButton size="small" onClick={() => setIsEditingPhone(true)}>
+                  <EditIcon fontSize="small" />
+                </IconButton>
+              </Box>
+            )}
+          </InfoContent>
+        </InfoItem>
+
+        <Divider />
+
+        <InfoItem>
+          <InfoIcon>
+            <LocationOnIcon />
+          </InfoIcon>
+          <InfoContent>
+            <InfoLabel>Pickup Address or Area</InfoLabel>
+            {isEditingAddress ? (
+              <EditableField>
+                <form onSubmit={handleAddressSubmit(handleAddressSave)}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                    <Controller
+                      name="address"
+                      control={addressControl}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          size="small"
+                          placeholder="Enter your pickup address or area"
+                          multiline
+                          rows={3}
+                          fullWidth
+                          error={Boolean(addressErrors.address)}
+                          helperText={
+                            addressErrors.address?.message || 'Shared only after claim is accepted'
+                          }
+                          autoFocus
+                        />
+                      )}
+                    />
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      <Button type="submit" variant="contained" size="small" disabled={isUpdating}>
+                        Save
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={handleAddressCancel}
+                        disabled={isUpdating}
+                      >
+                        Cancel
+                      </Button>
+                    </Box>
+                  </Box>
+                </form>
+              </EditableField>
+            ) : (
+              <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+                <InfoValue sx={{ whiteSpace: 'pre-wrap' }}>{user?.address || 'Not set'}</InfoValue>
+                <IconButton
+                  size="small"
+                  onClick={() => setIsEditingAddress(true)}
+                  sx={{ mt: -0.5 }}
+                >
                   <EditIcon fontSize="small" />
                 </IconButton>
               </Box>

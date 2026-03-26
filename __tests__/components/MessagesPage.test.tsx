@@ -178,21 +178,6 @@ describe('MessagesPage', () => {
     expect(screen.getByRole('button', { name: /reject claim/i })).toBeInTheDocument();
   });
 
-  it('shows WhatsApp button only when claim is accepted and whatsapp_url present', () => {
-    mockUseMessages.mockReturnValue({
-      data: {
-        ...baseMessagesResponse,
-        claim: { ...baseMessagesResponse.claim, status: 'accepted' },
-        contact: { whatsapp_url: 'https://wa.me/919876543210?text=Hi' },
-      },
-      isLoading: false,
-    });
-
-    renderWithProviders(<MessagesPage />, { initialEntries: ['/messages/claim-1'] });
-
-    expect(screen.getByRole('link', { name: /whatsapp/i })).toBeInTheDocument();
-  });
-
   it('shows closed banner when claim is resolved', () => {
     mockUseMessages.mockReturnValue({
       data: {

@@ -13,8 +13,10 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
-import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import PhoneIcon from '@mui/icons-material/Phone';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import { useAuthStore } from '@/store';
 import {
   useMessages,
@@ -45,8 +47,14 @@ import {
   AcceptButton,
   RejectButton,
   ResolveButton,
-  WhatsAppButton,
-  ContactNote,
+  ContactCard,
+  ContactCardTitle,
+  ContactItem,
+  ContactIcon,
+  ContactContent,
+  ContactLabel,
+  ContactValue,
+  ContactFooter,
   ChatPanel,
   MessageList,
   MessageBubbleRow,
@@ -297,21 +305,32 @@ export function MessagesPage({ claimId: propClaimId }: MessagesPageProps = {}) {
               </ActionButtonsSection>
             )}
 
-            {claim.status === 'accepted' && contact?.whatsapp_url && (
-              <ActionButtonsSection>
-                <WhatsAppButton
-                  component="a"
-                  variant="contained"
-                  fullWidth
-                  startIcon={<WhatsAppIcon />}
-                  href={contact.whatsapp_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  WhatsApp
-                </WhatsAppButton>
-                <ContactNote>Contact details are only shared after claim is accepted</ContactNote>
-              </ActionButtonsSection>
+            {claim.status === 'accepted' && contact && (
+              <ContactCard>
+                <ContactCardTitle>
+                  <VerifiedUserIcon fontSize="small" />
+                  {otherParty?.name ? `${otherParty.name}'s Contact` : 'Contact Details'}
+                </ContactCardTitle>
+                <ContactItem>
+                  <ContactIcon>
+                    <PhoneIcon fontSize="small" />
+                  </ContactIcon>
+                  <ContactContent>
+                    <ContactLabel>Phone Number</ContactLabel>
+                    <ContactValue>{contact.phone ?? 'Not provided'}</ContactValue>
+                  </ContactContent>
+                </ContactItem>
+                <ContactItem>
+                  <ContactIcon>
+                    <LocationOnIcon fontSize="small" />
+                  </ContactIcon>
+                  <ContactContent>
+                    <ContactLabel>Pickup Location</ContactLabel>
+                    <ContactValue>{contact.address ?? 'Not provided'}</ContactValue>
+                  </ContactContent>
+                </ContactItem>
+                <ContactFooter>Contact shared after claim acceptance</ContactFooter>
+              </ContactCard>
             )}
           </Sidebar>
         )}

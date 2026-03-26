@@ -10,6 +10,13 @@ export interface Message {
   createdAt: string;
 }
 
+export interface ClaimParty {
+  id: string;
+  name: string;
+  avatar_url: string | null;
+  rating?: number;
+}
+
 export interface MessagesResponse {
   success: boolean;
   messages: Message[];
@@ -24,12 +31,13 @@ export interface MessagesResponse {
       location_name?: string;
       image_urls?: string[];
     };
-    claimant: User;
-    owner: User;
+    claimant: ClaimParty;
+    owner: ClaimParty;
   };
   contact?: {
-    whatsapp_url: string;
-  };
+    phone: string | null;
+    address: string | null;
+  } | null;
 }
 
 export interface Notification {
