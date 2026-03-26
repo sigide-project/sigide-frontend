@@ -22,6 +22,7 @@ import {
   CookiePolicyPage,
   MessagesPage,
   ChatsPage,
+  PageNotFound,
 } from '@/pages';
 import { ProtectedRoute, Navbar, Footer } from '@/components';
 import { ScrollToTop } from './utils';
@@ -85,6 +86,9 @@ function AppContent() {
             <Route path="/chats" element={<ChatsPage />} />
             <Route path="/messages/:claimId" element={<MessagesPage />} />
           </Route>
+
+          {/* 404 catch-all */}
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </AnimatePresence>
       {showFooter && <Footer />}

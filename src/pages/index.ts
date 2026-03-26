@@ -18,3 +18,4 @@ export { CookiePolicyPage } from './CookiePolicyPage';
 export { MessagesPage } from './MessagesPage';
 export type { MessagesPageProps } from './MessagesPage';
 export { ChatsPage } from './ChatsPage';
+export { PageNotFound } from './PageNotFound';

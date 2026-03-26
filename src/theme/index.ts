@@ -220,6 +220,26 @@ const getComponents = (mode: 'light' | 'dark'): ThemeOptions['components'] => {
           minHeight: '100vh',
           transition: 'background 0.3s ease-in-out',
         },
+        '*::-webkit-scrollbar': {
+          width: '8px',
+          height: '8px',
+        },
+        '*::-webkit-scrollbar-track': {
+          background: themeColors.background.default,
+          borderRadius: '4px',
+        },
+        '*::-webkit-scrollbar-thumb': {
+          background: `linear-gradient(180deg, ${themeColors.primary[400]}, ${themeColors.primary[600]})`,
+          borderRadius: '4px',
+          border: `2px solid ${themeColors.background.default}`,
+        },
+        '*::-webkit-scrollbar-thumb:hover': {
+          background: `linear-gradient(180deg, ${themeColors.primary[300]}, ${themeColors.primary[500]})`,
+        },
+        '*': {
+          scrollbarWidth: 'thin',
+          scrollbarColor: `${themeColors.primary[400]} ${themeColors.background.default}`,
+        },
       },
     },
     MuiButton: {
