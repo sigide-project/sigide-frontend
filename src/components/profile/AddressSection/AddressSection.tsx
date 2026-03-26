@@ -11,7 +11,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import WorkIcon from '@mui/icons-material/Work';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import StarIcon from '@mui/icons-material/Star';
-import type { Address } from '@/types';
+import type { Address, CreateAddressData } from '@/types';
 import { AddressDialog } from '../AddressDialog';
 import {
   SectionCard,
@@ -30,8 +30,8 @@ import {
 interface AddressSectionProps {
   addresses: Address[];
   isLoading: boolean;
-  onAddAddress: (data: any) => Promise<void>;
-  onUpdateAddress: (id: string, data: any) => Promise<void>;
+  onAddAddress: (data: CreateAddressData) => Promise<void>;
+  onUpdateAddress: (id: string, data: CreateAddressData) => Promise<void>;
   onDeleteAddress: (id: string) => Promise<void>;
   onSetDefault: (id: string) => Promise<void>;
 }
@@ -66,7 +66,7 @@ export function AddressSection({
     setEditingAddress(null);
   };
 
-  const handleSaveAddress = async (data: any) => {
+  const handleSaveAddress = async (data: CreateAddressData) => {
     if (editingAddress) {
       await onUpdateAddress(editingAddress.id, data);
     } else {

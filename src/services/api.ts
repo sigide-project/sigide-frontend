@@ -83,9 +83,10 @@ export interface ItemsApiResponse {
 
 export const itemsApi = {
   getItems: (params: ItemsQueryParams): Promise<AxiosResponse<ItemsApiResponse>> => {
-    const queryParams: Record<string, any> = { ...params };
-    if (params.tags && params.tags.length > 0) {
-      queryParams.tags = params.tags.join(',');
+    const { tags, ...rest } = params;
+    const queryParams: Record<string, string | number | boolean | null | undefined> = { ...rest };
+    if (tags && tags.length > 0) {
+      queryParams.tags = tags.join(',');
     }
     return api.get('/items', { params: queryParams });
   },

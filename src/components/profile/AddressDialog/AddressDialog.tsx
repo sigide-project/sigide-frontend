@@ -77,7 +77,7 @@ export function AddressDialog({ open, address, onClose, onSave }: AddressDialogP
     reset,
     formState: { errors, isSubmitting },
   } = useForm<AddressFormData>({
-    resolver: yupResolver(addressSchema) as any,
+    resolver: yupResolver(addressSchema),
     defaultValues: {
       label: 'Home',
       address_line1: '',

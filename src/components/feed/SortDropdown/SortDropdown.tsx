@@ -33,7 +33,7 @@ export function SortDropdown({
   onSortOrderChange,
   hasLocation,
 }: SortDropdownProps) {
-  const handleSortByChange = (event: any) => {
+  const handleSortByChange = (event: { target: { value: string } }) => {
     onSortByChange(event.target.value as ItemSortBy);
   };
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, Resolver } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Box from '@mui/material/Box';
@@ -148,7 +148,7 @@ export function PersonalInfoSection({
     reset: resetPhoneForm,
     formState: { errors: phoneErrors },
   } = useForm<PhoneFormData>({
-    resolver: yupResolver(phoneSchema) as any,
+    resolver: yupResolver(phoneSchema) as Resolver<PhoneFormData>,
     defaultValues: { phone: user?.phone || '' },
   });
 
@@ -158,7 +158,7 @@ export function PersonalInfoSection({
     reset: resetAddressForm,
     formState: { errors: addressErrors },
   } = useForm<AddressFormData>({
-    resolver: yupResolver(addressSchema) as any,
+    resolver: yupResolver(addressSchema) as Resolver<AddressFormData>,
     defaultValues: { address: user?.address || '' },
   });
 
@@ -169,7 +169,7 @@ export function PersonalInfoSection({
     watch: watchUsername,
     formState: { errors: usernameErrors },
   } = useForm<UsernameFormData>({
-    resolver: yupResolver(usernameSchema) as any,
+    resolver: yupResolver(usernameSchema) as Resolver<UsernameFormData>,
     defaultValues: { username: user?.username || '' },
   });
 
@@ -196,7 +196,7 @@ export function PersonalInfoSection({
     reset: resetPasswordForm,
     formState: { errors: passwordErrors },
   } = useForm<PasswordFormData>({
-    resolver: yupResolver(passwordSchema) as any,
+    resolver: yupResolver(passwordSchema) as Resolver<PasswordFormData>,
     defaultValues: {
       currentPassword: '',
       newPassword: '',
@@ -210,7 +210,7 @@ export function PersonalInfoSection({
     reset: resetSetPasswordForm,
     formState: { errors: setPasswordErrors },
   } = useForm<SetPasswordFormData>({
-    resolver: yupResolver(setPasswordSchema) as any,
+    resolver: yupResolver(setPasswordSchema) as Resolver<SetPasswordFormData>,
     defaultValues: {
       newPassword: '',
       confirmPassword: '',

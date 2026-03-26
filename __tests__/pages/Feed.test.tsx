@@ -32,7 +32,7 @@ describe('Feed', () => {
   });
 
   it('should handle empty results', () => {
-    const items: any[] = [];
+    const items: unknown[] = [];
     expect(items.length).toBe(0);
   });
 
