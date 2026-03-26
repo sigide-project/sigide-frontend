@@ -1,4 +1,4 @@
-import { screen, waitFor, fireEvent } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithProviders } from '../test-utils';
 import { ClaimSubmitDialog } from '@/components/ClaimSubmitDialog';
@@ -56,13 +56,14 @@ describe('ClaimSubmitDialog', () => {
   });
 
   it('shows validation error when description is under 10 chars', async () => {
+    const user = userEvent.setup();
     renderWithProviders(<ClaimSubmitDialog {...defaultProps} />);
 
     const descriptionField = screen.getByLabelText(/describe how you found it/i);
-    await userEvent.type(descriptionField, 'Short');
+    await user.type(descriptionField, 'Short');
 
     const submitButton = screen.getByRole('button', { name: /submit claim/i });
-    fireEvent.click(submitButton);
+    await user.click(submitButton);
 
     await waitFor(() => {
       expect(screen.getByText(/at least 10 characters/i)).toBeInTheDocument();
@@ -70,6 +71,7 @@ describe('ClaimSubmitDialog', () => {
   });
 
   it('shows "cannot claim own item" alert on 403', async () => {
+    const user = userEvent.setup();
     mockMutateAsync.mockRejectedValueOnce({
       response: { status: 403, data: { message: 'You cannot claim your own item' } },
     });
@@ -77,10 +79,10 @@ describe('ClaimSubmitDialog', () => {
     renderWithProviders(<ClaimSubmitDialog {...defaultProps} />);
 
     const descriptionField = screen.getByLabelText(/describe how you found it/i);
-    await userEvent.type(descriptionField, 'I found this wallet near the park bench area');
+    await user.type(descriptionField, 'I found this wallet near the park bench area');
 
     const submitButton = screen.getByRole('button', { name: /submit claim/i });
-    fireEvent.click(submitButton);
+    await user.click(submitButton);
 
     await waitFor(() => {
       expect(screen.getByText(/cannot claim your own item/i)).toBeInTheDocument();
@@ -88,6 +90,7 @@ describe('ClaimSubmitDialog', () => {
   });
 
   it('shows "already claimed" alert on 409', async () => {
+    const user = userEvent.setup();
     mockMutateAsync.mockRejectedValueOnce({
       response: { status: 409, data: { message: 'You already have an active claim on this item' } },
     });
@@ -95,10 +98,10 @@ describe('ClaimSubmitDialog', () => {
     renderWithProviders(<ClaimSubmitDialog {...defaultProps} />);
 
     const descriptionField = screen.getByLabelText(/describe how you found it/i);
-    await userEvent.type(descriptionField, 'I found this wallet near the park bench area');
+    await user.type(descriptionField, 'I found this wallet near the park bench area');
 
     const submitButton = screen.getByRole('button', { name: /submit claim/i });
-    fireEvent.click(submitButton);
+    await user.click(submitButton);
 
     await waitFor(() => {
       expect(screen.getByText(/already have an active claim/i)).toBeInTheDocument();
@@ -106,15 +109,16 @@ describe('ClaimSubmitDialog', () => {
   });
 
   it('navigates to /messages/:claimId on success', async () => {
+    const user = userEvent.setup();
     mockMutateAsync.mockResolvedValueOnce({ id: 'claim-123' });
 
     renderWithProviders(<ClaimSubmitDialog {...defaultProps} />);
 
     const descriptionField = screen.getByLabelText(/describe how you found it/i);
-    await userEvent.type(descriptionField, 'I found this wallet near the park bench area');
+    await user.type(descriptionField, 'I found this wallet near the park bench area');
 
     const submitButton = screen.getByRole('button', { name: /submit claim/i });
-    fireEvent.click(submitButton);
+    await user.click(submitButton);
 
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith('/messages/claim-123');

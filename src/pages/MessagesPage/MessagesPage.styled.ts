@@ -8,7 +8,9 @@ const fadeIn = keyframes`
   to { opacity: 1; }
 `;
 
-export const PageWrapper = styled(Box)<{ $embedded?: boolean }>`
+const shouldForwardProp = (prop: string) => !prop.startsWith('$');
+
+export const PageWrapper = styled(Box, { shouldForwardProp })<{ $embedded?: boolean }>`
   display: flex;
   height: ${({ $embedded }) => ($embedded ? '100%' : `calc(100vh - ${NAVBAR_HEIGHT}px)`)};
   position: ${({ $embedded }) => ($embedded ? 'relative' : 'fixed')};
@@ -533,7 +535,7 @@ export const SendButton = styled(IconButton)`
   }
 `;
 
-export const LoadingWrapper = styled(Box)<{ $embedded?: boolean }>`
+export const LoadingWrapper = styled(Box, { shouldForwardProp })<{ $embedded?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
