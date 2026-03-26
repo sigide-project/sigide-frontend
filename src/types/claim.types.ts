@@ -22,3 +22,33 @@ export interface CreateClaimData {
   proof_description: string;
   proof_images?: string[];
 }
+
+export interface ChatSummary {
+  claim_id: string;
+  status: 'pending' | 'accepted' | 'rejected' | 'resolved';
+  item: {
+    id: string;
+    title: string;
+    type: 'lost' | 'found';
+    status: string;
+    thumbnail_url: string | null;
+    location_name: string;
+  };
+  other_party: {
+    id: string;
+    name: string;
+    avatar_url: string | null;
+  };
+  last_message: {
+    id: string;
+    content: string;
+    sender_id: string;
+    created_at: string;
+  } | null;
+  unread_count: number;
+}
+
+export interface MyChatsResponse {
+  success: boolean;
+  chats: ChatSummary[];
+}

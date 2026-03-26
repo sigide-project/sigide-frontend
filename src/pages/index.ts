@@ -16,3 +16,5 @@ export { PrivacyPolicyPage } from './PrivacyPolicyPage';
 export { TermsOfServicePage } from './TermsOfServicePage';
 export { CookiePolicyPage } from './CookiePolicyPage';
 export { MessagesPage } from './MessagesPage';
+export type { MessagesPageProps } from './MessagesPage';
+export { ChatsPage } from './ChatsPage';

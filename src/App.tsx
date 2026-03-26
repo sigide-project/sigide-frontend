@@ -21,6 +21,7 @@ import {
   TermsOfServicePage,
   CookiePolicyPage,
   MessagesPage,
+  ChatsPage,
 } from '@/pages';
 import { ProtectedRoute, Navbar, Footer } from '@/components';
 import { ScrollToTop } from './utils';
@@ -37,7 +38,7 @@ const queryClient = new QueryClient({
 
 const AUTH_PATHS = ['/login', '/register', '/auth/callback'];
 const PATHS_WITHOUT_NAVBAR = ['/auth/callback'];
-const PATHS_WITHOUT_FOOTER = ['/login', '/register', '/auth/callback', '/'];
+const PATHS_WITHOUT_FOOTER = ['/login', '/register', '/auth/callback', '/', '/chats'];
 const PATHS_WITHOUT_FOOTER_PREFIX = ['/messages/'];
 
 function AppContent() {
@@ -81,6 +82,7 @@ function AppContent() {
             <Route path="/feed" element={<Feed />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/user/:username" element={<UserProfilePage />} />
+            <Route path="/chats" element={<ChatsPage />} />
             <Route path="/messages/:claimId" element={<MessagesPage />} />
           </Route>
         </Routes>

@@ -20,7 +20,13 @@ export type {
 export { ITEM_CATEGORIES } from './item.types';
 
 // Claim types
-export type { ClaimStatus, Claim, CreateClaimData } from './claim.types';
+export type {
+  ClaimStatus,
+  Claim,
+  CreateClaimData,
+  ChatSummary,
+  MyChatsResponse,
+} from './claim.types';
 
 // Message types
 export type {

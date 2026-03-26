@@ -11,8 +11,10 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import Badge from '@mui/material/Badge';
 import { useAuthStore } from '@/store';
-import { useCurrentUser } from '@/hooks';
+import { useCurrentUser, useMyChats } from '@/hooks';
 import { disconnectSocket } from '@/services';
 import { AddItemDialog, NotificationsBell } from '@/components';
 import { SPRING, DURATION, EASE } from '@/utils/animations';
@@ -59,8 +61,10 @@ export function Navbar({ onAddItemClick, isAuthPage = false }: NavbarProps) {
   const navigate = useNavigate();
   const { user: storeUser, clearAuth, isAuthenticated } = useAuthStore();
   const { data: fetchedUser } = useCurrentUser();
+  const { chats } = useMyChats();
   const user = fetchedUser ?? storeUser;
   const showUserFeatures = isAuthenticated && !isAuthPage;
+  const totalUnread = chats?.reduce((sum, c) => sum + c.unread_count, 0) ?? 0;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [addItemDialogOpen, setAddItemDialogOpen] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -122,6 +126,11 @@ export function Navbar({ onAddItemClick, isAuthPage = false }: NavbarProps) {
 
   const handleFeedClick = useCallback(() => {
     navigate('/feed');
+    setMobileDrawerOpen(false);
+  }, [navigate]);
+
+  const handleChatsClick = useCallback(() => {
+    navigate('/chats');
     setMobileDrawerOpen(false);
   }, [navigate]);
 
@@ -265,6 +274,13 @@ export function Navbar({ onAddItemClick, isAuthPage = false }: NavbarProps) {
               <DrawerMenuItem onClick={handleMyProfileClick}>
                 <PersonOutlineIcon />
                 My Profile
+              </DrawerMenuItem>
+
+              <DrawerMenuItem onClick={handleChatsClick}>
+                <Badge badgeContent={totalUnread} color="error" max={99}>
+                  <ChatBubbleOutlineIcon />
+                </Badge>
+                My Chats
               </DrawerMenuItem>
 
               <DrawerAddItemButton onClick={handleAddItemClick}>

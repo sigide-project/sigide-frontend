@@ -10,6 +10,8 @@ export type { AddItemDialogProps } from './AddItemDialog';
 export { ClaimSubmitDialog } from './ClaimSubmitDialog';
 export type { ClaimSubmitDialogProps } from './ClaimSubmitDialog';
 export { NotificationsBell } from './NotificationsBell';
+export { ChatRow } from './ChatRow';
+export type { ChatRowProps } from './ChatRow';
 export { SearchBar } from './feed/SearchBar';
 export type { SearchBarProps } from './feed/SearchBar';
 export { FilterPanel } from './feed/FilterPanel';

@@ -70,3 +70,7 @@ export {
 } from './useSavedItems';
 
 export { useSocket } from './useSocket';
+
+export { useMyChats, MY_CHATS_QUERY_KEY } from './useMyChats';
+
+export { useDeleteChat } from './useDeleteChat';

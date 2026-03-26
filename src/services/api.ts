@@ -23,6 +23,7 @@ import type {
   MessagesResponse,
   Notification,
   NotificationsResponse,
+  MyChatsResponse,
 } from '@/types';
 
 const API_BASE_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:4000'}/api`;
@@ -132,6 +133,10 @@ export const claimsApi = {
 
   resolveClaim: (id: string): Promise<AxiosResponse<{ success: boolean; claim: Claim }>> =>
     api.patch(`/claims/${id}/resolve`),
+
+  getMyChats: (): Promise<AxiosResponse<MyChatsResponse>> => api.get('/claims/my-chats'),
+
+  deleteChat: (id: string): Promise<AxiosResponse<void>> => api.delete(`/claims/${id}/chat`),
 };
 
 export const messagesApi = {

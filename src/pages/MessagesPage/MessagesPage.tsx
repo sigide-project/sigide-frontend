@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -8,9 +8,13 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
+import IconButton from '@mui/material/IconButton';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useAuthStore } from '@/store';
 import {
   useMessages,
@@ -57,6 +61,12 @@ import {
   StyledTextField,
   SendButton,
   LoadingWrapper,
+  MobileHeader,
+  MobileItemInfo,
+  MobileItemImage,
+  MobileItemDetails,
+  MobileItemTitle,
+  MobileItemStatus,
 } from './MessagesPage.styled';
 
 function getRelativeTime(dateStr: string): string {
@@ -84,8 +94,17 @@ function getInitials(name?: string): string {
     .slice(0, 2);
 }
 
-export function MessagesPage() {
-  const { claimId } = useParams<{ claimId: string }>();
+export interface MessagesPageProps {
+  claimId?: string;
+}
+
+export function MessagesPage({ claimId: propClaimId }: MessagesPageProps = {}) {
+  const { claimId: paramClaimId } = useParams<{ claimId: string }>();
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const claimId = propClaimId ?? paramClaimId;
+  const isEmbedded = !!propClaimId;
   const queryClient = useQueryClient();
   const { user } = useAuthStore();
   const { data, isLoading } = useMessages(claimId);
@@ -161,9 +180,13 @@ export function MessagesPage() {
     setConfirmDialog({ open: false, action: 'reject' });
   }, [claimId, confirmDialog.action, rejectClaim, resolveClaim, queryClient]);
 
+  const handleBack = () => {
+    navigate('/chats');
+  };
+
   if (isLoading) {
     return (
-      <LoadingWrapper>
+      <LoadingWrapper $embedded={isEmbedded}>
         <CircularProgress />
       </LoadingWrapper>
     );
@@ -171,7 +194,7 @@ export function MessagesPage() {
 
   if (!claim) {
     return (
-      <LoadingWrapper>
+      <LoadingWrapper $embedded={isEmbedded}>
         <div>Claim not found</div>
       </LoadingWrapper>
     );
@@ -188,93 +211,110 @@ export function MessagesPage() {
 
   return (
     <>
-      <PageWrapper>
-        <Sidebar elevation={0}>
-          {firstImage ? (
-            <ItemThumbnail src={firstImage} alt={itemData.title} />
-          ) : (
-            <ItemThumbnailPlaceholder>No image</ItemThumbnailPlaceholder>
-          )}
+      <PageWrapper $embedded={isEmbedded}>
+        {isMobile && (
+          <MobileHeader>
+            <IconButton onClick={handleBack} size="small">
+              <ArrowBackIcon />
+            </IconButton>
+            <MobileItemInfo>
+              {firstImage && <MobileItemImage src={firstImage} alt={itemData.title} />}
+              <MobileItemDetails>
+                <MobileItemTitle>{itemData.title}</MobileItemTitle>
+                <MobileItemStatus>{statusLabels[claim.status] || claim.status}</MobileItemStatus>
+              </MobileItemDetails>
+            </MobileItemInfo>
+          </MobileHeader>
+        )}
 
-          <ItemInfoSection>
-            <SidebarItemTitle>{itemData.title}</SidebarItemTitle>
-            <div>
-              <Chip label={itemData.type} size="small" variant="outlined" />
-            </div>
-            {itemData.location_name && (
-              <ItemLocationText>{itemData.location_name}</ItemLocationText>
+        {!isMobile && (
+          <Sidebar elevation={0}>
+            {firstImage ? (
+              <ItemThumbnail src={firstImage} alt={itemData.title} />
+            ) : (
+              <ItemThumbnailPlaceholder>No image</ItemThumbnailPlaceholder>
             )}
-            <StatusBadge
-              label={statusLabels[claim.status] || claim.status}
-              claimstatus={claim.status}
-              size="small"
-            />
-          </ItemInfoSection>
 
-          {otherParty && (
-            <OtherPartySection>
-              <OtherPartyAvatar src={otherParty.avatar_url || undefined}>
-                {!otherParty.avatar_url && getInitials(otherParty.name)}
-              </OtherPartyAvatar>
-              <OtherPartyName>{otherParty.name}</OtherPartyName>
-            </OtherPartySection>
-          )}
+            <ItemInfoSection>
+              <SidebarItemTitle>{itemData.title}</SidebarItemTitle>
+              <div>
+                <Chip label={itemData.type} size="small" variant="outlined" />
+              </div>
+              {itemData.location_name && (
+                <ItemLocationText>{itemData.location_name}</ItemLocationText>
+              )}
+              <StatusBadge
+                label={statusLabels[claim.status] || claim.status}
+                claimstatus={claim.status}
+                size="small"
+              />
+            </ItemInfoSection>
 
-          {isOwner && claim.status === 'pending' && (
-            <ActionButtonsSection>
-              <AcceptButton
-                variant="contained"
-                fullWidth
-                onClick={handleAccept}
-                disabled={acceptClaim.isPending}
-              >
-                {acceptClaim.isPending ? (
-                  <CircularProgress size={20} color="inherit" />
-                ) : (
-                  'Accept Claim'
-                )}
-              </AcceptButton>
-              <RejectButton
-                variant="outlined"
-                fullWidth
-                onClick={() => setConfirmDialog({ open: true, action: 'reject' })}
-                disabled={rejectClaim.isPending}
-              >
-                Reject Claim
-              </RejectButton>
-            </ActionButtonsSection>
-          )}
+            {otherParty && (
+              <OtherPartySection>
+                <OtherPartyAvatar src={otherParty.avatar_url || undefined}>
+                  {!otherParty.avatar_url && getInitials(otherParty.name)}
+                </OtherPartyAvatar>
+                <OtherPartyName>{otherParty.name}</OtherPartyName>
+              </OtherPartySection>
+            )}
 
-          {claim.status === 'accepted' && (isOwner || !isOwner) && (
-            <ActionButtonsSection>
-              <ResolveButton
-                variant="outlined"
-                fullWidth
-                onClick={() => setConfirmDialog({ open: true, action: 'resolve' })}
-                disabled={resolveClaim.isPending}
-              >
-                Mark as Resolved
-              </ResolveButton>
-            </ActionButtonsSection>
-          )}
+            {isOwner && claim.status === 'pending' && (
+              <ActionButtonsSection>
+                <AcceptButton
+                  variant="contained"
+                  fullWidth
+                  onClick={handleAccept}
+                  disabled={acceptClaim.isPending}
+                >
+                  {acceptClaim.isPending ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : (
+                    'Accept Claim'
+                  )}
+                </AcceptButton>
+                <RejectButton
+                  variant="outlined"
+                  fullWidth
+                  onClick={() => setConfirmDialog({ open: true, action: 'reject' })}
+                  disabled={rejectClaim.isPending}
+                >
+                  Reject Claim
+                </RejectButton>
+              </ActionButtonsSection>
+            )}
 
-          {claim.status === 'accepted' && contact?.whatsapp_url && (
-            <ActionButtonsSection>
-              <WhatsAppButton
-                component="a"
-                variant="contained"
-                fullWidth
-                startIcon={<WhatsAppIcon />}
-                href={contact.whatsapp_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                WhatsApp
-              </WhatsAppButton>
-              <ContactNote>Contact details are only shared after claim is accepted</ContactNote>
-            </ActionButtonsSection>
-          )}
-        </Sidebar>
+            {claim.status === 'accepted' && (isOwner || !isOwner) && (
+              <ActionButtonsSection>
+                <ResolveButton
+                  variant="outlined"
+                  fullWidth
+                  onClick={() => setConfirmDialog({ open: true, action: 'resolve' })}
+                  disabled={resolveClaim.isPending}
+                >
+                  Mark as Resolved
+                </ResolveButton>
+              </ActionButtonsSection>
+            )}
+
+            {claim.status === 'accepted' && contact?.whatsapp_url && (
+              <ActionButtonsSection>
+                <WhatsAppButton
+                  component="a"
+                  variant="contained"
+                  fullWidth
+                  startIcon={<WhatsAppIcon />}
+                  href={contact.whatsapp_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  WhatsApp
+                </WhatsAppButton>
+                <ContactNote>Contact details are only shared after claim is accepted</ContactNote>
+              </ActionButtonsSection>
+            )}
+          </Sidebar>
+        )}
 
         <ChatPanel>
           <MessageList>
