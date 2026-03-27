@@ -18,13 +18,12 @@ import { useCurrentUser, useMyChats } from '@/hooks';
 import { disconnectSocket } from '@/services';
 import { AddItemDialog, NotificationsBell } from '@/components';
 import { SPRING, DURATION, EASE } from '@/utils/animations';
+import sigide_logo from '@/assets/sigide_logo.png';
 import {
   StyledAppBar,
   StyledToolbar,
   LogoContainer,
-  LogoIcon,
-  LogoLetter,
-  LogoText,
+  LogoImage,
   RightSection,
   AddItemButton,
   ProfileButton,
@@ -156,10 +155,7 @@ export function Navbar({ onAddItemClick, isAuthPage = false }: NavbarProps) {
             whileTap={{ scale: 0.98 }}
             transition={SPRING.gentle}
           >
-            <LogoIcon>
-              <LogoLetter>S</LogoLetter>
-            </LogoIcon>
-            <LogoText>Sigide</LogoText>
+            <LogoImage src={sigide_logo} alt="Sigide logo" />
           </MotionLogoContainer>
 
           <RightSection>
@@ -240,10 +236,7 @@ export function Navbar({ onAddItemClick, isAuthPage = false }: NavbarProps) {
           <MobileDrawer anchor="left" open={mobileDrawerOpen} onClose={handleMobileDrawerClose}>
             <DrawerHeader>
               <DrawerLogoContainer onClick={handleLogoClick}>
-                <LogoIcon>
-                  <LogoLetter>S</LogoLetter>
-                </LogoIcon>
-                <LogoText>Sigide</LogoText>
+                <LogoImage src={sigide_logo} alt="Sigide logo" />
               </DrawerLogoContainer>
               <CloseButton onClick={handleMobileDrawerClose} aria-label="Close menu">
                 <CloseIcon />

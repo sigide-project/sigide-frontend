@@ -8,13 +8,12 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import { useAuthStore } from '@/store';
 import { useCurrentUser } from '@/hooks';
+import sigide_logo from '@/assets/sigide_logo.png';
 import {
   StyledAppBar,
   StyledToolbar,
   LogoContainer,
-  LogoIcon,
-  LogoLetter,
-  LogoText,
+  LogoImage,
   RightSection,
   LoginButton,
   SignUpButton,
@@ -73,10 +72,7 @@ export function PublicNavbar() {
       <StyledAppBar position="fixed">
         <StyledToolbar>
           <LogoContainer onClick={handleLogoClick}>
-            <LogoIcon className="public-navbar-logo-icon">
-              <LogoLetter>S</LogoLetter>
-            </LogoIcon>
-            <LogoText>Sigide</LogoText>
+            <LogoImage src={sigide_logo} alt="Sigide logo" className="public-navbar-logo-icon" />
           </LogoContainer>
 
           <RightSection>

@@ -115,9 +115,9 @@ describe('PageNotFound', () => {
     expect(mockNavigate).toHaveBeenCalledWith('/feed');
   });
 
-  it('renders the compass icon', () => {
+  it('renders the logo image', () => {
     renderPageNotFound();
-    expect(screen.getByTestId('ExploreRoundedIcon')).toBeInTheDocument();
+    expect(screen.getByAltText('Sigide logo')).toBeInTheDocument();
   });
 
   it('renders both navigation buttons', () => {

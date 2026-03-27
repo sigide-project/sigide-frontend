@@ -87,29 +87,16 @@ export const LogoContainer = styled('div')`
   }
 
   &:hover .footer-logo-icon {
-    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.35);
     transform: rotate(-5deg);
   }
 `;
 
-export const LogoIcon = styled('div')`
+export const LogoImage = styled('img')`
   width: 48px;
   height: 48px;
-  border-radius: ${borderRadius.lg};
-  background: ${tc((c) => c.decorative.purple)};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+  object-fit: contain;
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
   animation: ${float} 3s ease-in-out infinite;
-`;
-
-export const LogoLetter = styled('span')`
-  font-size: 1.5rem;
-  font-weight: ${typography.fontWeight.extrabold};
-  color: ${tc((c) => c.text.inverse)};
-  font-family: ${typography.fontFamily.display};
 `;
 
 export const LogoText = styled('span')`

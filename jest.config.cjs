@@ -6,6 +6,7 @@ module.exports = {
   moduleNameMapper: {
     '^@/services/api$': '<rootDir>/__mocks__/@/services/api.ts',
     '^@/services$': '<rootDir>/__mocks__/@/services/api.ts',
+    '^@/(.+)\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__mocks__/fileMock.ts',
     '^@/(.*)$': '<rootDir>/src/$1',
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__mocks__/fileMock.ts',

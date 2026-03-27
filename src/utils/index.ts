@@ -34,6 +34,9 @@ export type { FileValidationResult } from './validation.utils';
 export { normalizeUser } from './user.utils';
 export type { ApiUser } from './user.utils';
 
+// Share utilities
+export { buildShareMessage } from './share.utils';
+
 export { default as ScrollToTop } from './ScrollToTop';
 
 // Animation utilities

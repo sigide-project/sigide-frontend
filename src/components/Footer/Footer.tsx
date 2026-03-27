@@ -4,13 +4,13 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import logoTransparent from '@/assets/logo_transparent.png';
 import {
   FooterContainer,
   FooterContent,
   BrandSection,
   LogoContainer,
-  LogoIcon,
-  LogoLetter,
+  LogoImage,
   LogoText,
   BrandDescription,
   SocialLinks,
@@ -44,9 +44,7 @@ export function Footer() {
       <FooterContent>
         <BrandSection>
           <LogoContainer onClick={handleLogoClick}>
-            <LogoIcon className="footer-logo-icon">
-              <LogoLetter>S</LogoLetter>
-            </LogoIcon>
+            <LogoImage src={logoTransparent} alt="Sigide logo" className="footer-logo-icon" />
             <LogoText>Sigide</LogoText>
           </LogoContainer>
           <BrandDescription>

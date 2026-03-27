@@ -1,0 +1,22 @@
+{
+  "short_name": "Sigide",
+  "name": "Sigide - Lost & Found Platform",
+  "description": "Reuniting people with their lost belongings through the power of community.",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo_transparent.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#7C3AED",
+  "background_color": "#FAFAFA"
+}

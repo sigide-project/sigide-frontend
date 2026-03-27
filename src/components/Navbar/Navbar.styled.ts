@@ -48,12 +48,11 @@ export const StyledToolbar = styled(Toolbar)`
   height: ${NAVBAR_HEIGHT}px;
   min-height: ${NAVBAR_HEIGHT}px;
   padding: 0 ${spacing[6]};
-  max-width: 1400px;
-  margin: 0 auto;
   width: 100%;
 
   @media (max-width: 600px) {
     padding: 0 ${spacing[4]};
+    margin: 0 auto;
   }
 `;
 
@@ -73,52 +72,13 @@ export const LogoContainer = styled('div')`
   }
 `;
 
-export const LogoIcon = styled('div')`
-  width: 44px;
-  height: 44px;
-  border-radius: ${borderRadius.lg};
-  background: ${tc((c) => c.decorative.purple)};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: ${ts((s) => s.purple.sm)};
+export const LogoImage = styled('img')`
+  height: 60px;
+  object-fit: contain;
   transition: all ${transitions.duration.normal} ${transitions.easing.easeInOut};
 
-  .logo-container:hover & {
-    box-shadow: ${ts((s) => s.purple.md)};
-    transform: rotate(-5deg);
-  }
-
   @media (max-width: 600px) {
-    width: 40px;
-    height: 40px;
-    border-radius: ${borderRadius.md};
-  }
-`;
-
-export const LogoLetter = styled('span')`
-  font-size: 1.5rem;
-  font-weight: ${typography.fontWeight.extrabold};
-  color: ${tc((c) => c.text.inverse)};
-  font-family: ${typography.fontFamily.display};
-
-  @media (max-width: 600px) {
-    font-size: 1.25rem;
-  }
-`;
-
-export const LogoText = styled('span')`
-  font-size: 1.75rem;
-  font-weight: ${typography.fontWeight.extrabold};
-  background: ${tc((c) => c.decorative.purple)};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: ${typography.letterSpacing.tight};
-  font-family: ${typography.fontFamily.display};
-
-  @media (max-width: 600px) {
-    font-size: 1.5rem;
+    height: 45px;
   }
 `;
 

@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import ExploreRoundedIcon from '@mui/icons-material/ExploreRounded';
 import DynamicFeedRoundedIcon from '@mui/icons-material/DynamicFeedRounded';
 import { pageVariants, SPRING, EASE, DURATION } from '@/utils/animations';
+import logoTransparent from '@/assets/logo_transparent.png';
 import {
   PageContainer,
   BackgroundOrb,
@@ -51,7 +51,7 @@ const compassVariants = {
     rotate: [0, 15, -15, 10, -10, 0],
     transition: {
       duration: 3,
-      ease: 'easeInOut',
+      ease: 'easeInOut' as const,
       repeat: Infinity,
       repeatDelay: 2,
     },
@@ -102,13 +102,12 @@ export function PageNotFound() {
         >
           <ScanlineOverlay />
 
-          <MotionCompassWrapper
-            variants={compassVariants}
-            initial="initial"
-            animate="animate"
-            aria-hidden="true"
-          >
-            <ExploreRoundedIcon fontSize="inherit" />
+          <MotionCompassWrapper variants={compassVariants} initial="initial" animate="animate">
+            <img
+              src={logoTransparent}
+              alt="Sigide logo"
+              style={{ width: '56px', height: '56px', objectFit: 'contain' }}
+            />
           </MotionCompassWrapper>
 
           <MotionGlitchWrapper variants={childFade}>

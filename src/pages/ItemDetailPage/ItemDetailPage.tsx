@@ -5,6 +5,7 @@ import { Box } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useItem } from '@/hooks';
 import { pageVariants, DURATION, EASE, SPRING } from '@/utils/animations';
+import { buildShareMessage } from '@/utils';
 import {
   ImageGallery,
   ItemDetails,
@@ -59,22 +60,21 @@ export function ItemDetailPage() {
 
   const handleShare = async () => {
     const title = item?.title || 'Lost & Found Item';
-    const description = item?.description || 'Check out this item on Sigide';
     const url = window.location.href;
+    const fullMessage = buildShareMessage({
+      title: item?.title,
+      description: item?.description,
+      url,
+    });
 
     if (navigator.share) {
       try {
-        await navigator.share({
-          title,
-          text: `${title}\n\n${description}`,
-          url,
-        });
+        await navigator.share({ title, text: fullMessage, url });
       } catch {
         // User cancelled or share failed
       }
     } else {
-      const shareText = `${title}\n\n${description}\n\n${url}`;
-      navigator.clipboard.writeText(shareText);
+      navigator.clipboard.writeText(fullMessage);
     }
   };
 
