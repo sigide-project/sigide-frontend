@@ -9,12 +9,16 @@ export {
   uploadsApi,
   addressesApi,
   savedItemsApi,
+  contactApi,
+  reportsApi,
+  feedbackApi,
 } from './api';
 export type {
   ItemsApiResponse,
   SavedItemsResponse,
   SavedItemIdsResponse,
   SavedStatusResponse,
+  FormSubmitResponse,
 } from './api';
 
 export {

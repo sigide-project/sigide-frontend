@@ -1,4 +1,5 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import type { ContactFormData, ReportFormData, FeedbackFormData } from '@/types';
 import type {
   Item,
   Claim,
@@ -65,8 +66,23 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       const currentPath = window.location.pathname;
-      const publicPaths = ['/login', '/register', '/auth/callback'];
-      if (!publicPaths.includes(currentPath)) {
+      const publicPaths = [
+        '/login',
+        '/register',
+        '/auth/callback',
+        '/',
+        '/contact',
+        '/report-issue',
+        '/feedback',
+        '/how-it-works',
+        '/safety-tips',
+        '/faq',
+        '/privacy-policy',
+        '/terms-of-service',
+        '/cookie-policy',
+      ];
+      const isPublic = publicPaths.includes(currentPath) || currentPath.startsWith('/item/');
+      if (!isPublic) {
         localStorage.removeItem('auth-storage');
         window.location.href = '/login';
       }
@@ -211,6 +227,9 @@ export const usersApi = {
     username: string
   ): Promise<AxiosResponse<{ success: boolean; available: boolean }>> =>
     api.get(`/users/check-username/${username}`),
+
+  deleteAccount: (): Promise<AxiosResponse<{ success: boolean; message: string }>> =>
+    api.delete('/users/me'),
 };
 
 export const uploadsApi = {
@@ -281,6 +300,26 @@ export const savedItemsApi = {
 
   unsaveItem: (itemId: string): Promise<AxiosResponse<SavedStatusResponse>> =>
     api.delete(`/saved-items/${itemId}`),
+};
+
+export interface FormSubmitResponse {
+  success: boolean;
+  message: string;
+}
+
+export const contactApi = {
+  submit: (data: ContactFormData): Promise<AxiosResponse<FormSubmitResponse>> =>
+    api.post('/contact', data),
+};
+
+export const reportsApi = {
+  submit: (data: ReportFormData): Promise<AxiosResponse<FormSubmitResponse>> =>
+    api.post('/reports', data),
+};
+
+export const feedbackApi = {
+  submit: (data: FeedbackFormData): Promise<AxiosResponse<FormSubmitResponse>> =>
+    api.post('/feedback', data),
 };
 
 export default api;

@@ -35,10 +35,6 @@ function getInitialMode(): ColorMode {
     return storedMode;
   }
 
-  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    return 'dark';
-  }
-
   return 'light';
 }
 

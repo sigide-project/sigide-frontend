@@ -74,3 +74,9 @@ export { useSocket } from './useSocket';
 export { useMyChats, MY_CHATS_QUERY_KEY } from './useMyChats';
 
 export { useDeleteChat } from './useDeleteChat';
+
+export { useContactSubmit } from './useContactSubmit';
+export { useReportSubmit } from './useReportSubmit';
+export { useFeedbackSubmit } from './useFeedbackSubmit';
+
+export { useDeleteAccount } from './useDeleteAccount';

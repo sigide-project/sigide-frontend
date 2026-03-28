@@ -20,6 +20,8 @@ export { SortDropdown } from './feed/SortDropdown';
 export type { SortDropdownProps } from './feed/SortDropdown';
 export { Footer } from './Footer';
 export { PublicNavbar } from './PublicNavbar';
+export { AppSnackbar } from './AppSnackbar';
+export type { AppSnackbarProps } from './AppSnackbar';
 
 // Page-specific components
 export * from './home';

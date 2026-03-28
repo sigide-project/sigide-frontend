@@ -84,4 +84,16 @@ export const savedItemsApi = {
   unsaveItem: jest.fn(),
 };
 
+export const contactApi = {
+  submit: jest.fn(),
+};
+
+export const reportsApi = {
+  submit: jest.fn(),
+};
+
+export const feedbackApi = {
+  submit: jest.fn(),
+};
+
 export default api;

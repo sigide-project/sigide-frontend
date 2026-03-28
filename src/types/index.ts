@@ -44,3 +44,6 @@ export type { Pagination, ApiResponse, UploadResponse } from './api.types';
 
 // Geolocation types
 export type { GeoLocation, GeolocationOptions, UseGeolocationReturn } from './geolocation.types';
+
+// Form types
+export type { ContactFormData, ReportFormData, FeedbackFormData } from './forms.types';

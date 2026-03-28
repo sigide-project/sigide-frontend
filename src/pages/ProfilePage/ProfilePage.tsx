@@ -184,6 +184,10 @@ export function ProfilePage() {
     await unsaveItem(itemId);
   };
 
+  const handleOpenPasswordDialog = useCallback(() => {
+    setActiveTab(2);
+  }, []);
+
   const handleLogout = () => {
     logout();
     navigate('/login');
@@ -271,7 +275,10 @@ export function ProfilePage() {
           </MainContent>
 
           <Sidebar>
-            <SettingsSection onLogout={handleLogout} />
+            <SettingsSection
+              onLogout={handleLogout}
+              onOpenPasswordDialog={handleOpenPasswordDialog}
+            />
           </Sidebar>
         </ContentWrapper>
       )}

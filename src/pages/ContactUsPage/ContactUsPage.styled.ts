@@ -133,3 +133,14 @@ export const InfoText = styled('p')`
   line-height: ${typography.lineHeight.relaxed};
   margin: 0;
 `;
+
+export const InfoLink = styled('a')`
+  color: ${tc((c) => c.text.secondary)};
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: ${tc((c) => c.primary.main)};
+    text-decoration: underline;
+  }
+`;
