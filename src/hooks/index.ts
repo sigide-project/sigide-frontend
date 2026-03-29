@@ -80,3 +80,5 @@ export { useReportSubmit } from './useReportSubmit';
 export { useFeedbackSubmit } from './useFeedbackSubmit';
 
 export { useDeleteAccount } from './useDeleteAccount';
+
+export { useStats, STATS_QUERY_KEY } from './useStats';

@@ -36,13 +36,13 @@ describe('Footer', () => {
     expect(screen.getByText(/Reuniting people with their lost belongings/)).toBeInTheDocument();
   });
 
-  it('should render social links', () => {
-    renderWithProviders(<Footer />);
+  // it('should render social links', () => {
+  //   renderWithProviders(<Footer />);
 
-    expect(screen.getByLabelText('GitHub')).toBeInTheDocument();
-    expect(screen.getByLabelText('Twitter')).toBeInTheDocument();
-    expect(screen.getByLabelText('LinkedIn')).toBeInTheDocument();
-  });
+  //   expect(screen.getByLabelText('GitHub')).toBeInTheDocument();
+  //   expect(screen.getByLabelText('Twitter')).toBeInTheDocument();
+  //   expect(screen.getByLabelText('LinkedIn')).toBeInTheDocument();
+  // });
 
   it('should render Quick Links section', () => {
     renderWithProviders(<Footer />);
@@ -149,11 +149,11 @@ describe('Footer', () => {
     expect(mockNavigate).toHaveBeenCalledWith('/contact');
   });
 
-  it('should have external links with correct attributes', () => {
-    renderWithProviders(<Footer />);
+  // it('should have external links with correct attributes', () => {
+  //   renderWithProviders(<Footer />);
 
-    const githubLink = screen.getByLabelText('GitHub');
-    expect(githubLink).toHaveAttribute('target', '_blank');
-    expect(githubLink).toHaveAttribute('rel', 'noopener noreferrer');
-  });
+  //   const githubLink = screen.getByLabelText('GitHub');
+  //   expect(githubLink).toHaveAttribute('target', '_blank');
+  //   expect(githubLink).toHaveAttribute('rel', 'noopener noreferrer');
+  // });
 });

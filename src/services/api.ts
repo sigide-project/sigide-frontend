@@ -322,4 +322,16 @@ export const feedbackApi = {
     api.post('/feedback', data),
 };
 
+export interface StatsResponse {
+  success: boolean;
+  data: {
+    totalUsers: number;
+    totalItems: number;
+  };
+}
+
+export const statsApi = {
+  getPublicStats: (): Promise<AxiosResponse<StatsResponse>> => api.get('/stats'),
+};
+
 export default api;

@@ -1,9 +1,10 @@
+import { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import GroupsIcon from '@mui/icons-material/Groups';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import { DURATION, EASE, SPRING, viewportOnce } from '@/utils/animations';
+import { useStats } from '@/hooks';
 import {
   StatsSection as StatsSectionContainer,
   StatsContainer,
@@ -40,14 +41,37 @@ const itemVariants = {
   },
 };
 
-const stats = [
-  { icon: <TrendingUpIcon />, value: '10K+', label: 'Items Posted' },
-  { icon: <GroupsIcon />, value: '5K+', label: 'Active Users' },
-  { icon: <EmojiEventsIcon />, value: '85%', label: 'Success Rate' },
-  { icon: <VerifiedUserIcon />, value: '100%', label: 'Secure' },
-];
+function formatCount(n: number): string {
+  if (n >= 1000) {
+    const k = n / 1000;
+    return k % 1 === 0 ? `${k}K+` : `${k.toFixed(1)}K+`;
+  }
+  return `${n}+`;
+}
+
+interface StatItem {
+  icon: ReactNode;
+  value: string;
+  label: string;
+}
 
 export function StatsSection() {
+  const { data } = useStats();
+
+  const stats: StatItem[] = [
+    {
+      icon: <TrendingUpIcon />,
+      value: data ? formatCount(data.totalItems) : '--',
+      label: 'Items Posted',
+    },
+    {
+      icon: <GroupsIcon />,
+      value: data ? formatCount(data.totalUsers) : '--',
+      label: 'Active Users',
+    },
+    { icon: <VerifiedUserIcon />, value: '100%', label: 'Secure' },
+  ];
+
   return (
     <StatsSectionContainer>
       <MotionStatsContainer

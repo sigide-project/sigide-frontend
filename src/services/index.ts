@@ -12,6 +12,7 @@ export {
   contactApi,
   reportsApi,
   feedbackApi,
+  statsApi,
 } from './api';
 export type {
   ItemsApiResponse,
@@ -19,6 +20,7 @@ export type {
   SavedItemIdsResponse,
   SavedStatusResponse,
   FormSubmitResponse,
+  StatsResponse,
 } from './api';
 
 export {

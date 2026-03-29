@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
+// import GitHubIcon from '@mui/icons-material/GitHub';
+// import TwitterIcon from '@mui/icons-material/Twitter';
+// import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import logoTransparent from '@/assets/logo_transparent.png';
@@ -13,8 +13,8 @@ import {
   LogoImage,
   LogoText,
   BrandDescription,
-  SocialLinks,
-  SocialLink,
+  // SocialLinks,
+  // SocialLink,
   FooterSection,
   SectionTitle,
   FooterLinks,
@@ -51,7 +51,7 @@ export function Footer() {
             Reuniting people with their lost belongings through the power of community. Every item
             has a story waiting to continue.
           </BrandDescription>
-          <SocialLinks>
+          {/* <SocialLinks>
             <SocialLink
               href="https://github.com"
               target="_blank"
@@ -76,7 +76,7 @@ export function Footer() {
             >
               <LinkedInIcon />
             </SocialLink>
-          </SocialLinks>
+          </SocialLinks> */}
         </BrandSection>
 
         <FooterSection>
